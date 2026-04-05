@@ -96,10 +96,136 @@ footer a:hover {
     color: #F9A825;
 }
 
+/* 遊び方ページ */
+.game-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+}
+.game-section {
+    margin-bottom: 4rem;
+}
+.section-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #F9A825;
+    letter-spacing: 0.3em;
+    margin-bottom: 1.2rem;
+}
+.section-lead {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+.section-body {
+    font-size: 0.95rem;
+    color: #bbb;
+    line-height: 2;
+}
+.section-note {
+    font-size: 0.85rem;
+    color: #888;
+    margin-top: 1.5rem;
+    text-align: center;
+    letter-spacing: 0.05em;
+}
+
+/* 兵種カード */
+.unit-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-top: 2rem;
+}
+.unit-card {
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 1.5rem;
+    background: #151515;
+}
+.unit-card h3 {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #F9A825;
+    letter-spacing: 0.15em;
+    margin-bottom: 0.6rem;
+}
+.unit-name {
+    color: #888;
+    font-size: 0.75rem;
+    font-weight: 400;
+    margin-left: 0.5em;
+    letter-spacing: 0.05em;
+}
+.unit-card p {
+    font-size: 0.85rem;
+    color: #aaa;
+    line-height: 1.8;
+}
+
+/* エース・天牙 */
+.feature-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-top: 2rem;
+}
+.feature-item {
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 1.5rem;
+    background: #151515;
+}
+.feature-item h3 {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #F9A825;
+    letter-spacing: 0.15em;
+    margin-bottom: 0.6rem;
+}
+.feature-item p {
+    font-size: 0.85rem;
+    color: #aaa;
+    line-height: 1.8;
+}
+
+/* 基本情報 */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+.info-item {
+    text-align: center;
+    padding: 1.5rem 1rem;
+    border: 1px solid #222;
+    border-radius: 8px;
+}
+.info-label {
+    display: block;
+    font-size: 0.75rem;
+    color: #F9A825;
+    letter-spacing: 0.15em;
+    margin-bottom: 0.5rem;
+}
+.info-value {
+    display: block;
+    font-size: 0.9rem;
+    color: #ccc;
+    line-height: 1.6;
+}
+
 /* レスポンシブ */
 @media (max-width: 600px) {
     .hero-title { font-size: 1.8rem; }
     .page-title { font-size: 1.5rem; }
     nav { padding: 0.8rem 1rem; }
     .nav-links { gap: 1rem; }
+    .section-lead { font-size: 1.2rem; }
+    .unit-grid { grid-template-columns: 1fr; }
+    .feature-row { grid-template-columns: 1fr; }
+    .info-grid { grid-template-columns: 1fr; }
+    .game-content { padding: 2rem 1.2rem; }
 }
