@@ -123,6 +123,10 @@ footer a:hover {
     font-size: 0.95rem;
     color: #bbb;
     line-height: 2;
+    margin-bottom: 1.5rem;
+}
+.section-body:last-child {
+    margin-bottom: 0;
 }
 .section-note {
     font-size: 0.85rem;
