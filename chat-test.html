@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BFTK Chat Test</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #1a1a1a; color: #e0e0e0; font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+.chat-container { width: 400px; max-width: 95vw; background: #2a2a2a; border-radius: 12px; overflow: hidden; border: 1px solid #F9A825; }
+.chat-header { background: #333; padding: 16px; text-align: center; border-bottom: 1px solid #F9A825; }
+.chat-header h1 { color: #F9A825; font-size: 18px; }
+.chat-header p { color: #999; font-size: 12px; margin-top: 4px; }
+.chat-log { height: 400px; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+.msg { padding: 10px 14px; border-radius: 8px; max-width: 85%; font-size: 14px; line-height: 1.5; word-break: break-word; }
+.msg.user { background: #3a3a3a; align-self: flex-end; }
+.msg.bot { background: #4a3a00; align-self: flex-start; border: 1px solid #F9A825; }
+.msg.error { background: #4a0000; align-self: flex-start; border: 1px solid #ff4444; }
+.chat-input { display: flex; padding: 12px; gap: 8px; border-top: 1px solid #444; }
+.chat-input input { flex: 1; padding: 10px 14px; border-radius: 8px; border: 1px solid #555; background: #333; color: #e0e0e0; font-size: 14px; outline: none; }
+.chat-input input:focus { border-color: #F9A825; }
+.chat-input button { padding: 10px 20px; border-radius: 8px; border: none; background: #F9A825; color: #1a1a1a; font-weight: bold; font-size: 14px; cursor: pointer; }
+.chat-input button:disabled { background: #666; cursor: not-allowed; }
+</style>
+</head>
+<body>
+<div class="chat-container">
+  <div class="chat-header">
+    <h1>BFTK Chat Test</h1>
+    <p>Walking Skeleton - バンガと話す</p>
+  </div>
+  <div class="chat-log" id="chatLog">
+    <div class="msg bot">よう！俺はバンガだ。なんか聞きたいことあるか？</div>
+  </div>
+  <div class="chat-input">
+    <input type="text" id="msgInput" placeholder="メッセージを入力..." maxlength="500">
+    <button id="sendBtn" onclick="sendMsg()">送信</button>
+  </div>
+</div>
+<script>
+const WORKER_URL = "https://bftk-chat-api.hr-ito-goodjob.workers.dev";
+const chatLog = document.getElementById("chatLog");
+const msgInput = document.getElementById("msgInput");
+const sendBtn = document.getElementById("sendBtn");
+
+msgInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && !sendBtn.disabled) sendMsg();
+});
+
+async function sendMsg() {
+  const text = msgInput.value.trim();
+  if (!text) return;
+
+  addMsg(text, "user");
+  msgInput.value = "";
+  sendBtn.disabled = true;
+  msgInput.disabled = true;
+
+  try {
+    const res = await fetch(WORKER_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: text }),
+    });
+    const data = await res.json();
+    if (data.reply) {
+      addMsg(data.reply, "bot");
+    } else {
+      addMsg("エラー: " + (data.error || "応答なし"), "error");
+    }
+  } catch (e) {
+    addMsg("通信エラー: サーバーに接続できません", "error");
+  }
+
+  sendBtn.disabled = false;
+  msgInput.disabled = false;
+  msgInput.focus();
+}
+
+function addMsg(text, type) {
+  const div = document.createElement("div");
+  div.className = "msg " + type;
+  div.textContent = text;
+  chatLog.appendChild(div);
+  chatLog.scrollTop = chatLog.scrollHeight;
+}
+</script>
+</body>
+</html>
