@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src https://chat.bftk-game.com;">
+<title>BFTK - バンガと話す</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #1a1a1a; color: #e0e0e0; font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+.chat-container { width: 420px; max-width: 95vw; background: #2a2a2a; border-radius: 12px; overflow: hidden; border: 1px solid #F9A825; }
+.chat-header { background: #333; padding: 16px; text-align: center; border-bottom: 1px solid #F9A825; }
+.chat-header h1 { color: #F9A825; font-size: 18px; }
+.chat-header p { color: #999; font-size: 12px; margin-top: 4px; }
+.chat-log { height: 400px; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+.msg { padding: 10px 14px; border-radius: 8px; max-width: 85%; font-size: 14px; line-height: 1.5; word-break: break-word; white-space: pre-wrap; }
+.msg.user { background: #3a3a3a; align-self: flex-end; }
+.msg.bot { background: #4a3a00; align-self: flex-start; border: 1px solid #F9A825; }
+.msg.error { background: #4a0000; align-self: flex-start; border: 1px solid #ff4444; }
+.msg.system { background: #2a2a2a; align-self: center; color: #999; font-size: 12px; border: 1px solid #444; }
+.msg a { color: #F9A825; text-decoration: underline; }
+
+/* ボタンメニュー */
+.btn-menu { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 16px; justify-content: center; border-top: 1px solid #444; }
+.btn-menu button {
+  padding: 8px 14px; border-radius: 20px; border: 1px solid #F9A825;
+  background: transparent; color: #F9A825; font-size: 13px; cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.btn-menu button:hover { background: #F9A825; color: #1a1a1a; }
+.btn-menu button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* 入力エリア */
+.chat-input { display: flex; padding: 12px; gap: 8px; border-top: 1px solid #444; }
+.chat-input input { flex: 1; padding: 10px 14px; border-radius: 8px; border: 1px solid #555; background: #333; color: #e0e0e0; font-size: 14px; outline: none; }
+.chat-input input:focus { border-color: #F9A825; }
+.chat-input button { padding: 10px 20px; border-radius: 8px; border: none; background: #F9A825; color: #1a1a1a; font-weight: bold; font-size: 14px; cursor: pointer; white-space: nowrap; }
+.chat-input button:disabled { background: #666; cursor: not-allowed; }
+
+/* バグ報告モード表示 */
+.bug-mode-label { color: #ff9800; font-size: 12px; padding: 4px 12px; text-align: center; }
+</style>
+</head>
+<body>
+<div class="chat-container">
+  <div class="chat-header">
+    <h1>BFTK Chat</h1>
+    <p>バンガと話す</p>
+  </div>
+  <div class="chat-log" id="chatLog">
+    <div class="msg bot">よう！俺はバンガだ。なんか聞きたいことあるか？下のボタンからも選べるぜ！</div>
+  </div>
+  <div class="btn-menu" id="btnMenu">
+    <button onclick="onMenuBtn('controls')">操作方法</button>
+    <button onclick="onMenuBtn('billing')">課金・購入</button>
+    <button onclick="onMenuBtn('bug')">バグ報告</button>
+    <button onclick="onMenuBtn('feedback')">ご意見・要望</button>
+    <button onclick="onMenuBtn('character')">キャラのこと</button>
+  </div>
+  <div class="bug-mode-label" id="bugLabel" style="display:none;">バグ報告モード：内容を入力して送信してください</div>
+  <div class="chat-input">
+    <input type="text" id="msgInput" placeholder="メッセージを入力..." maxlength="500">
+    <button id="sendBtn" onclick="sendMsg()">送信</button>
+  </div>
+</div>
+<script>
+const WORKER_URL = "https://chat.bftk-game.com";
+const SESSION_LIMIT = 30;
+const SESSION_KEY = "bftk_chat_session";
+const chatLog = document.getElementById("chatLog");
+const msgInput = document.getElementById("msgInput");
+const sendBtn = document.getElementById("sendBtn");
+const btnMenu = document.getElementById("btnMenu");
+const bugLabel = document.getElementById("bugLabel");
+
+// 会話履歴（マルチターン用、最大5往復）
+let conversationHistory = [];
+// バグ報告モード
+let bugReportMode = false;
+
+// ===== セッション管理 =====
+function getSession() {
+  try {
+    const raw = localStorage.getItem(SESSION_KEY);
+    if (!raw) return { count: 0, date: "" };
+    const s = JSON.parse(raw);
+    const today = new Date().toISOString().slice(0, 10);
+    if (s.date !== today) return { count: 0, date: today };
+    return s;
+  } catch { return { count: 0, date: "" }; }
+}
+
+function incrementSession() {
+  const today = new Date().toISOString().slice(0, 10);
+  const s = getSession();
+  s.count++;
+  s.date = today;
+  try { localStorage.setItem(SESSION_KEY, JSON.stringify(s)); } catch {}
+}
+
+function checkSessionLimit() {
+  const s = getSession();
+  if (s.count >= SESSION_LIMIT) {
+    addMsg("今日はたくさん話したな！また明日来てくれよ！", "system");
+    setInputDisabled(true, "本日の上限に達しました");
+    return false;
+  }
+  return true;
+}
+
+function setInputDisabled(disabled, placeholder) {
+  sendBtn.disabled = disabled;
+  msgInput.disabled = disabled;
+  if (placeholder) msgInput.placeholder = placeholder;
+  // ボタンメニューも連動
+  for (const btn of btnMenu.querySelectorAll("button")) {
+    btn.disabled = disabled;
+  }
+}
+
+// ===== ボタンメニュー処理 =====
+function onMenuBtn(category) {
+  if (!checkSessionLimit()) return;
+
+  switch (category) {
+    case "controls":
+      addMsg("操作方法", "user");
+      addMsg("操作方法はこっちのページに詳しく書いてあるぜ！\nhttps://bftk-game.com/game-controls.html", "bot");
+      incrementSession();
+      break;
+
+    case "billing":
+      addMsg("課金・購入について", "user");
+      addMsg("課金に関する問題はApple/Googleのサポートに問い合わせてくれ！\n・iOSの場合: https://support.apple.com/ja-jp\n・Androidの場合: https://support.google.com/googleplay\n俺じゃ対応できねえが、向こうのサポートが助けてくれるはずだぜ！", "bot");
+      incrementSession();
+      break;
+
+    case "bug":
+      addMsg("バグ報告", "user");
+      addMsg("バグの内容を教えてくれ！下の入力欄に書いて送信してくれよな！", "bot");
+      bugReportMode = "bug";
+      bugLabel.textContent = "バグ報告モード：内容を入力して送信してください";
+      bugLabel.style.display = "block";
+      msgInput.placeholder = "バグの内容を入力...";
+      msgInput.focus();
+      break;
+
+    case "feedback":
+      addMsg("ご意見・要望", "user");
+      addMsg("意見や要望があったら下の入力欄に書いて送ってくれ！開発チームに伝えとくぜ！", "bot");
+      bugReportMode = "feedback"; // 要望も同じフローでログ記録
+      bugLabel.textContent = "ご意見・要望モード：内容を入力して送信してください";
+      bugLabel.style.display = "block";
+      msgInput.placeholder = "ご意見・要望を入力...";
+      msgInput.focus();
+      break;
+
+    case "character":
+      addMsg("キャラのこと", "user");
+      sendToWorker("自己紹介してくれ！お前のこと教えてくれよ");
+      break;
+  }
+}
+
+// ===== 送信処理 =====
+msgInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && !sendBtn.disabled) sendMsg();
+});
+
+async function sendMsg() {
+  const text = msgInput.value.trim();
+  if (!text) return;
+  if (!checkSessionLimit()) return;
+
+  addMsg(text, "user");
+  msgInput.value = "";
+
+  if (bugReportMode) {
+    // バグ報告/要望 → Worker に reportType フラグ付きで送信
+    const reportType = bugReportMode; // "bug" or "feedback"
+    bugReportMode = false;
+    bugLabel.style.display = "none";
+    msgInput.placeholder = "メッセージを入力...";
+    await sendBugReport(text, reportType);
+  } else {
+    await sendToWorker(text);
+  }
+}
+
+async function sendBugReport(text, reportType) {
+  setInputDisabled(true);
+  try {
+    const res = await fetch(WORKER_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: text, bugReport: true, reportType: reportType }),
+    });
+    const data = await res.json();
+    addMsg(data.reply || "報告ありがとう！", "bot");
+    incrementSession();
+  } catch (e) {
+    addMsg("通信エラー: サーバーに接続できません", "error");
+  }
+  setInputDisabled(false);
+  msgInput.focus();
+  checkSessionLimit();
+}
+
+async function sendToWorker(text) {
+  setInputDisabled(true);
+
+  try {
+    const res = await fetch(WORKER_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        message: text,
+        history: conversationHistory,
+      }),
+    });
+    const data = await res.json();
+    if (data.reply) {
+      addMsg(data.reply, "bot");
+      // 会話履歴に追加（LLM応答の場合のみ履歴に残す）
+      if (data.source === "llm") {
+        conversationHistory.push({ role: "user", content: text });
+        conversationHistory.push({ role: "assistant", content: data.reply });
+        // 最大5往復（10メッセージ）に制限
+        if (conversationHistory.length > 10) {
+          conversationHistory = conversationHistory.slice(-10);
+        }
+      }
+      incrementSession();
+    } else {
+      addMsg("エラー: " + (data.error || "応答なし"), "error");
+    }
+  } catch (e) {
+    addMsg("通信エラー: サーバーに接続できません", "error");
+  }
+
+  setInputDisabled(false);
+  msgInput.focus();
+  checkSessionLimit();
+}
+
+// ===== メッセージ表示 =====
+function addMsg(text, type) {
+  const div = document.createElement("div");
+  div.className = "msg " + type;
+  // bot応答内のURLをリンク化（XSS対策: textContentで設定後にURLのみ置換）
+  if (type === "bot" && /https?:\/\//.test(text)) {
+    // テキストをエスケープしてからURLだけリンクに変換
+    const escaped = text.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+    div.innerHTML = escaped.replace(
+      /(https?:\/\/[^\s<]+)/g,
+      '<a href="$1" target="_blank" rel="noopener">$1</a>'
+    );
+  } else {
+    div.textContent = text;
+  }
+  chatLog.appendChild(div);
+  chatLog.scrollTop = chatLog.scrollHeight;
+}
+
+// 起動時チェック
+checkSessionLimit();
+</script>
+</body>
+</html>
