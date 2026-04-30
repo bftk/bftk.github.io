@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- #9: CSP -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src https://bftk-chat-api.hr-ito-goodjob.workers.dev;">
 <title>BFTK Chat Test</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -16,6 +18,7 @@ body { background: #1a1a1a; color: #e0e0e0; font-family: sans-serif; display: fl
 .msg.user { background: #3a3a3a; align-self: flex-end; }
 .msg.bot { background: #4a3a00; align-self: flex-start; border: 1px solid #F9A825; }
 .msg.error { background: #4a0000; align-self: flex-start; border: 1px solid #ff4444; }
+.msg.system { background: #2a2a2a; align-self: center; color: #999; font-size: 12px; border: 1px solid #444; }
 .chat-input { display: flex; padding: 12px; gap: 8px; border-top: 1px solid #444; }
 .chat-input input { flex: 1; padding: 10px 14px; border-radius: 8px; border: 1px solid #555; background: #333; color: #e0e0e0; font-size: 14px; outline: none; }
 .chat-input input:focus { border-color: #F9A825; }
@@ -39,9 +42,43 @@ body { background: #1a1a1a; color: #e0e0e0; font-family: sans-serif; display: fl
 </div>
 <script>
 const WORKER_URL = "https://bftk-chat-api.hr-ito-goodjob.workers.dev";
+const SESSION_LIMIT = 30;
+const SESSION_KEY = "bftk_chat_session";
 const chatLog = document.getElementById("chatLog");
 const msgInput = document.getElementById("msgInput");
 const sendBtn = document.getElementById("sendBtn");
+
+// #8: Session limit (localStorage)
+function getSession() {
+  try {
+    const raw = localStorage.getItem(SESSION_KEY);
+    if (!raw) return { count: 0, date: "" };
+    const s = JSON.parse(raw);
+    const today = new Date().toISOString().slice(0, 10);
+    if (s.date !== today) return { count: 0, date: today };
+    return s;
+  } catch { return { count: 0, date: "" }; }
+}
+
+function incrementSession() {
+  const today = new Date().toISOString().slice(0, 10);
+  const s = getSession();
+  s.count++;
+  s.date = today;
+  try { localStorage.setItem(SESSION_KEY, JSON.stringify(s)); } catch {}
+}
+
+function checkSessionLimit() {
+  const s = getSession();
+  if (s.count >= SESSION_LIMIT) {
+    addMsg("今日はたくさん話したな！また明日来てくれよ！", "system");
+    sendBtn.disabled = true;
+    msgInput.disabled = true;
+    msgInput.placeholder = "本日の上限に達しました";
+    return false;
+  }
+  return true;
+}
 
 msgInput.addEventListener("keydown", (e) => {
   if (e.key === "Enter" && !sendBtn.disabled) sendMsg();
@@ -50,6 +87,8 @@ msgInput.addEventListener("keydown", (e) => {
 async function sendMsg() {
   const text = msgInput.value.trim();
   if (!text) return;
+
+  if (!checkSessionLimit()) return;
 
   addMsg(text, "user");
   msgInput.value = "";
@@ -65,6 +104,7 @@ async function sendMsg() {
     const data = await res.json();
     if (data.reply) {
       addMsg(data.reply, "bot");
+      incrementSession();
     } else {
       addMsg("エラー: " + (data.error || "応答なし"), "error");
     }
@@ -75,6 +115,7 @@ async function sendMsg() {
   sendBtn.disabled = false;
   msgInput.disabled = false;
   msgInput.focus();
+  checkSessionLimit();
 }
 
 function addMsg(text, type) {
@@ -84,6 +125,9 @@ function addMsg(text, type) {
   chatLog.appendChild(div);
   chatLog.scrollTop = chatLog.scrollHeight;
 }
+
+// Check limit on page load
+checkSessionLimit();
 </script>
 </body>
 </html>
