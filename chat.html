@@ -122,6 +122,11 @@ function setInputDisabled(disabled, placeholder) {
 function onMenuBtn(category) {
   if (!checkSessionLimit()) return;
 
+  // 前回のバグ報告/要望モードをリセット
+  bugReportMode = false;
+  bugLabel.style.display = "none";
+  msgInput.placeholder = "メッセージを入力...";
+
   switch (category) {
     case "controls":
       addMsg("操作方法", "user");
