@@ -39,6 +39,8 @@ body { background: #1a1a1a; color: #e0e0e0; font-family: sans-serif; display: fl
 
 /* バグ報告モード表示 */
 .bug-mode-label { color: #ff9800; font-size: 12px; padding: 4px 12px; text-align: center; }
+.cancel-link { color: #999; cursor: pointer; text-decoration: underline; margin-left: 8px; }
+.cancel-link:hover { color: #e0e0e0; }
 </style>
 </head>
 <body>
@@ -57,7 +59,7 @@ body { background: #1a1a1a; color: #e0e0e0; font-family: sans-serif; display: fl
     <button onclick="onMenuBtn('feedback')">ご意見・要望</button>
     <button onclick="onMenuBtn('character')">キャラのこと</button>
   </div>
-  <div class="bug-mode-label" id="bugLabel" style="display:none;">バグ報告モード：内容を入力して送信してください</div>
+  <div class="bug-mode-label" id="bugLabel" style="display:none;"><span id="bugLabelText">バグ報告モード：内容を入力して送信してください</span> <span class="cancel-link" onclick="cancelReportMode()">[ キャンセル ]</span></div>
   <div class="chat-input">
     <input type="text" id="msgInput" placeholder="メッセージを入力..." maxlength="500">
     <button id="sendBtn" onclick="sendMsg()">送信</button>
@@ -72,6 +74,7 @@ const msgInput = document.getElementById("msgInput");
 const sendBtn = document.getElementById("sendBtn");
 const btnMenu = document.getElementById("btnMenu");
 const bugLabel = document.getElementById("bugLabel");
+const bugLabelText = document.getElementById("bugLabelText");
 
 // 会話履歴（マルチターン用、最大5往復）
 let conversationHistory = [];
@@ -144,7 +147,7 @@ function onMenuBtn(category) {
       addMsg("バグ報告", "user");
       addMsg("バグの内容を教えてくれ！下の入力欄に書いて送信してくれよな！", "bot");
       bugReportMode = "bug";
-      bugLabel.textContent = "バグ報告モード：内容を入力して送信してください";
+      bugLabelText.textContent = "バグ報告モード：内容を入力して送信してください";
       bugLabel.style.display = "block";
       msgInput.placeholder = "バグの内容を入力...";
       msgInput.focus();
@@ -154,7 +157,7 @@ function onMenuBtn(category) {
       addMsg("ご意見・要望", "user");
       addMsg("意見や要望があったら下の入力欄に書いて送ってくれ！開発チームに伝えとくぜ！", "bot");
       bugReportMode = "feedback"; // 要望も同じフローでログ記録
-      bugLabel.textContent = "ご意見・要望モード：内容を入力して送信してください";
+      bugLabelText.textContent = "ご意見・要望モード：内容を入力して送信してください";
       bugLabel.style.display = "block";
       msgInput.placeholder = "ご意見・要望を入力...";
       msgInput.focus();
@@ -165,6 +168,13 @@ function onMenuBtn(category) {
       sendToWorker("自己紹介してくれ！お前のこと教えてくれよ");
       break;
   }
+}
+
+function cancelReportMode() {
+  bugReportMode = false;
+  bugLabel.style.display = "none";
+  msgInput.placeholder = "メッセージを入力...";
+  msgInput.focus();
 }
 
 // ===== 送信処理 =====
