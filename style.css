@@ -82,6 +82,36 @@ nav {
 .hero-title {
     font-size: 2.5rem;
 }
+.hero-catchcopy {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #fff;
+    margin-top: 1.5rem;
+    letter-spacing: 0.1em;
+}
+.hero-cta {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.btn-ghost {
+    display: inline-block;
+    padding: 12px 28px;
+    color: #F9A825;
+    border: 1px solid #F9A825;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    transition: background 0.2s, color 0.2s;
+}
+.btn-ghost:hover {
+    background: #F9A825;
+    color: #000;
+}
 
 /* フッター */
 footer {
