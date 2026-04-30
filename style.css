@@ -272,6 +272,29 @@ footer a:hover {
     line-height: 1.6;
 }
 
+/* フローティングチャットボタン */
+.chat-fab {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 56px;
+    height: 56px;
+    background: #F9A825;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    transition: transform 0.2s, background 0.2s;
+    z-index: 1000;
+}
+.chat-fab:hover {
+    transform: scale(1.1);
+    background: #C78D1E;
+}
+
 /* レスポンシブ */
 @media (max-width: 600px) {
     .hero-title { font-size: 1.8rem; }
