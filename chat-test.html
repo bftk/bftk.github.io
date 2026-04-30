@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- #9: CSP -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src https://bftk-chat-api.hr-ito-goodjob.workers.dev;">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src https://chat.bftk-game.com;">
 <title>BFTK Chat Test</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -41,7 +41,7 @@ body { background: #1a1a1a; color: #e0e0e0; font-family: sans-serif; display: fl
   </div>
 </div>
 <script>
-const WORKER_URL = "https://bftk-chat-api.hr-ito-goodjob.workers.dev";
+const WORKER_URL = "https://chat.bftk-game.com";
 const SESSION_LIMIT = 30;
 const SESSION_KEY = "bftk_chat_session";
 const chatLog = document.getElementById("chatLog");
