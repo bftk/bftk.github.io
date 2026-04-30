@@ -96,6 +96,23 @@ nav {
     flex-wrap: wrap;
     justify-content: center;
 }
+.btn-primary {
+    display: inline-block;
+    padding: 12px 28px;
+    background: #F9A825;
+    color: #000;
+    border: 1px solid #F9A825;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    transition: background 0.2s;
+}
+.btn-primary:hover {
+    background: #C78D1E;
+    border-color: #C78D1E;
+}
 .btn-ghost {
     display: inline-block;
     padding: 12px 28px;
