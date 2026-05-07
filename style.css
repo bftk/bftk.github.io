@@ -626,6 +626,161 @@ footer a:hover {
     color: #bbb;
 }
 
+/* ===== 遊び方ハブ ===== */
+
+/* ヒーロー */
+.hub-hero {
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    padding: 2rem;
+}
+.hub-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(249,168,37,0.1), transparent 70%);
+    pointer-events: none;
+}
+.hub-hero-bg {
+    position: absolute;
+    font-family: 'Cinzel', serif;
+    font-size: 18vw;
+    font-weight: 900;
+    color: rgba(249,168,37,0.04);
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+    pointer-events: none;
+    user-select: none;
+}
+.hub-hero-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    color: rgba(255,255,255,0.35);
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+.hub-hero-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.5;
+    position: relative;
+}
+.hub-hero-sub {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 1rem;
+    letter-spacing: 0.05em;
+    position: relative;
+}
+
+/* 数値スペック */
+.hub-stats {
+    display: flex;
+    justify-content: center;
+    max-width: 800px;
+    margin: 0 auto;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.hub-stat {
+    flex: 1;
+    text-align: center;
+    padding: 2.5rem 1rem;
+    border-right: 1px solid rgba(255,255,255,0.06);
+}
+.hub-stat:last-child {
+    border-right: none;
+}
+.hub-stat-num {
+    display: block;
+    font-family: 'Cinzel', serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #F9A825;
+    line-height: 1;
+}
+.hub-stat-label {
+    display: block;
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.15em;
+    margin-top: 0.5rem;
+}
+
+/* ガイドパネル */
+.hub-panels {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+}
+.hub-panel {
+    display: block;
+    text-decoration: none;
+    padding: 2rem 4rem 2rem 2.5rem;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-left: 4px solid rgba(249,168,37,0.25);
+    margin-bottom: 1rem;
+    position: relative;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+.hub-panel:hover {
+    border-left-color: #F9A825;
+    box-shadow: 0 0 30px rgba(249,168,37,0.06);
+}
+.hub-panel-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.6rem;
+}
+.hub-panel-no {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: rgba(249,168,37,0.5);
+    letter-spacing: 0.1em;
+}
+.hub-panel-tag {
+    font-family: 'Cinzel', serif;
+    font-size: 0.55rem;
+    color: rgba(255,255,255,0.2);
+    letter-spacing: 0.2em;
+}
+.hub-panel-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 0.4rem;
+}
+.hub-panel-desc {
+    font-size: 0.85rem;
+    color: #666;
+    line-height: 1.7;
+}
+.hub-panel-arrow {
+    position: absolute;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(249,168,37,0.2);
+    font-size: 1.2rem;
+    transition: color 0.3s, transform 0.3s;
+}
+.hub-panel:hover .hub-panel-arrow {
+    color: #F9A825;
+    transform: translateY(-50%) translateX(4px);
+}
+
 /* レスポンシブ */
 @media (max-width: 600px) {
     .hero-title { font-size: 1.8rem; }
@@ -643,4 +798,14 @@ footer a:hover {
     .num-box .num { font-size: 1.3rem; }
     .guide-bottom-nav { flex-direction: column; }
     .matchup-row { gap: 0.3rem; }
+    .hub-hero { min-height: 70vh; }
+    .hub-hero-title { font-size: 1.5rem; }
+    .hub-hero-bg { font-size: 25vw; }
+    .hub-stats { flex-wrap: wrap; }
+    .hub-stat { flex: 0 0 50%; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .hub-stat:nth-child(2) { border-right: none; }
+    .hub-stat-num { font-size: 2rem; }
+    .hub-panels { padding: 3rem 1.2rem; }
+    .hub-panel { padding: 1.5rem 3rem 1.5rem 1.5rem; }
+    .hub-panel-title { font-size: 1.1rem; }
 }
