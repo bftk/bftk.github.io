@@ -13,8 +13,12 @@ body {
 
 /* ナビゲーション */
 nav {
-    background: #0e0e0e;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+    background: rgba(10,10,10,0.82);
+    border-bottom: 1px solid rgba(249,168,37,0.12);
     padding: 1rem 2rem;
     display: flex;
     align-items: center;
@@ -630,31 +634,35 @@ footer a:hover {
 .hub-hero {
     position: relative;
     overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: clamp(4rem, 8vw, 6rem) 1.5rem 3rem;
-    border-bottom: 1px solid rgba(249,168,37,0.18);
+    padding: clamp(3.5rem, 7vw, 5rem) 1.5rem 2.5rem;
+    border-bottom: 1px solid rgba(249,168,37,0.12);
 }
 .hub-hero::before {
     content: "";
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at center, rgba(249,168,37,0.18), transparent 58%);
+    background: radial-gradient(circle at 50% 20%, rgba(249,168,37,0.12), transparent 55%);
     pointer-events: none;
+}
+.hub-hero-inner {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
 }
 .hub-hero-bg {
     position: absolute;
-    top: 1rem;
+    top: 0.5rem;
     left: 50%;
     transform: translateX(-50%);
     font-family: 'Cinzel', serif;
-    font-size: clamp(7rem, 18vw, 16rem);
+    font-size: clamp(5rem, 14vw, 11rem);
     font-weight: 900;
-    color: rgba(249,168,37,0.05);
+    color: rgba(249,168,37,0.06);
     letter-spacing: 0.08em;
     white-space: nowrap;
+    line-height: 1;
     user-select: none;
     pointer-events: none;
     text-shadow: 0 0 40px rgba(249,168,37,0.12);
@@ -665,72 +673,44 @@ footer a:hover {
     letter-spacing: 0.3em;
     color: rgba(255,255,255,0.45);
     margin-bottom: 1rem;
-    position: relative;
 }
 .hub-hero-title {
-    font-size: clamp(2.6rem, 8vw, 5.5rem);
+    font-size: clamp(2.4rem, 6vw, 4.4rem);
     font-weight: 800;
     color: #fff;
-    line-height: 1.15;
-    margin: 0 auto;
-    position: relative;
-    letter-spacing: 0.04em;
-    text-shadow: 0 0 24px rgba(249,168,37,0.10);
+    line-height: 1.02;
+    letter-spacing: 0.03em;
+    max-width: 8ch;
+    text-shadow: 0 0 24px rgba(249,168,37,0.12);
 }
 .hub-hero-sub {
-    font-size: 1rem;
-    color: rgba(255,255,255,0.72);
     margin-top: 1rem;
-    letter-spacing: 0.08em;
-    max-width: 32rem;
-    line-height: 1.7;
-    position: relative;
+    font-size: 1rem;
+    color: rgba(255,255,255,0.82);
+    letter-spacing: 0.04em;
+    line-height: 1.6;
+    max-width: 42rem;
 }
 .hub-hero-desc {
-    margin-top: 1.2rem;
-    max-width: 34rem;
-    font-size: 0.95rem;
-    line-height: 2;
-    color: rgba(255,255,255,0.62);
-    position: relative;
-}
-.hub-hero-line {
-    width: 120px;
-    height: 1px;
-    background: #F9A825;
-    margin: 1.5rem auto;
-    box-shadow: 0 0 18px rgba(249,168,37,0.6);
-}
-.hub-hero-specs {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.8rem;
-    margin-top: 0;
-    position: relative;
-}
-.hub-hero-specs span {
-    border: 1px solid rgba(249,168,37,0.22);
-    background: rgba(255,255,255,0.03);
-    padding: 0.6rem 1rem;
-    font-size: 0.7rem;
-    letter-spacing: 0.18em;
-    color: rgba(255,255,255,0.72);
-    font-family: 'Cinzel', serif;
+    margin-top: 0.8rem;
+    max-width: 42rem;
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.52);
 }
 
 /* 数値スペック */
 .hub-stats {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 1rem;
-    width: 100%;
-    max-width: 1000px;
-    margin: 2rem auto 0;
+    gap: 0.8rem;
+    max-width: 1100px;
+    margin: 1.5rem auto 0;
+    padding: 0 1.5rem;
 }
 .hub-stat {
     text-align: center;
-    padding: 1.5rem 1rem;
+    padding: 1.2rem 0.8rem;
     background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
     border: 1px solid rgba(249,168,37,0.10);
     position: relative;
@@ -762,7 +742,7 @@ footer a:hover {
 .hub-panel {
     display: block;
     text-decoration: none;
-    padding: 2rem 4rem 2rem 2rem;
+    padding: 1.6rem 3rem 1.6rem 1.6rem;
     border: 1px solid rgba(249,168,37,0.14);
     margin-bottom: 0.8rem;
     position: relative;
@@ -778,10 +758,10 @@ footer a:hover {
     background: linear-gradient(180deg, #F9A825, transparent);
 }
 .hub-panel:hover {
-    transform: translateY(-4px);
-    border-color: rgba(249,168,37,0.4);
+    transform: translateY(-2px);
+    border-color: rgba(249,168,37,0.32);
     background: linear-gradient(135deg, rgba(249,168,37,0.08), rgba(255,255,255,0.03));
-    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    box-shadow: 0 0 40px rgba(249,168,37,0.08), inset 0 0 0 1px rgba(249,168,37,0.06);
 }
 .hub-panel-meta {
     display: flex;
@@ -829,10 +809,10 @@ footer a:hover {
     transform: translateY(-50%) translateX(6px);
 }
 .hub-panel-points {
-    margin-top: 1rem;
+    margin-top: 0.8rem;
     display: flex;
     flex-wrap: wrap;
-    gap: 0.6rem;
+    gap: 0.45rem;
     list-style: none;
     position: relative;
 }
@@ -873,15 +853,14 @@ footer a:hover {
     .num-box .num { font-size: 1.3rem; }
     .guide-bottom-nav { flex-direction: column; }
     .matchup-row { gap: 0.3rem; }
-    .hub-hero { padding: 4.5rem 1.2rem 3rem; }
-    .hub-hero-title { font-size: 2rem; }
-    .hub-hero-sub { margin-top: 1rem; line-height: 1.7; }
-    .hub-hero-desc { margin-top: 1.2rem; font-size: 0.85rem; line-height: 1.8; }
-    .hub-hero-bg { font-size: 28vw; }
-    .hub-hero-specs span { font-size: 0.6rem; padding: 0.5rem 0.7rem; }
-    .hub-stats { grid-template-columns: repeat(2, 1fr); margin-top: 2rem; }
-    .hub-stat { padding: 1.5rem 0.8rem; }
-    .hub-stat-num { font-size: 2rem; }
+    .hub-hero { padding: 3.8rem 1.2rem 2rem; }
+    .hub-hero-title { font-size: 2rem; line-height: 1.05; }
+    .hub-hero-sub { font-size: 0.9rem; line-height: 1.5; }
+    .hub-hero-desc { font-size: 0.82rem; line-height: 1.7; }
+    .hub-hero-bg { font-size: 24vw; }
+    .hub-stats { grid-template-columns: repeat(2, 1fr); margin-top: 1rem; }
+    .hub-stat { padding: 1rem 0.6rem; }
+    .hub-stat-num { font-size: 1.8rem; }
     .hub-panels { padding: 1.5rem 1rem 2rem; }
     .hub-panel { padding: 1.5rem 1.5rem 1.5rem 1.25rem; }
     .hub-panel-title { font-size: 1.2rem; }
