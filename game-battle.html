@@ -4,9 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>バトル - BEAST FORCE TERRITORY KING</title>
-        <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="stylesheet" href="style.css">
+    <meta property="og:title" content="バトル - BFTK">
+    <meta property="og:description" content="1v1リアルタイム縄張りバトル。出撃、戦闘、侵攻。198秒の攻防。">
+    <meta property="og:url" content="https://bftk-game.com/game-battle.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="BFTK">
+    <meta property="og:locale" content="ja_JP">
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-K0TT1CMBVT"></script>
     <script>
@@ -26,16 +32,94 @@
             <a href="faq.html">FAQ</a>
         </div>
     </nav>
-    <div class="page-content">
-        <h1 class="page-title">バトル</h1>
-        <p class="page-subtitle">バトルの基本ルール・勝利条件・試合時間</p>
-        <p class="coming-soon">COMING SOON</p>
-        <p style="margin-top:2rem;"><a href="game.html" style="color:#F9A825; text-decoration:none; font-size:0.85rem; letter-spacing:0.05em;">← 遊び方トップに戻る</a></p>
+    <div class="game-content">
+        <div class="guide-header">
+            <h1 class="page-title" style="margin-bottom:0.5rem;">バトル</h1>
+            <p class="page-subtitle">BATTLE</p>
+        </div>
+
+        <div class="game-section" data-reveal>
+            <h2 class="section-title">OVERVIEW</h2>
+            <p class="section-lead">1v1リアルタイムの縄張り争い。</p>
+            <p class="section-body">手札のカードをフィールドに出撃させ、敵陣の縄張りへ侵攻する1v1バトル。制限時間は198秒。一瞬の判断が戦局を動かす。</p>
+            <div class="num-row">
+                <div class="num-box">
+                    <span class="num">198</span>
+                    <span class="num-label">秒 / 1試合</span>
+                </div>
+                <div class="num-box">
+                    <span class="num">1v1</span>
+                    <span class="num-label">リアルタイム対戦</span>
+                </div>
+                <div class="num-box">
+                    <span class="num">8</span>
+                    <span class="num-label">枚デッキ</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="game-section" data-reveal>
+            <h2 class="section-title">BATTLE FLOW</h2>
+            <p class="section-lead">戦いの流れ</p>
+            <div class="flow-steps">
+                <div class="flow-step" data-step="1">
+                    <h3>出撃</h3>
+                    <p>コストを消費し、手札からカードをフィールドに出す。コストは時間経過で回復する。いつ、どこに、誰を出すか。出撃のタイミングが戦局を左右する。</p>
+                </div>
+                <div class="flow-step" data-step="2">
+                    <h3>戦闘</h3>
+                    <p>ユニットは自動で前進し、敵と交戦する。タイプ相性が戦闘結果を大きく左右する。有利な相手には大ダメージを与えられる。</p>
+                </div>
+                <div class="flow-step" data-step="3">
+                    <h3>侵攻</h3>
+                    <p>敵陣のゲートを突破し、縄張りエリアに侵入。侵攻の成功が、敵の縄張りゲージにダメージを与える。</p>
+                </div>
+                <div class="flow-step" data-step="4">
+                    <h3>決着</h3>
+                    <p>縄張りゲージを先に0にした方が勝利。タイムアップ時は残量が多い方が勝つ。</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="game-section" data-reveal>
+            <h2 class="section-title">TERRITORY</h2>
+            <p class="section-lead">縄張りとゲート</p>
+            <p class="section-body">フィールド両端に縄張りエリアがあり、入口にはゲートが立ちはだかる。ゲートはHPを持ち、攻撃で破壊できる。ゲートを壊せば、侵攻の道が開く。</p>
+            <p class="section-body">侵攻に成功すると、敵の縄張りゲージが減少する。ゲージが0になった瞬間、決着がつく。守りを固めるか、攻勢に出るか。戦況に応じた判断が求められる。</p>
+        </div>
+
+        <div class="game-section" data-reveal>
+            <h2 class="section-title">VICTORY</h2>
+            <p class="section-lead">勝利条件</p>
+            <p class="section-body">勝利条件は2つ。縄張りゲージを0まで削りきる「撃破勝利」と、198秒経過時に残量が多い方が勝つ「判定勝利」。攻めるか守るか、198秒間の駆け引きが続く。</p>
+        </div>
+
+        <div class="guide-bottom-nav">
+            <a href="game.html">
+                <div class="guide-nav-label">PLAY GUIDE</div>
+                <div class="guide-nav-title">遊び方トップ</div>
+            </a>
+            <a href="game-types.html">
+                <div class="guide-nav-label">TYPES</div>
+                <div class="guide-nav-title">タイプ相性</div>
+            </a>
+            <a href="game-deck.html">
+                <div class="guide-nav-label">DECK</div>
+                <div class="guide-nav-title">デッキ構築</div>
+            </a>
+            <a href="game-skills.html">
+                <div class="guide-nav-label">SKILLS</div>
+                <div class="guide-nav-title">スキルと天牙</div>
+            </a>
+        </div>
     </div>
-        <a href="chat.html" class="chat-fab" aria-label="キャラと話す"><img src="chat-icon.png" alt="キャラと話す"></a>
+    <a href="chat.html" class="chat-fab" aria-label="キャラと話す"><img src="chat-icon.png" alt="キャラと話す"></a>
     <footer>
         <a href="privacy.html">プライバシーポリシー</a>｜<a href="terms.html">利用規約</a>
         <p style="margin-top: 0.5rem;">&copy; 2026 BFTK Project</p>
     </footer>
+    <script>
+    document.addEventListener('DOMContentLoaded',()=>{const o=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('is-visible');o.unobserve(x.target)}})},{threshold:0.12});document.querySelectorAll('[data-reveal]').forEach(el=>o.observe(el))});
+    </script>
 </body>
 </html>

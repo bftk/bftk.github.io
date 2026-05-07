@@ -3,10 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>スキル - BEAST FORCE TERRITORY KING</title>
-        <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <title>スキルと天牙 - BEAST FORCE TERRITORY KING</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="stylesheet" href="style.css">
+    <meta property="og:title" content="スキルと天牙 - BFTK">
+    <meta property="og:description" content="BGゲージが頂点に達したとき、天牙が目覚める。">
+    <meta property="og:url" content="https://bftk-game.com/game-skills.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="BFTK">
+    <meta property="og:locale" content="ja_JP">
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-K0TT1CMBVT"></script>
     <script>
@@ -26,16 +32,76 @@
             <a href="faq.html">FAQ</a>
         </div>
     </nav>
-    <div class="page-content">
-        <h1 class="page-title">スキル</h1>
-        <p class="page-subtitle">スキル・BGゲージ・エース効果</p>
-        <p class="coming-soon">COMING SOON</p>
-        <p style="margin-top:2rem;"><a href="game.html" style="color:#F9A825; text-decoration:none; font-size:0.85rem; letter-spacing:0.05em;">← 遊び方トップに戻る</a></p>
+    <div class="game-content">
+        <div class="guide-header">
+            <h1 class="page-title" style="margin-bottom:0.5rem;">スキルと天牙</h1>
+            <p class="page-subtitle">SKILLS</p>
+        </div>
+
+        <div class="game-section" data-reveal>
+            <h2 class="section-title">SKILL</h2>
+            <p class="section-lead">戦場を変える、固有の力。</p>
+            <p class="section-body">各キャラクターは固有のスキルを持つ。攻撃強化、回復、妨害など効果はさまざま。BGゲージが溜まったタイミングで発動でき、使いどころが鍵になる。</p>
+        </div>
+
+        <div class="game-section" data-reveal>
+            <h2 class="section-title">BG GAUGE</h2>
+            <p class="section-lead">BGゲージ</p>
+            <p class="section-body">戦闘で蓄積するゲージ。攻撃を与え、攻撃を受けることで溜まっていく。溜まったゲージでスキルを発動する。そしてMAXに達したとき、天牙が解放される。</p>
+        </div>
+
+        <div class="game-section" data-reveal>
+            <h2 class="section-title">TENGA</h2>
+            <p class="section-lead">天牙。一撃の切り札。</p>
+            <p class="section-body">BGゲージが最大に達したとき解放される必殺技。1試合に一度きり。戦況を一変させる力を持つ。全18種の天牙が存在し、キャラクターごとに異なる天牙を持つ。</p>
+        </div>
+
+        <div class="game-section" data-reveal>
+            <h2 class="section-title">TRAITS</h2>
+            <p class="section-lead">特技</p>
+            <p class="section-body">一部のキャラクターが持つパッシブ能力。常時発動し、戦闘に特別な効果をもたらす。</p>
+            <table class="guide-table">
+                <thead>
+                    <tr><th>特技</th><th>概要</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>王気</td><td>出撃時に味方全体を鼓舞する</td></tr>
+                    <tr><td>星読</td><td>戦場の先を読み、有利に導く</td></tr>
+                    <tr><td>巨体</td><td>圧倒的なHPで攻撃を受け止める</td></tr>
+                    <tr><td>休眠</td><td>覚醒時に隠された力を発揮する</td></tr>
+                    <tr><td>百獣</td><td>味方の数に応じて力を増す</td></tr>
+                    <tr><td>乱闘</td><td>乱戦の中で真価を発揮する</td></tr>
+                    <tr><td>集中</td><td>孤立した戦場で力が増大する</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="guide-bottom-nav">
+            <a href="game.html">
+                <div class="guide-nav-label">PLAY GUIDE</div>
+                <div class="guide-nav-title">遊び方トップ</div>
+            </a>
+            <a href="game-battle.html">
+                <div class="guide-nav-label">BATTLE</div>
+                <div class="guide-nav-title">バトルの流れ</div>
+            </a>
+            <a href="game-types.html">
+                <div class="guide-nav-label">TYPES</div>
+                <div class="guide-nav-title">タイプ相性</div>
+            </a>
+            <a href="game-deck.html">
+                <div class="guide-nav-label">DECK</div>
+                <div class="guide-nav-title">デッキ構築</div>
+            </a>
+        </div>
     </div>
-        <a href="chat.html" class="chat-fab" aria-label="キャラと話す"><img src="chat-icon.png" alt="キャラと話す"></a>
+    <a href="chat.html" class="chat-fab" aria-label="キャラと話す"><img src="chat-icon.png" alt="キャラと話す"></a>
     <footer>
         <a href="privacy.html">プライバシーポリシー</a>｜<a href="terms.html">利用規約</a>
         <p style="margin-top: 0.5rem;">&copy; 2026 BFTK Project</p>
     </footer>
+    <script>
+    document.addEventListener('DOMContentLoaded',()=>{const o=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('is-visible');o.unobserve(x.target)}})},{threshold:0.12});document.querySelectorAll('[data-reveal]').forEach(el=>o.observe(el))});
+    </script>
 </body>
 </html>

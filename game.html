@@ -4,9 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>遊び方 - BEAST FORCE TERRITORY KING</title>
-        <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="stylesheet" href="style.css">
+    <meta property="og:title" content="遊び方 - BFTK">
+    <meta property="og:description" content="獣人たちが覇権を争うリアルタイム縄張りバトル。遊び方ガイド。">
+    <meta property="og:url" content="https://bftk-game.com/game.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="BFTK">
+    <meta property="og:locale" content="ja_JP">
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-K0TT1CMBVT"></script>
     <script>
@@ -27,40 +33,46 @@
         </div>
     </nav>
     <div class="game-content">
-        <h1 class="page-title" style="text-align:center; margin-bottom:0.5rem;">遊び方</h1>
-        <p class="page-subtitle" style="text-align:center; margin-bottom:3rem;">PLAY GUIDE</p>
+        <div class="guide-header">
+            <h1 class="page-title" style="margin-bottom:0.5rem;">遊び方</h1>
+            <p class="page-subtitle">PLAY GUIDE</p>
+        </div>
 
-        <div class="unit-grid">
-            <a href="game-battle.html" class="unit-card" style="text-decoration:none;">
-                <h3>BATTLE</h3>
-                <p>バトルの基本ルール・勝利条件・試合時間</p>
+        <div class="game-section" data-reveal>
+            <p class="section-lead">縄張りが、王を決める。</p>
+            <p class="section-body">獣人たちが縄張りを奪い合うリアルタイム対戦カードゲーム。80体のキャラクターと68種のエース効果。戦略は無限、制限時間は198秒。</p>
+        </div>
+
+        <div class="guide-card-grid">
+            <a href="game-battle.html" class="guide-card" data-reveal>
+                <div class="guide-card-label">BATTLE</div>
+                <div class="guide-card-title">バトルの流れ</div>
+                <div class="guide-card-desc">出撃、戦闘、侵攻。198秒の縄張り争い。</div>
             </a>
-            <a href="game-controls.html" class="unit-card" style="text-decoration:none;">
-                <h3>CONTROLS</h3>
-                <p>操作方法・カードの動かし方</p>
+            <a href="game-types.html" class="guide-card" data-reveal>
+                <div class="guide-card-label">TYPES</div>
+                <div class="guide-card-title">タイプ相性</div>
+                <div class="guide-card-desc">パワー、スピード、テクニック。三すくみの駆け引き。</div>
             </a>
-            <a href="game-types.html" class="unit-card" style="text-decoration:none;">
-                <h3>TYPES</h3>
-                <p>タイプ相性・三すくみ</p>
+            <a href="game-deck.html" class="guide-card" data-reveal>
+                <div class="guide-card-label">DECK</div>
+                <div class="guide-card-title">デッキ構築</div>
+                <div class="guide-card-desc">8枚のカードが、戦略のすべて。</div>
             </a>
-            <a href="game-deck.html" class="unit-card" style="text-decoration:none;">
-                <h3>DECK</h3>
-                <p>デッキ構築・コスト</p>
-            </a>
-            <a href="game-skills.html" class="unit-card" style="text-decoration:none;">
-                <h3>SKILLS</h3>
-                <p>スキル・BGゲージ・エース効果</p>
-            </a>
-            <a href="game-territory.html" class="unit-card" style="text-decoration:none;">
-                <h3>TERRITORY</h3>
-                <p>縄張り・侵攻・ゲート</p>
+            <a href="game-skills.html" class="guide-card" data-reveal>
+                <div class="guide-card-label">SKILLS</div>
+                <div class="guide-card-title">スキルと天牙</div>
+                <div class="guide-card-desc">BGゲージが頂点に達したとき、天牙が目覚める。</div>
             </a>
         </div>
     </div>
-        <a href="chat.html" class="chat-fab" aria-label="キャラと話す"><img src="chat-icon.png" alt="キャラと話す"></a>
+    <a href="chat.html" class="chat-fab" aria-label="キャラと話す"><img src="chat-icon.png" alt="キャラと話す"></a>
     <footer>
         <a href="privacy.html">プライバシーポリシー</a>｜<a href="terms.html">利用規約</a>
         <p style="margin-top: 0.5rem;">&copy; 2026 BFTK Project</p>
     </footer>
+    <script>
+    document.addEventListener('DOMContentLoaded',()=>{const o=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('is-visible');o.unobserve(x.target)}})},{threshold:0.12});document.querySelectorAll('[data-reveal]').forEach(el=>o.observe(el))});
+    </script>
 </body>
 </html>
