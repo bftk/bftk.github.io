@@ -628,7 +628,7 @@ footer a:hover {
 
 /* ヒーロー */
 .hub-hero {
-    min-height: 100svh;
+    min-height: 70svh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -636,7 +636,7 @@ footer a:hover {
     text-align: center;
     position: relative;
     overflow: hidden;
-    padding: 6rem 1.5rem 4rem;
+    padding: 4rem 1.5rem 3rem;
     border-bottom: 1px solid rgba(249,168,37,0.18);
 }
 .hub-hero::before {
@@ -752,7 +752,7 @@ footer a:hover {
 .hub-panels {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 6rem 1.5rem;
+    padding: 3rem 1.5rem 4rem;
 }
 .hub-panel {
     display: block;
@@ -853,13 +853,13 @@ footer a:hover {
     .num-box .num { font-size: 1.3rem; }
     .guide-bottom-nav { flex-direction: column; }
     .matchup-row { gap: 0.3rem; }
-    .hub-hero { min-height: 85svh; }
+    .hub-hero { min-height: 60svh; }
     .hub-hero-title { font-size: 2.2rem; }
     .hub-hero-bg { font-size: 28vw; }
     .hub-hero-specs span { font-size: 0.6rem; padding: 0.5rem 0.7rem; }
     .hub-stats { grid-template-columns: repeat(2, 1fr); margin-top: -3rem; }
     .hub-stat-num { font-size: 2.5rem; }
-    .hub-panels { padding: 4rem 1.2rem; }
+    .hub-panels { padding: 2rem 1.2rem 3rem; }
     .hub-panel { min-height: 180px; padding: 2rem 2rem 2rem 1.5rem; }
     .hub-panel-title { font-size: 1.2rem; }
     .hub-panel-bgno { font-size: 5rem; }
