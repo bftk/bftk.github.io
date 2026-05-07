@@ -200,7 +200,7 @@ body.theme-houzuki .bg-glow { opacity: 1; background: radial-gradient(circle at 
       <div class="ring-wave"></div>
       &#x1F4DE;
     </button>
-    <div class="call-status" id="callStatus">タップしてコール</div>
+    <div class="call-status" id="callStatus">Tap to Call</div>
   </div>
 
   <!-- 立ち絵エリア -->
@@ -265,11 +265,11 @@ function startCall() {
   const btn = document.getElementById("callBtn");
   btn.disabled = true;
   btn.style.pointerEvents = "none";
-  callStatus.textContent = "プルルルル…";
+  callStatus.textContent = "Calling...";
   callStatus.className = "call-status ringing";
 
   setTimeout(() => {
-    callStatus.textContent = "接続中…";
+    callStatus.textContent = "Connected";
     callStatus.className = "call-status connected";
   }, 1600);
 
