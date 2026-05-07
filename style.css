@@ -5,12 +5,10 @@
 
 body {
     min-height: 100vh;
-    background-color: #0a0a0a;
-    background-image:
-        repeating-linear-gradient(0deg, transparent, transparent 23px, rgba(255,255,255,0.015) 23px, rgba(255,255,255,0.015) 24px),
-        repeating-linear-gradient(90deg, transparent, transparent 23px, rgba(255,255,255,0.015) 23px, rgba(255,255,255,0.015) 24px);
+    background: radial-gradient(circle at top, rgba(249,168,37,0.10), transparent 45%), linear-gradient(180deg, #111 0%, #0a0a0a 30%, #050505 100%);
     color: #fff;
     font-family: 'Noto Sans JP', 'Segoe UI', Arial, sans-serif;
+    overflow-x: hidden;
 }
 
 /* ナビゲーション */
@@ -630,7 +628,7 @@ footer a:hover {
 
 /* ヒーロー */
 .hub-hero {
-    min-height: 80vh;
+    min-height: 100svh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -638,104 +636,148 @@ footer a:hover {
     text-align: center;
     position: relative;
     overflow: hidden;
-    padding: 2rem;
+    padding: 6rem 1.5rem 4rem;
+    border-bottom: 1px solid rgba(249,168,37,0.18);
 }
 .hub-hero::before {
     content: "";
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse at center, rgba(249,168,37,0.1), transparent 70%);
+    background: radial-gradient(circle at center, rgba(249,168,37,0.18), transparent 58%);
     pointer-events: none;
 }
 .hub-hero-bg {
     position: absolute;
     font-family: 'Cinzel', serif;
-    font-size: 18vw;
+    font-size: 20vw;
     font-weight: 900;
-    color: rgba(249,168,37,0.04);
-    letter-spacing: 0.1em;
+    color: rgba(249,168,37,0.10);
+    letter-spacing: 0.08em;
     white-space: nowrap;
-    pointer-events: none;
+    transform: translateY(-8%);
     user-select: none;
+    pointer-events: none;
+    text-shadow: 0 0 40px rgba(249,168,37,0.12);
 }
 .hub-hero-label {
     font-family: 'Cinzel', serif;
     font-size: 0.7rem;
     letter-spacing: 0.3em;
-    color: rgba(255,255,255,0.35);
+    color: rgba(255,255,255,0.45);
     margin-bottom: 1.5rem;
     position: relative;
 }
 .hub-hero-title {
-    font-size: 2rem;
-    font-weight: 700;
+    font-size: clamp(2.6rem, 8vw, 5.5rem);
+    font-weight: 800;
     color: #fff;
-    line-height: 1.5;
+    line-height: 1.15;
+    max-width: 10ch;
+    margin: auto;
     position: relative;
+    letter-spacing: 0.04em;
+    text-shadow: 0 0 24px rgba(249,168,37,0.10);
 }
 .hub-hero-sub {
-    font-size: 0.9rem;
-    color: #666;
-    margin-top: 1rem;
-    letter-spacing: 0.05em;
+    font-size: 1rem;
+    color: rgba(255,255,255,0.72);
+    margin-top: 1.5rem;
+    letter-spacing: 0.08em;
+    max-width: 32rem;
+    line-height: 1.9;
     position: relative;
+}
+.hub-hero-line {
+    width: 120px;
+    height: 1px;
+    background: #F9A825;
+    margin: 2rem auto;
+    box-shadow: 0 0 18px rgba(249,168,37,0.6);
+}
+.hub-hero-specs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    position: relative;
+}
+.hub-hero-specs span {
+    border: 1px solid rgba(249,168,37,0.22);
+    background: rgba(255,255,255,0.03);
+    padding: 0.6rem 1rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    color: rgba(255,255,255,0.72);
+    font-family: 'Cinzel', serif;
 }
 
 /* 数値スペック */
 .hub-stats {
-    display: flex;
-    justify-content: center;
-    max-width: 800px;
-    margin: 0 auto;
-    border-top: 1px solid rgba(255,255,255,0.08);
-    border-bottom: 1px solid rgba(255,255,255,0.08);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    max-width: 1100px;
+    margin: -4rem auto 0;
+    padding: 0 1.5rem;
+    position: relative;
+    z-index: 10;
 }
 .hub-stat {
-    flex: 1;
     text-align: center;
     padding: 2.5rem 1rem;
-    border-right: 1px solid rgba(255,255,255,0.06);
-}
-.hub-stat:last-child {
-    border-right: none;
+    background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+    border: 1px solid rgba(249,168,37,0.10);
+    position: relative;
 }
 .hub-stat-num {
     display: block;
     font-family: 'Cinzel', serif;
-    font-size: 2.5rem;
+    font-size: clamp(3rem, 7vw, 5rem);
     font-weight: 700;
     color: #F9A825;
     line-height: 1;
+    text-shadow: 0 0 24px rgba(249,168,37,0.35);
 }
 .hub-stat-label {
     display: block;
     font-family: 'Cinzel', serif;
     font-size: 0.6rem;
-    color: rgba(255,255,255,0.3);
+    color: rgba(255,255,255,0.4);
     letter-spacing: 0.15em;
-    margin-top: 0.5rem;
+    margin-top: 0.6rem;
 }
 
 /* ガイドパネル */
 .hub-panels {
-    max-width: 800px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 4rem 2rem;
+    padding: 6rem 1.5rem;
 }
 .hub-panel {
     display: block;
     text-decoration: none;
-    padding: 2rem 4rem 2rem 2.5rem;
-    border: 1px solid rgba(255,255,255,0.06);
-    border-left: 4px solid rgba(249,168,37,0.25);
-    margin-bottom: 1rem;
+    padding: 3rem 5rem 3rem 3rem;
+    border: 1px solid rgba(249,168,37,0.14);
+    margin-bottom: 1.5rem;
+    min-height: 220px;
     position: relative;
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
-    transition: border-color 0.3s, box-shadow 0.3s;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015));
+    transition: transform 0.3s, border-color 0.3s, background 0.3s, box-shadow 0.3s;
+}
+.hub-panel::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 6px;
+    background: linear-gradient(180deg, #F9A825, transparent);
 }
 .hub-panel:hover {
-    border-left-color: #F9A825;
-    box-shadow: 0 0 30px rgba(249,168,37,0.06);
+    transform: translateY(-4px);
+    border-color: rgba(249,168,37,0.4);
+    background: linear-gradient(135deg, rgba(249,168,37,0.08), rgba(255,255,255,0.03));
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
 }
 .hub-panel-meta {
     display: flex;
@@ -747,38 +789,51 @@ footer a:hover {
     font-family: 'Cinzel', serif;
     font-size: 0.75rem;
     font-weight: 700;
-    color: rgba(249,168,37,0.5);
+    color: rgba(249,168,37,0.6);
     letter-spacing: 0.1em;
 }
 .hub-panel-tag {
     font-family: 'Cinzel', serif;
     font-size: 0.55rem;
-    color: rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.25);
     letter-spacing: 0.2em;
 }
 .hub-panel-title {
-    font-size: 1.3rem;
+    font-size: 1.5rem;
     font-weight: 700;
     color: #fff;
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.5rem;
+    position: relative;
 }
 .hub-panel-desc {
-    font-size: 0.85rem;
-    color: #666;
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.5);
     line-height: 1.7;
+    position: relative;
 }
 .hub-panel-arrow {
     position: absolute;
-    right: 2rem;
+    right: 2.5rem;
     top: 50%;
     transform: translateY(-50%);
-    color: rgba(249,168,37,0.2);
-    font-size: 1.2rem;
+    color: rgba(249,168,37,0.3);
+    font-size: 1.4rem;
     transition: color 0.3s, transform 0.3s;
 }
 .hub-panel:hover .hub-panel-arrow {
     color: #F9A825;
-    transform: translateY(-50%) translateX(4px);
+    transform: translateY(-50%) translateX(6px);
+}
+.hub-panel-bgno {
+    position: absolute;
+    right: 2rem;
+    bottom: -1rem;
+    font-size: 8rem;
+    font-family: 'Cinzel', serif;
+    font-weight: 900;
+    color: rgba(249,168,37,0.06);
+    pointer-events: none;
+    line-height: 1;
 }
 
 /* レスポンシブ */
@@ -798,14 +853,14 @@ footer a:hover {
     .num-box .num { font-size: 1.3rem; }
     .guide-bottom-nav { flex-direction: column; }
     .matchup-row { gap: 0.3rem; }
-    .hub-hero { min-height: 70vh; }
-    .hub-hero-title { font-size: 1.5rem; }
-    .hub-hero-bg { font-size: 25vw; }
-    .hub-stats { flex-wrap: wrap; }
-    .hub-stat { flex: 0 0 50%; border-bottom: 1px solid rgba(255,255,255,0.06); }
-    .hub-stat:nth-child(2) { border-right: none; }
-    .hub-stat-num { font-size: 2rem; }
-    .hub-panels { padding: 3rem 1.2rem; }
-    .hub-panel { padding: 1.5rem 3rem 1.5rem 1.5rem; }
-    .hub-panel-title { font-size: 1.1rem; }
+    .hub-hero { min-height: 85svh; }
+    .hub-hero-title { font-size: 2.2rem; }
+    .hub-hero-bg { font-size: 28vw; }
+    .hub-hero-specs span { font-size: 0.6rem; padding: 0.5rem 0.7rem; }
+    .hub-stats { grid-template-columns: repeat(2, 1fr); margin-top: -3rem; }
+    .hub-stat-num { font-size: 2.5rem; }
+    .hub-panels { padding: 4rem 1.2rem; }
+    .hub-panel { min-height: 180px; padding: 2rem 2rem 2rem 1.5rem; }
+    .hub-panel-title { font-size: 1.2rem; }
+    .hub-panel-bgno { font-size: 5rem; }
 }
