@@ -630,8 +630,11 @@ footer a:hover {
 .hub-hero {
     position: relative;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    padding: clamp(5rem, 10vw, 8rem) 1.5rem 4rem;
+    padding: clamp(4rem, 8vw, 6rem) 1.5rem 3rem;
     border-bottom: 1px solid rgba(249,168,37,0.18);
 }
 .hub-hero::before {
@@ -661,7 +664,7 @@ footer a:hover {
     font-size: 0.7rem;
     letter-spacing: 0.3em;
     color: rgba(255,255,255,0.45);
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     position: relative;
 }
 .hub-hero-title {
@@ -677,14 +680,14 @@ footer a:hover {
 .hub-hero-sub {
     font-size: 1rem;
     color: rgba(255,255,255,0.72);
-    margin-top: 1.5rem;
+    margin-top: 1rem;
     letter-spacing: 0.08em;
     max-width: 32rem;
-    line-height: 1.9;
+    line-height: 1.7;
     position: relative;
 }
 .hub-hero-desc {
-    margin-top: 2rem;
+    margin-top: 1.2rem;
     max-width: 34rem;
     font-size: 0.95rem;
     line-height: 2;
@@ -695,15 +698,15 @@ footer a:hover {
     width: 120px;
     height: 1px;
     background: #F9A825;
-    margin: 2rem auto;
+    margin: 1.5rem auto;
     box-shadow: 0 0 18px rgba(249,168,37,0.6);
 }
 .hub-hero-specs {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 1rem;
-    margin-top: 1.5rem;
+    gap: 0.8rem;
+    margin-top: 0;
     position: relative;
 }
 .hub-hero-specs span {
@@ -723,7 +726,7 @@ footer a:hover {
     gap: 1rem;
     width: 100%;
     max-width: 1000px;
-    margin: 3rem auto 0;
+    margin: 2rem auto 0;
 }
 .hub-stat {
     text-align: center;
