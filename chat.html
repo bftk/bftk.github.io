@@ -169,6 +169,8 @@ body.theme-houzuki .bg-glow { opacity: 1; background: radial-gradient(circle at 
 }
 .call-btn:hover { border-color: rgba(26,35,126,.8); background: radial-gradient(circle, rgba(26,35,126,.5), rgba(10,10,26,.8)); transform: scale(1.05); box-shadow: 0 0 24px rgba(26,35,126,.3); }
 .call-btn:active { transform: scale(.97); }
+.call-btn.ringing { animation: phoneShake .4s ease-in-out infinite; }
+@keyframes phoneShake { 0%,100% { transform: rotate(0deg); } 20% { transform: rotate(-12deg); } 40% { transform: rotate(12deg); } 60% { transform: rotate(-8deg); } 80% { transform: rotate(8deg); } }
 .call-btn .ring-wave {
   position: absolute; inset: -8px; border-radius: 50%; border: 1px solid rgba(26,35,126,.3);
   animation: ringWave 2s ease-out infinite;
@@ -265,6 +267,7 @@ function startCall() {
   const btn = document.getElementById("callBtn");
   btn.disabled = true;
   btn.style.pointerEvents = "none";
+  btn.classList.add("ringing");
   callStatus.textContent = "Calling...";
   callStatus.className = "call-status ringing";
 
