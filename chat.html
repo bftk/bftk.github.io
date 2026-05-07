@@ -167,16 +167,19 @@ function onMenuBtn(category) {
   switch (category) {
     case "faq":
       addMsg("ゲームについて聞きたい", "user");
+      addCharMsg("menda", "ゲームのことですね。…オウムさんが詳しいので、代わりますね。");
       sendToWorker("ゲームについて教えてください", "menda");
       break;
 
     case "billing":
       addMsg("お支払いについて", "user");
+      addCharMsg("menda", "お支払いのことですね。…デメニさんに代わりますね。");
       sendToWorker("課金について教えてください", "menda");
       break;
 
     case "policy":
       addMsg("規約について", "user");
+      addCharMsg("menda", "規約ですね。…グソクさんに聞いてみましょう。");
       sendToWorker("利用規約について教えてください", "menda");
       break;
 
