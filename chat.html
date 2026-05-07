@@ -7,60 +7,161 @@
 <title>BFTK - 深海コールセンター</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { background: #0a0a1a; color: #e0e0e0; font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100dvh; }
-.chat-container { width: 420px; max-width: 95vw; max-height: 100dvh; background: #1a1a2e; border-radius: 12px; overflow: hidden; border: 1px solid #1A237E; display: flex; flex-direction: column; }
-.chat-header { background: #1A237E; padding: 16px; text-align: center; flex-shrink: 0; }
+body { background: #0a0a1a; color: #e0e0e0; font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100dvh; transition: background 0.8s ease; }
+
+/* ===== 背景キャラグロー ===== */
+.bg-character-glow {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  opacity: 0; transition: opacity 0.8s ease, background 0.8s ease;
+}
+body.theme-menda .bg-character-glow { opacity: 1; background: radial-gradient(circle at 50% 20%, rgba(255,140,80,.18), transparent 60%); }
+body.theme-gusoku .bg-character-glow { opacity: 1; background: radial-gradient(circle at 50% 20%, rgba(160,160,180,.15), transparent 60%); }
+body.theme-demeni .bg-character-glow { opacity: 1; background: radial-gradient(circle at 50% 20%, rgba(80,180,255,.18), transparent 60%); }
+body.theme-oumu .bg-character-glow { opacity: 1; background: radial-gradient(circle at 50% 20%, rgba(220,180,60,.18), transparent 60%); }
+body.theme-ryuuguu .bg-character-glow { opacity: 1; background: radial-gradient(circle at 50% 20%, rgba(255,120,170,.15), transparent 60%); }
+body.theme-houzuki .bg-character-glow { opacity: 1; background: radial-gradient(circle at 50% 20%, rgba(160,100,220,.18), transparent 60%); }
+
+/* ===== チャットコンテナ ===== */
+.chat-container { position: relative; z-index: 1; width: 420px; max-width: 95vw; max-height: 100dvh; background: rgba(26,26,46,.92); border-radius: 12px; overflow: hidden; border: 1px solid #1A237E; display: flex; flex-direction: column; backdrop-filter: blur(8px); }
+
+/* 深海ノイズ */
+.chat-container::before {
+  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background-image: radial-gradient(rgba(255,255,255,.03) 1px, transparent 1px);
+  background-size: 4px 4px; opacity: .15;
+}
+
+/* 深海の漂う光 */
+.chat-container::after {
+  content: ""; position: absolute; z-index: 0; pointer-events: none;
+  width: 200px; height: 200px; top: -40px; right: -60px;
+  background: radial-gradient(rgba(80,120,255,.10), transparent 70%);
+  filter: blur(40px); animation: floatGlow 8s ease-in-out infinite;
+}
+@keyframes floatGlow {
+  0%, 100% { transform: translate(0, 0); opacity: .6; }
+  50% { transform: translate(-30px, 20px); opacity: 1; }
+}
+
+.chat-header { position: relative; z-index: 1; background: #1A237E; padding: 16px; text-align: center; flex-shrink: 0; }
 .chat-header h1 { color: #e0e8ff; font-size: 18px; }
 .chat-header p { color: #8899cc; font-size: 12px; margin-top: 4px; }
-.chat-log { flex: 1; min-height: 0; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+
+/* ===== アクティブキャラ表示 ===== */
+.active-character {
+  position: relative; z-index: 1; display: flex; align-items: center; gap: 10px;
+  padding: 10px 16px; border-bottom: 1px solid rgba(255,255,255,.06);
+  transition: background 0.6s ease; flex-shrink: 0;
+}
+.active-character .active-indicator {
+  width: 8px; height: 8px; border-radius: 50%; background: currentColor;
+  box-shadow: 0 0 8px currentColor; animation: indicatorPulse 2s ease-in-out infinite;
+}
+@keyframes indicatorPulse { 0%,100% { opacity: .5; } 50% { opacity: 1; } }
+.active-character .active-name { font-size: 13px; font-weight: 700; letter-spacing: .08em; }
+.active-character .active-role { font-size: 11px; opacity: .5; }
+.active-character.menda { color: #c07040; }
+.active-character.gusoku { color: #888; }
+.active-character.demeni { color: #4080a0; }
+.active-character.oumu { color: #a09040; }
+.active-character.ryuuguu { color: #a06070; }
+.active-character.houzuki { color: #8060a0; }
+
+/* ===== チャットログ ===== */
+.chat-log { position: relative; z-index: 1; flex: 1; min-height: 0; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+
+/* ===== メッセージ共通 ===== */
 .msg { padding: 10px 14px; border-radius: 8px; max-width: 85%; font-size: 14px; line-height: 1.5; word-break: break-word; white-space: pre-wrap; }
-.msg.user { background: #2a2a3e; align-self: flex-end; }
-.msg.bot { align-self: flex-start; }
-.msg.error { background: #4a0000; align-self: flex-start; border: 1px solid #ff4444; }
-.msg.system { background: #1a1a2e; align-self: center; color: #8899cc; font-size: 12px; border: 1px solid #333; }
-.msg a { color: #8899cc; text-decoration: underline; }
+.msg.user { background: #2a2a3e; align-self: flex-end; animation: userEnter .3s ease; }
+@keyframes userEnter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-/* キャラ別メッセージ色 */
-.msg.bot.menda { background: #3a2010; border: 1px solid #c07040; }
-.msg.bot.gusoku { background: #2a2a30; border: 1px solid #666; }
-.msg.bot.demeni { background: #1a2a30; border: 1px solid #4080a0; }
-.msg.bot.oumu { background: #2a2810; border: 1px solid #a09040; }
-.msg.bot.ryuuguu { background: #2a1a20; border: 1px solid #a06070; }
-.msg.bot.houzuki { background: #2a1a30; border: 1px solid #8060a0; }
+/* ===== Bot メッセージ（VN会話ウィンドウ風） ===== */
+.msg.bot {
+  align-self: flex-start; width: 100%; max-width: 100%;
+  background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 14px; padding: 14px 16px;
+  position: relative; overflow: hidden;
+  animation: charEnter .45s ease;
+  transform-origin: left bottom;
+}
+/* 上部キャラカラーライン */
+.msg.bot::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, currentColor, transparent);
+  opacity: .4;
+}
+@keyframes charEnter {
+  from { opacity: 0; transform: translateY(12px) scale(.96); filter: blur(4px); }
+  to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
 
-/* キャラ名ラベル */
-.char-label { font-size: 11px; font-weight: bold; margin-bottom: 4px; }
-.char-label.menda { color: #c07040; }
-.char-label.gusoku { color: #888; }
-.char-label.demeni { color: #4080a0; }
-.char-label.oumu { color: #a09040; }
-.char-label.ryuuguu { color: #a06070; }
-.char-label.houzuki { color: #8060a0; }
+/* キャラ別アクセントカラー */
+.msg.bot.menda { color: #c07040; border-color: rgba(192,112,64,.25); background: linear-gradient(180deg, rgba(192,112,64,.10), rgba(192,112,64,.03)); }
+.msg.bot.gusoku { color: #999; border-color: rgba(160,160,160,.20); background: linear-gradient(180deg, rgba(160,160,160,.08), rgba(160,160,160,.02)); }
+.msg.bot.demeni { color: #4080a0; border-color: rgba(64,128,160,.25); background: linear-gradient(180deg, rgba(64,128,160,.10), rgba(64,128,160,.03)); }
+.msg.bot.oumu { color: #a09040; border-color: rgba(160,144,64,.25); background: linear-gradient(180deg, rgba(160,144,64,.10), rgba(160,144,64,.03)); }
+.msg.bot.ryuuguu { color: #a06070; border-color: rgba(160,96,112,.25); background: linear-gradient(180deg, rgba(160,96,112,.10), rgba(160,96,112,.03)); }
+.msg.bot.houzuki { color: #8060a0; border-color: rgba(128,96,160,.25); background: linear-gradient(180deg, rgba(128,96,160,.10), rgba(128,96,160,.03)); }
 
-/* ローディング表示 */
-.msg.loading { align-self: flex-start; background: #1a1a2e; border: 1px solid #333; color: #8899cc; font-size: 13px; }
+/* 本文テキスト色はe0e0e0に戻す */
+.msg.bot .msg-body { color: #e0e0e0; }
+.msg.bot .msg-body a { color: #8899cc; text-decoration: underline; }
+
+/* ===== ネームプレート（VN風） ===== */
+.char-label {
+  display: inline-flex; align-items: center;
+  padding: 3px 12px 3px 0; margin-bottom: 6px;
+  font-size: 11px; font-weight: 700; letter-spacing: .12em;
+  position: relative;
+}
+.char-label::before {
+  content: ""; width: 16px; height: 1px; background: currentColor; margin-right: 8px; opacity: .7;
+}
+
+.msg.error { background: #4a0000; align-self: flex-start; border: 1px solid #ff4444; color: #e0e0e0; }
+.msg.system { background: rgba(26,26,46,.8); align-self: center; color: #8899cc; font-size: 12px; border: 1px solid #333; }
+
+/* ===== 引き継ぎ演出 ===== */
+.msg.system.transfer {
+  letter-spacing: .2em; font-size: 11px; border: none;
+  background: transparent; color: #667; animation: pulse 1.4s ease infinite;
+}
+@keyframes pulse { 0%,100% { opacity: .3; } 50% { opacity: 1; } }
+
+/* ===== タイプライターカーソル ===== */
+.typing-cursor::after {
+  content: ""; display: inline-block; width: 2px; height: 1em;
+  background: currentColor; margin-left: 2px; vertical-align: text-bottom;
+  animation: blink .8s steps(1) infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* ===== ローディング ===== */
+.msg.loading { align-self: center; background: transparent; border: none; color: #667; font-size: 12px; letter-spacing: .15em; animation: pulse 1.4s ease infinite; }
 @keyframes dots { 0%,20% { content: ''; } 40% { content: '.'; } 60% { content: '..'; } 80%,100% { content: '...'; } }
 .loading-dots::after { content: ''; animation: dots 1.2s steps(1) infinite; }
 
-/* ボタンメニュー */
-.btn-menu { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 16px; justify-content: center; border-top: 1px solid #333; flex-shrink: 0; }
+/* ===== ボタンメニュー ===== */
+.btn-menu { position: relative; z-index: 1; display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 16px; justify-content: center; border-top: 1px solid rgba(255,255,255,.06); flex-shrink: 0; }
 .btn-menu button {
-  padding: 8px 14px; border-radius: 20px; border: 1px solid #556;
+  padding: 8px 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,.12);
   background: transparent; color: #aab; font-size: 13px; cursor: pointer;
-  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  transition: all 0.3s ease;
 }
-.btn-menu button:hover { background: #1A237E; color: #e0e8ff; border-color: #1A237E; }
-.btn-menu button:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-menu button:hover { background: rgba(26,35,126,.5); color: #e0e8ff; border-color: rgba(26,35,126,.8); box-shadow: 0 0 12px rgba(26,35,126,.3); }
+.btn-menu button:disabled { opacity: 0.4; cursor: not-allowed; box-shadow: none; }
 
-/* 入力エリア */
-.chat-input { display: flex; padding: 12px; gap: 8px; border-top: 1px solid #333; flex-shrink: 0; }
-.chat-input input { flex: 1; padding: 10px 14px; border-radius: 8px; border: 1px solid #444; background: #1a1a2e; color: #e0e0e0; font-size: 14px; outline: none; }
-.chat-input input:focus { border-color: #1A237E; }
-.chat-input button { padding: 10px 20px; border-radius: 8px; border: none; background: #1A237E; color: #e0e8ff; font-weight: bold; font-size: 14px; cursor: pointer; white-space: nowrap; }
-.chat-input button:disabled { background: #333; cursor: not-allowed; }
+/* ===== 入力エリア ===== */
+.chat-input { position: relative; z-index: 1; display: flex; padding: 12px; gap: 8px; border-top: 1px solid rgba(255,255,255,.06); flex-shrink: 0; }
+.chat-input input { flex: 1; padding: 10px 14px; border-radius: 8px; border: 1px solid #444; background: rgba(26,26,46,.8); color: #e0e0e0; font-size: 14px; outline: none; }
+.chat-input input:focus { border-color: #1A237E; box-shadow: 0 0 8px rgba(26,35,126,.3); }
+.chat-input button { padding: 10px 20px; border-radius: 8px; border: none; background: #1A237E; color: #e0e8ff; font-weight: bold; font-size: 14px; cursor: pointer; white-space: nowrap; transition: all .3s ease; }
+.chat-input button:hover { box-shadow: 0 0 12px rgba(26,35,126,.4); }
+.chat-input button:disabled { background: #333; cursor: not-allowed; box-shadow: none; }
 
-/* 報告モード表示 */
-.report-mode-label { color: #a06070; font-size: 12px; padding: 4px 12px; text-align: center; flex-shrink: 0; }
+/* 報告モード */
+.report-mode-label { position: relative; z-index: 1; color: #a06070; font-size: 12px; padding: 4px 12px; text-align: center; flex-shrink: 0; }
 .cancel-btn { color: #888; cursor: pointer; text-decoration: underline; margin-left: 8px; background: none; border: none; font-size: 12px; padding: 0; }
 .cancel-btn:hover { color: #e0e0e0; }
 .cancel-btn:focus { outline: 1px solid #8899cc; outline-offset: 2px; }
@@ -68,14 +169,20 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: sans-serif; display: fl
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
 </head>
-<body>
+<body class="theme-menda">
+<div class="bg-character-glow" id="bgGlow"></div>
 <div class="chat-container">
   <div class="chat-header">
     <h1>BFTK Deep Sea CS</h1>
     <p>深海コールセンター</p>
   </div>
+  <div class="active-character menda" id="activeChar">
+    <div class="active-indicator"></div>
+    <div class="active-name">メンダ</div>
+    <div class="active-role">総合受付</div>
+  </div>
   <div class="chat-log" id="chatLog" role="log" aria-live="polite" aria-label="チャット履歴">
-    <div class="msg bot menda"><div class="char-label menda">メンダ</div>あ、いらっしゃいませ。受付のメンダです。…どうされました？ 下のボタンからも選べますよ。</div>
+    <div class="msg bot menda"><div class="char-label menda"><span></span>メンダ</div><div class="msg-body">あ、いらっしゃいませ。受付のメンダです。…どうされました？ 下のボタンからも選べますよ。</div></div>
   </div>
   <div class="btn-menu" id="btnMenu" role="toolbar" aria-label="メニュー">
     <button onclick="onMenuBtn('faq')">ゲームについて</button>
@@ -101,20 +208,34 @@ const sendBtn = document.getElementById("sendBtn");
 const btnMenu = document.getElementById("btnMenu");
 const reportLabel = document.getElementById("reportLabel");
 const reportLabelText = document.getElementById("reportLabelText");
+const activeCharEl = document.getElementById("activeChar");
 
-// 許可キャラクター（Worker側と一致）
 const VALID_CHARACTERS = ["menda", "gusoku", "demeni", "oumu", "ryuuguu", "houzuki"];
 
-// キャラ名マッピング
 const CHAR_NAMES = {
   menda: "メンダ", gusoku: "グソク", demeni: "デメニ",
   oumu: "オウム", ryuuguu: "リュウグウ", houzuki: "ホウズキ",
+};
+const CHAR_ROLES = {
+  menda: "総合受付", gusoku: "規約担当", demeni: "課金担当",
+  oumu: "FAQ担当", ryuuguu: "お客様の声", houzuki: "アンケート",
 };
 
 let conversationHistory = [];
 let reportMode = false; // false | "bug" | "feedback" | "survey"
 let currentCharacter = "menda";
-let isSending = false; // 二重送信防止フラグ
+let isSending = false;
+
+// ===== テーマ切替（VN演出の核） =====
+function switchTheme(character) {
+  const safe = validateCharacter(character);
+  document.body.className = "theme-" + safe;
+  // アクティブキャラ表示更新
+  activeCharEl.className = "active-character " + safe;
+  activeCharEl.querySelector(".active-name").textContent = CHAR_NAMES[safe] || safe;
+  activeCharEl.querySelector(".active-role").textContent = CHAR_ROLES[safe] || "";
+  currentCharacter = safe;
+}
 
 // ===== セッション管理 =====
 function getSession() {
@@ -150,9 +271,29 @@ function setInputDisabled(disabled, placeholder) {
   sendBtn.disabled = disabled;
   msgInput.disabled = disabled;
   if (placeholder) msgInput.placeholder = placeholder;
-  for (const btn of btnMenu.querySelectorAll("button")) {
-    btn.disabled = disabled;
-  }
+  for (const btn of btnMenu.querySelectorAll("button")) btn.disabled = disabled;
+}
+
+// ===== 引き継ぎ演出 =====
+function showTransfer(fromChar, toChar) {
+  return new Promise((resolve) => {
+    addCharMsg(fromChar.name, fromChar.line);
+    setTimeout(() => {
+      addTransferMsg("── " + (CHAR_NAMES[toChar] || toChar) + " に接続中 ──");
+      setTimeout(() => {
+        switchTheme(toChar);
+        resolve();
+      }, 800);
+    }, 400);
+  });
+}
+
+function addTransferMsg(text) {
+  const div = document.createElement("div");
+  div.className = "msg system transfer";
+  div.textContent = text;
+  chatLog.appendChild(div);
+  chatLog.scrollTop = chatLog.scrollHeight;
 }
 
 // ===== ボタンメニュー処理 =====
@@ -167,50 +308,83 @@ function onMenuBtn(category) {
   switch (category) {
     case "faq":
       addMsg("ゲームについて聞きたい", "user");
-      addCharMsg("menda", "ゲームのことですね。…オウムさんが詳しいので、代わりますね。");
-      sendToWorker("ゲームについて教えてください", "menda");
+      isSending = true;
+      setInputDisabled(true);
+      showTransfer(
+        { name: "menda", line: "ゲームのこと？ …オウムさーん、お客さんですよ。" },
+        "oumu"
+      ).then(() => {
+        sendToWorker("ゲームについて教えてください", "menda");
+      });
       break;
 
     case "billing":
       addMsg("お支払いについて", "user");
-      addCharMsg("menda", "お支払いのことですね。…デメニさんに代わりますね。");
-      sendToWorker("課金について教えてください", "menda");
+      isSending = true;
+      setInputDisabled(true);
+      showTransfer(
+        { name: "menda", line: "お支払い…ですか。デメニさん、お願いしていいですか？" },
+        "demeni"
+      ).then(() => {
+        sendToWorker("課金について教えてください", "menda");
+      });
       break;
 
     case "policy":
       addMsg("規約について", "user");
-      addCharMsg("menda", "規約ですね。…グソクさんに聞いてみましょう。");
-      sendToWorker("利用規約について教えてください", "menda");
+      isSending = true;
+      setInputDisabled(true);
+      showTransfer(
+        { name: "menda", line: "規約ですね…グソクさん、出番です。" },
+        "gusoku"
+      ).then(() => {
+        sendToWorker("利用規約について教えてください", "menda");
+      });
       break;
 
     case "bug":
       addMsg("バグ報告", "user");
-      addCharMsg("ryuuguu", "…バグの内容を教えてください。下の入力欄に書いて送信してくださいね。");
-      reportMode = "bug";
-      reportLabelText.textContent = "バグ報告モード：内容を入力して送信してください";
-      reportLabel.style.display = "block";
-      msgInput.placeholder = "バグの内容を入力...";
-      msgInput.focus();
+      showTransfer(
+        { name: "menda", line: "バグ…ですか。リュウグウさん、聞いてあげてください。" },
+        "ryuuguu"
+      ).then(() => {
+        addCharMsg("ryuuguu", "…バグの内容を教えてください。下の入力欄に書いて送信してくださいね。");
+        reportMode = "bug";
+        reportLabelText.textContent = "バグ報告モード：内容を入力して送信してください";
+        reportLabel.style.display = "block";
+        msgInput.placeholder = "バグの内容を入力...";
+        msgInput.focus();
+      });
       break;
 
     case "feedback":
       addMsg("ご意見・要望", "user");
-      addCharMsg("ryuuguu", "…お話、聞かせてください。下の入力欄にご意見やご要望を書いて送信してくださいね。");
-      reportMode = "feedback";
-      reportLabelText.textContent = "ご意見・要望モード：内容を入力して送信してください";
-      reportLabel.style.display = "block";
-      msgInput.placeholder = "ご意見・要望を入力...";
-      msgInput.focus();
+      showTransfer(
+        { name: "menda", line: "ご意見…ありがとうございます。リュウグウさんが聞いてくれますよ。" },
+        "ryuuguu"
+      ).then(() => {
+        addCharMsg("ryuuguu", "…お話、聞かせてください。下の入力欄にご意見やご要望を書いて送信してくださいね。");
+        reportMode = "feedback";
+        reportLabelText.textContent = "ご意見・要望モード：内容を入力して送信してください";
+        reportLabel.style.display = "block";
+        msgInput.placeholder = "ご意見・要望を入力...";
+        msgInput.focus();
+      });
       break;
 
     case "survey":
       addMsg("アンケート", "user");
-      addCharMsg("houzuki", "あ、あの…ホウズキです。もしよければ…簡単なアンケートにご協力いただけると嬉しいです。\n\nBFTKを何で知りましたか？ 下の入力欄で教えていただけると…すごく助かります…！");
-      reportMode = "survey";
-      reportLabelText.textContent = "アンケートモード：回答を入力して送信してください";
-      reportLabel.style.display = "block";
-      msgInput.placeholder = "回答を入力...（答えなくても大丈夫です）";
-      msgInput.focus();
+      showTransfer(
+        { name: "menda", line: "アンケートですね。…ホウズキさん、お願いします。" },
+        "houzuki"
+      ).then(() => {
+        addCharMsg("houzuki", "あ、あの…ホウズキです。もしよければ…簡単なアンケートにご協力いただけると嬉しいです。\n\nBFTKを何で知りましたか？ 下の入力欄で教えていただけると…すごく助かります…！");
+        reportMode = "survey";
+        reportLabelText.textContent = "アンケートモード：回答を入力して送信してください";
+        reportLabel.style.display = "block";
+        msgInput.placeholder = "回答を入力...（答えなくても大丈夫です）";
+        msgInput.focus();
+      });
       break;
   }
 }
@@ -219,25 +393,24 @@ function cancelReportMode() {
   reportMode = false;
   reportLabel.style.display = "none";
   msgInput.placeholder = "メンダに話しかける...";
+  switchTheme("menda");
   msgInput.focus();
 }
 
 // ===== 送信処理 =====
 msgInput.addEventListener("keydown", (e) => {
-  // IME確定中のEnterは無視
   if (e.isComposing) return;
   if (e.key === "Enter" && !sendBtn.disabled && !isSending) sendMsg();
 });
 
 async function sendMsg() {
-  if (isSending) return; // 二重送信防止
+  if (isSending) return;
   const text = msgInput.value.trim();
   if (!text) return;
   if (!checkSessionLimit()) return;
 
   isSending = true;
   setInputDisabled(true);
-
   addMsg(text, "user");
   msgInput.value = "";
 
@@ -271,6 +444,7 @@ async function sendReport(text, reportType) {
     const data = await res.json();
     removeLoading(loadingEl);
     const replyChar = validateCharacter(data.character);
+    switchTheme(replyChar);
     addCharMsg(replyChar, data.reply || "…ありがとうございます。届けますね。");
     incrementSession();
   } catch (e) {
@@ -285,23 +459,18 @@ async function sendToWorker(text, character) {
     const res = await fetch(WORKER_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        message: text,
-        history: conversationHistory,
-        character: character,
-      }),
+      body: JSON.stringify({ message: text, history: conversationHistory, character: character }),
     });
     const data = await res.json();
     removeLoading(loadingEl);
     if (data.reply) {
       const replyChar = validateCharacter(data.character);
+      switchTheme(replyChar);
       addCharMsg(replyChar, data.reply);
       if (data.source === "llm") {
         conversationHistory.push({ role: "user", content: text });
         conversationHistory.push({ role: "assistant", content: data.reply });
-        if (conversationHistory.length > 10) {
-          conversationHistory = conversationHistory.slice(-10);
-        }
+        if (conversationHistory.length > 10) conversationHistory = conversationHistory.slice(-10);
       }
       incrementSession();
     } else {
@@ -332,65 +501,33 @@ function showLoading() {
   chatLog.scrollTop = chatLog.scrollHeight;
   return div;
 }
-
-function removeLoading(el) {
-  if (el && el.parentNode) el.parentNode.removeChild(el);
-}
+function removeLoading(el) { if (el && el.parentNode) el.parentNode.removeChild(el); }
 
 // ===== URLリンク化（DOM APIベース・XSS安全） =====
 const URL_REGEX = /https?:\/\/[^\s<>"')\]]+/g;
 const ALLOWED_URL_HOSTS = ["bftk-game.com", "support.apple.com", "support.google.com"];
 
 function linkifyText(text, container) {
-  let lastIndex = 0;
-  let match;
+  let lastIndex = 0; let match;
   URL_REGEX.lastIndex = 0;
-  let hasUrl = false;
-
   while ((match = URL_REGEX.exec(text)) !== null) {
-    hasUrl = true;
-    // マッチ前のテキスト
-    if (match.index > lastIndex) {
-      container.appendChild(document.createTextNode(text.slice(lastIndex, match.index)));
-    }
-    // URL部分
+    if (match.index > lastIndex) container.appendChild(document.createTextNode(text.slice(lastIndex, match.index)));
     const url = match[0];
     let isAllowed = false;
-    try {
-      const parsed = new URL(url);
-      isAllowed = ALLOWED_URL_HOSTS.some(h => parsed.hostname === h || parsed.hostname.endsWith("." + h));
-    } catch {}
-
+    try { const parsed = new URL(url); isAllowed = ALLOWED_URL_HOSTS.some(h => parsed.hostname === h || parsed.hostname.endsWith("." + h)); } catch {}
     if (isAllowed) {
-      const a = document.createElement("a");
-      a.href = url;
-      a.textContent = url;
-      a.target = "_blank";
-      a.rel = "noopener";
-      container.appendChild(a);
-    } else {
-      container.appendChild(document.createTextNode(url));
-    }
+      const a = document.createElement("a"); a.href = url; a.textContent = url; a.target = "_blank"; a.rel = "noopener"; container.appendChild(a);
+    } else { container.appendChild(document.createTextNode(url)); }
     lastIndex = match.index + match[0].length;
   }
-
-  // 残りのテキスト
-  if (lastIndex < text.length) {
-    container.appendChild(document.createTextNode(text.slice(lastIndex)));
-  }
-
-  return hasUrl;
+  if (lastIndex < text.length) container.appendChild(document.createTextNode(text.slice(lastIndex)));
 }
 
 // ===== メッセージ表示 =====
 function addMsg(text, type) {
   const div = document.createElement("div");
   div.className = "msg " + type;
-  if (type === "bot") {
-    linkifyText(text, div);
-  } else {
-    div.textContent = text;
-  }
+  div.textContent = text;
   chatLog.appendChild(div);
   chatLog.scrollTop = chatLog.scrollHeight;
 }
@@ -400,14 +537,13 @@ function addCharMsg(character, text) {
   const div = document.createElement("div");
   div.className = "msg bot " + safeChar;
 
-  // キャラ名ラベル
   const label = document.createElement("div");
   label.className = "char-label " + safeChar;
   label.textContent = CHAR_NAMES[safeChar] || safeChar;
   div.appendChild(label);
 
-  // 本文（DOM APIベースURL対応）
   const body = document.createElement("div");
+  body.className = "msg-body";
   linkifyText(text, body);
   div.appendChild(body);
 
@@ -415,7 +551,8 @@ function addCharMsg(character, text) {
   chatLog.scrollTop = chatLog.scrollHeight;
 }
 
-// 起動時チェック
+// 起動時
+switchTheme("menda");
 checkSessionLimit();
 </script>
 </body>
