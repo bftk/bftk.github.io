@@ -628,15 +628,10 @@ footer a:hover {
 
 /* ヒーロー */
 .hub-hero {
-    min-height: 70svh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
     position: relative;
     overflow: hidden;
-    padding: 4rem 1.5rem 3rem;
+    text-align: center;
+    padding: clamp(5rem, 10vw, 8rem) 1.5rem 4rem;
     border-bottom: 1px solid rgba(249,168,37,0.18);
 }
 .hub-hero::before {
@@ -648,13 +643,15 @@ footer a:hover {
 }
 .hub-hero-bg {
     position: absolute;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
     font-family: 'Cinzel', serif;
-    font-size: 20vw;
+    font-size: clamp(7rem, 18vw, 16rem);
     font-weight: 900;
-    color: rgba(249,168,37,0.10);
+    color: rgba(249,168,37,0.05);
     letter-spacing: 0.08em;
     white-space: nowrap;
-    transform: translateY(-8%);
     user-select: none;
     pointer-events: none;
     text-shadow: 0 0 40px rgba(249,168,37,0.12);
@@ -672,8 +669,7 @@ footer a:hover {
     font-weight: 800;
     color: #fff;
     line-height: 1.15;
-    max-width: 10ch;
-    margin: auto;
+    margin: 0 auto;
     position: relative;
     letter-spacing: 0.04em;
     text-shadow: 0 0 24px rgba(249,168,37,0.10);
@@ -685,6 +681,14 @@ footer a:hover {
     letter-spacing: 0.08em;
     max-width: 32rem;
     line-height: 1.9;
+    position: relative;
+}
+.hub-hero-desc {
+    margin-top: 2rem;
+    max-width: 34rem;
+    font-size: 0.95rem;
+    line-height: 2;
+    color: rgba(255,255,255,0.62);
     position: relative;
 }
 .hub-hero-line {
@@ -716,16 +720,14 @@ footer a:hover {
 .hub-stats {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 1px;
-    max-width: 1100px;
-    margin: -4rem auto 0;
-    padding: 0 1.5rem;
-    position: relative;
-    z-index: 10;
+    gap: 1rem;
+    width: 100%;
+    max-width: 1000px;
+    margin: 3rem auto 0;
 }
 .hub-stat {
     text-align: center;
-    padding: 2.5rem 1rem;
+    padding: 1.5rem 1rem;
     background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
     border: 1px solid rgba(249,168,37,0.10);
     position: relative;
@@ -733,7 +735,7 @@ footer a:hover {
 .hub-stat-num {
     display: block;
     font-family: 'Cinzel', serif;
-    font-size: clamp(3rem, 7vw, 5rem);
+    font-size: clamp(2.4rem, 6vw, 4rem);
     font-weight: 700;
     color: #F9A825;
     line-height: 1;
@@ -752,15 +754,14 @@ footer a:hover {
 .hub-panels {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 3rem 1.5rem 4rem;
+    padding: 2.5rem 1.5rem 4rem;
 }
 .hub-panel {
     display: block;
     text-decoration: none;
-    padding: 3rem 5rem 3rem 3rem;
+    padding: 2rem 4rem 2rem 2rem;
     border: 1px solid rgba(249,168,37,0.14);
-    margin-bottom: 1.5rem;
-    min-height: 220px;
+    margin-bottom: 0.8rem;
     position: relative;
     overflow: hidden;
     background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015));
@@ -824,11 +825,27 @@ footer a:hover {
     color: #F9A825;
     transform: translateY(-50%) translateX(6px);
 }
+.hub-panel-points {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    list-style: none;
+    position: relative;
+}
+.hub-panel-points li {
+    padding: 0.45rem 0.7rem;
+    border: 1px solid rgba(249,168,37,0.16);
+    background: rgba(255,255,255,0.03);
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.7);
+}
 .hub-panel-bgno {
     position: absolute;
     right: 2rem;
-    bottom: -1rem;
-    font-size: 8rem;
+    bottom: -0.5rem;
+    font-size: 5rem;
     font-family: 'Cinzel', serif;
     font-weight: 900;
     color: rgba(249,168,37,0.06);
@@ -853,14 +870,17 @@ footer a:hover {
     .num-box .num { font-size: 1.3rem; }
     .guide-bottom-nav { flex-direction: column; }
     .matchup-row { gap: 0.3rem; }
-    .hub-hero { min-height: 60svh; }
-    .hub-hero-title { font-size: 2.2rem; }
+    .hub-hero { padding: 4.5rem 1.2rem 3rem; }
+    .hub-hero-title { font-size: 2rem; }
+    .hub-hero-sub { margin-top: 1rem; line-height: 1.7; }
+    .hub-hero-desc { margin-top: 1.2rem; font-size: 0.85rem; line-height: 1.8; }
     .hub-hero-bg { font-size: 28vw; }
     .hub-hero-specs span { font-size: 0.6rem; padding: 0.5rem 0.7rem; }
-    .hub-stats { grid-template-columns: repeat(2, 1fr); margin-top: -3rem; }
-    .hub-stat-num { font-size: 2.5rem; }
-    .hub-panels { padding: 2rem 1.2rem 3rem; }
-    .hub-panel { min-height: 180px; padding: 2rem 2rem 2rem 1.5rem; }
+    .hub-stats { grid-template-columns: repeat(2, 1fr); margin-top: 2rem; }
+    .hub-stat { padding: 1.5rem 0.8rem; }
+    .hub-stat-num { font-size: 2rem; }
+    .hub-panels { padding: 1.5rem 1rem 2rem; }
+    .hub-panel { padding: 1.5rem 1.5rem 1.5rem 1.25rem; }
     .hub-panel-title { font-size: 1.2rem; }
-    .hub-panel-bgno { font-size: 5rem; }
+    .hub-panel-bgno { font-size: 3.5rem; }
 }
