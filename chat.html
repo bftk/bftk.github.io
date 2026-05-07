@@ -147,20 +147,69 @@ body.theme-houzuki .bg-glow { opacity: 1; background: radial-gradient(circle at 
 .cancel-btn { color: #667; cursor: pointer; text-decoration: underline; margin-left: 6px; background: none; border: none; font-size: 11px; padding: 0; }
 .cancel-btn:hover { color: #e0e0e0; }
 .cancel-btn:focus { outline: 1px solid #8899cc; outline-offset: 2px; }
+
+/* ===== 内線電話スクリーン ===== */
+.call-screen {
+  position: absolute; inset: 0; z-index: 10;
+  display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 24px;
+  background: radial-gradient(ellipse at 50% 60%, #0f1028, #0a0a1a);
+  transition: opacity .6s ease;
+}
+.call-screen.hidden { opacity: 0; pointer-events: none; }
+.call-screen .cs-label {
+  font-size: 12px; letter-spacing: .2em; color: #556; text-align: center; line-height: 1.8;
+}
+.call-screen .cs-label strong { display: block; font-size: 16px; color: #8899cc; letter-spacing: .15em; margin-bottom: 4px; }
+.call-btn {
+  width: 80px; height: 80px; border-radius: 50%; border: 2px solid rgba(26,35,126,.5);
+  background: radial-gradient(circle, rgba(26,35,126,.3), rgba(10,10,26,.8));
+  color: #8899cc; font-size: 36px; cursor: pointer;
+  transition: all .3s ease; position: relative;
+  display: flex; justify-content: center; align-items: center;
+}
+.call-btn:hover { border-color: rgba(26,35,126,.8); background: radial-gradient(circle, rgba(26,35,126,.5), rgba(10,10,26,.8)); transform: scale(1.05); box-shadow: 0 0 24px rgba(26,35,126,.3); }
+.call-btn:active { transform: scale(.97); }
+.call-btn .ring-wave {
+  position: absolute; inset: -8px; border-radius: 50%; border: 1px solid rgba(26,35,126,.3);
+  animation: ringWave 2s ease-out infinite;
+}
+.call-btn .ring-wave:nth-child(2) { animation-delay: .6s; }
+@keyframes ringWave { 0% { transform: scale(1); opacity: .5; } 100% { transform: scale(1.5); opacity: 0; } }
+
+.call-status { font-size: 12px; letter-spacing: .15em; color: #556; height: 18px; text-align: center; }
+.call-status.ringing { color: #8899cc; animation: pulse 1s ease-in-out infinite; }
+.call-status.connected { color: #c07040; }
+
+/* 初期: 立ち絵非表示、ダイアログ非表示 */
+.portrait-img.pre-call { opacity: 0; transform: translateX(-50%) scale(.9); }
+.active-name-bar.pre-call { opacity: 0; }
+.dialog-area.pre-call { opacity: 0; transition: opacity .5s ease; }
+.dialog-area.active { opacity: 1; }
 </style>
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
 </head>
-<body class="theme-menda">
+<body>
 <div class="bg-glow"></div>
 <div class="vn-container">
+  <!-- コールスクリーン（初期画面） -->
+  <div class="call-screen" id="callScreen">
+    <div class="cs-label"><strong>BFTK Deep Sea CS</strong>深海カスタマーサービス</div>
+    <button class="call-btn" id="callBtn" onclick="startCall()" aria-label="コールする">
+      <div class="ring-wave"></div>
+      <div class="ring-wave"></div>
+      &#x1F4DE;
+    </button>
+    <div class="call-status" id="callStatus">タップしてコール</div>
+  </div>
+
   <!-- 立ち絵エリア -->
   <div class="portrait-area">
     <div class="vn-header">
       <div class="title">BFTK Deep Sea CS<span>深海コールセンター</span></div>
     </div>
-    <img class="portrait-img visible" id="portrait" src="assets/cs/menda.webp" alt="キャラクター立ち絵">
-    <div class="active-name-bar menda" id="activeNameBar">
+    <img class="portrait-img pre-call" id="portrait" src="assets/cs/menda.webp" alt="キャラクター立ち絵">
+    <div class="active-name-bar menda pre-call" id="activeNameBar">
       <div class="indicator"></div>
       <div class="name">メンダ</div>
       <div class="role">総合受付</div>
@@ -168,9 +217,8 @@ body.theme-houzuki .bg-glow { opacity: 1; background: radial-gradient(circle at 
   </div>
 
   <!-- ダイアログエリア -->
-  <div class="dialog-area">
+  <div class="dialog-area pre-call" id="dialogArea">
     <div class="chat-log" id="chatLog" role="log" aria-live="polite" aria-label="チャット履歴">
-      <div class="msg bot menda"><div class="char-label menda">メンダ</div><div class="msg-body">あ、いらっしゃいませ。受付のメンダです。…どうされました？ 下のボタンからも選べますよ。</div></div>
     </div>
     <div class="btn-menu" id="btnMenu" role="toolbar" aria-label="メニュー">
       <button onclick="onMenuBtn('faq')">ゲームについて</button>
@@ -199,6 +247,9 @@ const reportLabel = document.getElementById("reportLabel");
 const reportLabelText = document.getElementById("reportLabelText");
 const portrait = document.getElementById("portrait");
 const activeNameBar = document.getElementById("activeNameBar");
+const callScreen = document.getElementById("callScreen");
+const callStatus = document.getElementById("callStatus");
+const dialogArea = document.getElementById("dialogArea");
 
 const VALID_CHARACTERS = ["menda", "gusoku", "demeni", "oumu", "ryuuguu", "houzuki"];
 const CHAR_NAMES = { menda: "メンダ", gusoku: "グソク", demeni: "デメニ", oumu: "オウム", ryuuguu: "リュウグウ", houzuki: "ホウズキ" };
@@ -208,6 +259,43 @@ let conversationHistory = [];
 let reportMode = false;
 let currentCharacter = "menda";
 let isSending = false;
+
+// ===== コール演出 =====
+function startCall() {
+  const btn = document.getElementById("callBtn");
+  btn.disabled = true;
+  btn.style.pointerEvents = "none";
+  callStatus.textContent = "プルルルル…";
+  callStatus.className = "call-status ringing";
+
+  setTimeout(() => {
+    callStatus.textContent = "接続中…";
+    callStatus.className = "call-status connected";
+  }, 1600);
+
+  setTimeout(() => {
+    // コールスクリーンをフェードアウト
+    callScreen.classList.add("hidden");
+    // テーマ適用
+    document.body.className = "theme-menda";
+    // 立ち絵フェードイン
+    portrait.classList.remove("pre-call");
+    portrait.classList.add("visible");
+    activeNameBar.classList.remove("pre-call");
+    // ダイアログ表示
+    dialogArea.classList.remove("pre-call");
+    dialogArea.classList.add("active");
+    // メンダの応答
+    setTimeout(() => {
+      addCharMsg("menda", "はい、深海カスタマーサービスです。…受付のメンダです。ご用件をどうぞ。");
+      if (checkSessionLimit()) {
+        setInputDisabled(false);
+        msgInput.placeholder = "メンダに話しかける...";
+      }
+      msgInput.focus();
+    }, 400);
+  }, 2400);
+}
 
 // ===== テーマ+立ち絵切替 =====
 function switchCharacter(character) {
@@ -480,6 +568,8 @@ function addCharMsg(character, text) {
 
 // プリロード
 VALID_CHARACTERS.forEach(c => { const i = new Image(); i.src = "assets/cs/" + c + ".webp"; });
+// 初期状態: 入力無効（コール後に有効化）
+setInputDisabled(true, "コールしてください");
 checkSessionLimit();
 </script>
 </body>
