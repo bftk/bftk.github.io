@@ -680,7 +680,6 @@ footer a:hover {
     color: #fff;
     line-height: 1.02;
     letter-spacing: 0.03em;
-    max-width: 8ch;
     text-shadow: 0 0 24px rgba(249,168,37,0.12);
 }
 .hub-hero-sub {
