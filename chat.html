@@ -128,6 +128,13 @@ body.theme-houzuki .bg-glow { opacity: 1; background: radial-gradient(circle at 
 @keyframes dots { 0%,20% { content: ''; } 40% { content: '.'; } 60% { content: '..'; } 80%,100% { content: '...'; } }
 .loading-dots::after { content: ''; animation: dots 1.2s steps(1) infinite; }
 
+/* タイピングインジケーター */
+.typing-dots { display: inline-flex; gap: 4px; padding: 6px 0; }
+.typing-dots span { width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: .4; animation: dotBounce 1.4s ease-in-out infinite; }
+.typing-dots span:nth-child(2) { animation-delay: .2s; }
+.typing-dots span:nth-child(3) { animation-delay: .4s; }
+@keyframes dotBounce { 0%,60%,100% { transform: translateY(0); opacity: .3; } 30% { transform: translateY(-6px); opacity: .8; } }
+
 /* ===== ボタンメニュー ===== */
 .btn-menu { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 12px; justify-content: center; border-top: 1px solid rgba(255,255,255,.04); flex-shrink: 0; }
 .btn-menu button {
@@ -299,8 +306,8 @@ function startCall() {
     dialogArea.classList.remove("pre-call");
     dialogArea.classList.add("active");
     // メンダの応答
-    setTimeout(() => {
-      addCharMsg("menda", "はい…深海カスタマーサービスです。受付のメンダです。…ご用件をどうぞ。");
+    setTimeout(async () => {
+      await addCharMsg("menda", "はい…深海カスタマーサービスです。受付のメンダです。…ご用件をどうぞ。");
       if (checkSessionLimit()) {
         setInputDisabled(false);
         msgInput.placeholder = "メンダに話しかける...";
@@ -368,17 +375,11 @@ function setInputDisabled(disabled, placeholder) {
 }
 
 // ===== 引き継ぎ演出 =====
-function showTransfer(fromLine, toChar) {
-  return new Promise((resolve) => {
-    addCharMsg(currentCharacter, fromLine);
-    setTimeout(() => {
-      addTransferMsg("── " + (CHAR_NAMES[toChar] || toChar) + " に接続中 ──");
-      setTimeout(() => {
-        switchCharacter(toChar);
-        resolve();
-      }, 800);
-    }, 500);
-  });
+async function showTransfer(fromLine, toChar) {
+  await addCharMsg(currentCharacter, fromLine);
+  addTransferMsg("── " + (CHAR_NAMES[toChar] || toChar) + " に接続中 ──");
+  await new Promise(r => setTimeout(r, 800));
+  switchCharacter(toChar);
 }
 function addTransferMsg(text) {
   const div = document.createElement("div");
@@ -403,31 +404,31 @@ function onMenuBtn(category) {
     case "faq":
       addMsg("ゲームについて聞きたい", "user");
       isSending = true; setInputDisabled(true);
-      showTransfer("ゲームのことですね。…オウムさーん、お客さんですよー。", "oumu").then(() => {
-        addCharMsg("oumu", "オウムだよ。ゲームのことなら、だいたい答えられる。");
+      showTransfer("ゲームのことですね。…オウムさーん、お客さんですよー。", "oumu").then(async () => {
+        await addCharMsg("oumu", "オウムだよ。ゲームのことなら、だいたい答えられる。");
         sendToWorker("ゲームについて教えてください", "menda");
       });
       break;
     case "billing":
       addMsg("お支払いについて", "user");
       isSending = true; setInputDisabled(true);
-      showTransfer("お支払いですね。…デメニさん、お願いします。", "demeni").then(() => {
-        addCharMsg("demeni", "デメニです。お支払い関連ですね。確認します。");
+      showTransfer("お支払いですね。…デメニさん、お願いします。", "demeni").then(async () => {
+        await addCharMsg("demeni", "デメニです。お支払い関連ですね。確認します。");
         sendToWorker("課金について教えてください", "menda");
       });
       break;
     case "policy":
       addMsg("規約について", "user");
       isSending = true; setInputDisabled(true);
-      showTransfer("規約ですね…グソクさん、出番です。", "gusoku").then(() => {
-        addCharMsg("gusoku", "…グソクだ。規約関連なら対応できる。");
+      showTransfer("規約ですね…グソクさん、出番です。", "gusoku").then(async () => {
+        await addCharMsg("gusoku", "…グソクだ。規約関連なら対応できる。");
         sendToWorker("利用規約について教えてください", "menda");
       });
       break;
     case "bug":
       addMsg("バグ報告", "user");
-      showTransfer("バグ…ですか。リュウグウさん、聞いてあげてください。", "ryuuguu").then(() => {
-        addCharMsg("ryuuguu", "…不具合のこと、聞かせてください。\n下の入力欄に書いて送信してくださいね。");
+      showTransfer("バグ…ですか。リュウグウさん、聞いてあげてください。", "ryuuguu").then(async () => {
+        await addCharMsg("ryuuguu", "…不具合のこと、聞かせてください。\n下の入力欄に書いて送信してくださいね。");
         reportMode = "bug";
         reportLabelText.textContent = "バグ報告モード";
         reportLabel.style.display = "block";
@@ -437,8 +438,8 @@ function onMenuBtn(category) {
       break;
     case "feedback":
       addMsg("ご意見・要望", "user");
-      showTransfer("ご意見…ありがとうございます。リュウグウさんが聞いてくれますよ。", "ryuuguu").then(() => {
-        addCharMsg("ryuuguu", "…お話、聞かせてください。\n下の入力欄にご意見やご要望を書いて送信してくださいね。");
+      showTransfer("ご意見…ありがとうございます。リュウグウさんが聞いてくれますよ。", "ryuuguu").then(async () => {
+        await addCharMsg("ryuuguu", "…お話、聞かせてください。\n下の入力欄にご意見やご要望を書いて送信してくださいね。");
         reportMode = "feedback";
         reportLabelText.textContent = "ご意見・要望モード";
         reportLabel.style.display = "block";
@@ -448,8 +449,8 @@ function onMenuBtn(category) {
       break;
     case "survey":
       addMsg("アンケート", "user");
-      showTransfer("アンケートですね。…ありがとうございます。ホウズキさん、お願いします。", "houzuki").then(() => {
-        addCharMsg("houzuki", "あ、あの…ホウズキです。ご協力、いただけると助かります。\n\nBFTKを何で知りましたか？ 下の入力欄で教えていただけると嬉しいです。");
+      showTransfer("アンケートですね。…ありがとうございます。ホウズキさん、お願いします。", "houzuki").then(async () => {
+        await addCharMsg("houzuki", "あ、あの…ホウズキです。ご協力、いただけると助かります。\n\nBFTKを何で知りましたか？ 下の入力欄で教えていただけると嬉しいです。");
         reportMode = "survey";
         reportLabelText.textContent = "アンケートモード";
         reportLabel.style.display = "block";
@@ -510,7 +511,7 @@ async function sendReport(text, reportType) {
     removeLoading(loadingEl);
     const replyChar = validateCharacter(data.character);
     switchCharacter(replyChar);
-    addCharMsg(replyChar, data.reply || "…ありがとうございます。届けますね。");
+    await addCharMsg(replyChar, data.reply || "…ありがとうございます。届けますね。");
     incrementSession();
   } catch (e) { removeLoading(loadingEl); addMsg("通信エラー: サーバーに接続できません", "error"); }
 }
@@ -525,7 +526,7 @@ async function sendToWorker(text, character) {
     if (data.reply) {
       const replyChar = validateCharacter(data.character);
       switchCharacter(replyChar);
-      addCharMsg(replyChar, data.reply);
+      await addCharMsg(replyChar, data.reply);
       if (data.source === "llm") {
         conversationHistory.push({ role: "user", content: text });
         conversationHistory.push({ role: "assistant", content: data.reply });
@@ -580,10 +581,23 @@ function addCharMsg(character, text) {
   label.textContent = CHAR_NAMES[safeChar] || safeChar;
   label.style.cssText = "color: inherit; -webkit-text-fill-color: currentColor;";
   div.appendChild(label);
-  const body = document.createElement("div"); body.className = "msg-body";
-  body.style.cssText = "color: #e0e0e0; -webkit-text-fill-color: #e0e0e0;";
-  linkifyText(text, body); div.appendChild(body);
+  // タイピングインジケーター
+  const dots = document.createElement("div"); dots.className = "typing-dots";
+  for (let i = 0; i < 3; i++) dots.appendChild(document.createElement("span"));
+  div.appendChild(dots);
   chatLog.appendChild(div); chatLog.scrollTop = chatLog.scrollHeight;
+  // テキスト長に応じた待機後にテキスト表示
+  const delay = Math.min(400 + text.length * 15, 1500);
+  return new Promise(resolve => {
+    setTimeout(() => {
+      div.removeChild(dots);
+      const body = document.createElement("div"); body.className = "msg-body";
+      body.style.cssText = "color: #e0e0e0; -webkit-text-fill-color: #e0e0e0;";
+      linkifyText(text, body); div.appendChild(body);
+      chatLog.scrollTop = chatLog.scrollHeight;
+      resolve();
+    }, delay);
+  });
 }
 
 // プリロード
