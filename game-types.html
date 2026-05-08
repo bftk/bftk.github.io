@@ -42,16 +42,40 @@
             <h2 class="section-title">TYPE MATCHUP</h2>
             <p class="section-lead">相性が生む、有利と不利。</p>
             <p class="section-body">3つのタイプがじゃんけんのように噛み合う三すくみ。有利なタイプで攻撃すれば大ダメージ、不利な相手には苦戦する。</p>
-            <div class="matchup-row">
-                <span class="type-badge power">パワー</span>
-                <span class="matchup-arrow">▶</span>
-                <span class="type-badge speed">スピード</span>
-                <span class="matchup-arrow">▶</span>
-                <span class="type-badge technique">テクニック</span>
-                <span class="matchup-arrow">▶</span>
-                <span class="type-badge power">パワー</span>
+            <div class="matchup-triangle">
+                <div class="tri-node tri-power">
+                    <img src="assets/icons/type-power.png" alt="パワー" width="80" height="80">
+                    <span class="tri-label">パワー</span>
+                </div>
+                <div class="tri-node tri-speed">
+                    <img src="assets/icons/type-speed.png" alt="スピード" width="80" height="80">
+                    <span class="tri-label">スピード</span>
+                </div>
+                <div class="tri-node tri-technique">
+                    <img src="assets/icons/type-technique.png" alt="テクニック" width="80" height="80">
+                    <span class="tri-label">テクニック</span>
+                </div>
+                <svg class="tri-svg" viewBox="0 0 300 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <marker id="ah" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+                            <path d="M0,0 L8,3 L0,6" fill="#F9A825"/>
+                        </marker>
+                    </defs>
+                    <!-- Power → Speed (left edge) -->
+                    <path d="M120,75 Q40,140 60,210" stroke="#F9A825" stroke-width="2.5" stroke-dasharray="6,3" marker-end="url(#ah)"/>
+                    <!-- Speed → Technique (bottom edge) -->
+                    <path d="M95,245 Q150,280 205,245" stroke="#F9A825" stroke-width="2.5" stroke-dasharray="6,3" marker-end="url(#ah)"/>
+                    <!-- Technique → Power (right edge) -->
+                    <path d="M240,210 Q260,140 180,75" stroke="#F9A825" stroke-width="2.5" stroke-dasharray="6,3" marker-end="url(#ah)"/>
+                </svg>
             </div>
-            <p class="section-note"><span class="type-badge neutral">ニュートラル</span> は三すくみの外。有利も不利もない。</p>
+            <div class="tri-neutral-row">
+                <img src="assets/icons/type-neutral.png" alt="ニュートラル" width="48" height="48">
+                <div>
+                    <span class="tri-label">ニュートラル</span>
+                    <small class="tri-neutral-note">三すくみの外。有利も不利もない。</small>
+                </div>
+            </div>
         </div>
 
         <div class="game-section" data-reveal>
