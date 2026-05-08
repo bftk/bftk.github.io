@@ -16,53 +16,95 @@
       gtag('config', 'G-K0TT1CMBVT');
     </script>
     <style>
-        .world-scene {
+        .world-split {
+            display: flex;
+            min-height: calc(100vh - 60px);
+        }
+        .world-panel {
             position: relative;
+            flex: 1;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            padding: clamp(4rem, 10vw, 8rem) 2rem;
+            display: flex;
+            align-items: center;
+            padding: clamp(3rem, 5vw, 5rem) clamp(2rem, 4vw, 4rem);
         }
-        .world-scene::before {
+        .world-panel::before {
             content: "";
             position: absolute;
             inset: 0;
-            background:
-                linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 15%, rgba(0,0,0,0.4) 85%, rgba(0,0,0,0.8) 100%),
-                rgba(0, 0, 0, 0.35);
+            background: rgba(0, 0, 0, 0.55);
             pointer-events: none;
         }
-        .world-scene-inner {
+        .world-panel-left::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 80px;
+            background: linear-gradient(to right, transparent, rgba(0,0,0,0.7));
+            pointer-events: none;
+        }
+        .world-panel-right::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 80px;
+            background: linear-gradient(to left, transparent, rgba(0,0,0,0.7));
+            pointer-events: none;
+        }
+        .world-panel-inner {
             position: relative;
             z-index: 2;
-            max-width: 700px;
-            margin: 0 auto;
+            max-width: 480px;
         }
-        .world-scene .section-title {
+        .world-panel-left .world-panel-inner {
+            margin-left: auto;
+            margin-right: 2rem;
+        }
+        .world-panel-right .world-panel-inner {
+            margin-left: 2rem;
+            margin-right: auto;
+        }
+        .world-panel .section-title {
             margin-bottom: 2rem;
         }
-        .world-scene .section-body {
+        .world-panel .section-body {
             color: rgba(255, 255, 255, 0.88);
             text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
         }
-        .world-scene .world-quote {
+        .world-panel .world-quote {
             font-size: 1.15rem;
             font-weight: 700;
             color: #F9A825;
             text-shadow: 0 0 16px rgba(249, 168, 37, 0.3);
-            margin: 2rem 0;
+            margin: 0 0 2rem;
         }
-        .world-scene .world-finale {
+        .world-panel .world-finale {
             font-size: 1.05rem;
             font-weight: 700;
             color: rgba(255, 255, 255, 0.95);
             text-shadow: 0 0 12px rgba(249, 168, 37, 0.2);
         }
-        .world-scene-2 {
-        }
-        @media (max-width: 600px) {
-            .world-scene {
-                padding: 3rem 1.2rem;
+        @media (max-width: 768px) {
+            .world-split {
+                flex-direction: column;
+                min-height: auto;
+            }
+            .world-panel {
+                padding: 3rem 1.5rem;
+            }
+            .world-panel-left::after,
+            .world-panel-right::after {
+                display: none;
+            }
+            .world-panel-left .world-panel-inner,
+            .world-panel-right .world-panel-inner {
+                margin: 0 auto;
             }
         }
     </style>
@@ -78,32 +120,34 @@
         </div>
     </nav>
 
-    <section class="world-scene" style="background-image: url('world01.png')">
-        <div class="world-scene-inner">
-            <h2 class="section-title">WORLD</h2>
-            <p class="section-body">草原、森林、山岳、廃墟。<br>
-                各勢力は縄張りを守り、境界で衝突を繰り返していた。<br>
-                だが、決定的な戦争には至らない。均衡が世界を保っていた。</p>
-            <p class="section-body">異変は夜に起きた。<br>
-                星々が一直線に並び、強く光る。</p>
-            <p class="section-body">直後、光の欠片が地上へ降り注いだ。<br>
-                後に「星石」と呼ばれる物体。</p>
-            <p class="section-body">星石を得た者たちは自らを「王」と名乗った。<br>
-                自称で王を名乗る者が増え、力の均衡は崩れ始めた。</p>
-        </div>
-    </section>
+    <div class="world-split">
+        <section class="world-panel world-panel-left" style="background-image: url('world01.png')">
+            <div class="world-panel-inner">
+                <h2 class="section-title">WORLD</h2>
+                <p class="section-body">草原、森林、山岳、廃墟。<br>
+                    各勢力は縄張りを守り、境界で衝突を繰り返していた。<br>
+                    だが、決定的な戦争には至らない。均衡が世界を保っていた。</p>
+                <p class="section-body">異変は夜に起きた。<br>
+                    星々が一直線に並び、強く光る。</p>
+                <p class="section-body">直後、光の欠片が地上へ降り注いだ。<br>
+                    後に「星石」と呼ばれる物体。</p>
+                <p class="section-body">星石を得た者たちは自らを「王」と名乗った。<br>
+                    自称で王を名乗る者が増え、力の均衡は崩れ始めた。</p>
+            </div>
+        </section>
 
-    <section class="world-scene world-scene-2" style="background-image: url('world02.png')">
-        <div class="world-scene-inner">
-            <p class="section-body world-quote">「王が増えすぎた。なら、一つに決める」</p>
-            <p class="section-body">全勢力を巻き込む戦い──<br>
-                TERRITORY KINGの開催を。</p>
-            <p class="section-body">すべての縄張りが舞台。<br>
-                勝ち残った勢力だけが頂点に立つ。</p>
-            <p class="section-body world-finale">報酬は星石の王冠。<br>
-                そして、世界。</p>
-        </div>
-    </section>
+        <section class="world-panel world-panel-right" style="background-image: url('world02.png')">
+            <div class="world-panel-inner">
+                <p class="section-body world-quote">「王が増えすぎた。なら、一つに決める」</p>
+                <p class="section-body">全勢力を巻き込む戦い──<br>
+                    TERRITORY KINGの開催を。</p>
+                <p class="section-body">すべての縄張りが舞台。<br>
+                    勝ち残った勢力だけが頂点に立つ。</p>
+                <p class="section-body world-finale">報酬は星石の王冠。<br>
+                    そして、世界。</p>
+            </div>
+        </section>
+    </div>
 
     <a href="chat.html" class="chat-fab" aria-label="キャラと話す"><img src="chat-icon.png" alt="キャラと話す"></a>
     <footer>
