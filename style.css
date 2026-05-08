@@ -521,7 +521,7 @@ footer a:hover {
 }
 .type-badge.power { background: #E53935; color: #fff; }
 .type-badge.speed { background: #1E88E5; color: #fff; }
-.type-badge.technique { background: #43A047; color: #fff; }
+.type-badge.technique { background: #F9A825; color: #000; }
 .type-badge.neutral { background: #757575; color: #fff; }
 
 /* 三すくみ三角図 */
@@ -730,12 +730,12 @@ footer a:hover {
     border-color: rgba(30,136,229,0.22);
     background: linear-gradient(180deg, rgba(30,136,229,0.16), rgba(30,136,229,0.05));
 }
-.type-card.technique { border-color: rgba(67,160,71,0.18); }
-.type-card.technique::before { background: #43A047; }
-.type-card.technique::after { background: #43A047; }
+.type-card.technique { border-color: rgba(249,168,37,0.18); }
+.type-card.technique::before { background: #F9A825; }
+.type-card.technique::after { background: #F9A825; }
 .type-card.technique .type-icon {
-    border-color: rgba(67,160,71,0.22);
-    background: linear-gradient(180deg, rgba(67,160,71,0.16), rgba(67,160,71,0.05));
+    border-color: rgba(249,168,37,0.22);
+    background: linear-gradient(180deg, rgba(249,168,37,0.16), rgba(249,168,37,0.05));
 }
 .type-card.neutral { border-color: rgba(117,117,117,0.2); }
 .type-card.neutral::before { background: #757575; }
