@@ -298,7 +298,7 @@ function startCall() {
     dialogArea.classList.add("active");
     // メンダの応答
     setTimeout(() => {
-      addCharMsg("menda", "はい、深海カスタマーサービスです。…受付のメンダです。ご用件をどうぞ。");
+      addCharMsg("menda", "はい…深海カスタマーサービスです。受付のメンダです。…ご用件をどうぞ。");
       if (checkSessionLimit()) {
         setInputDisabled(false);
         msgInput.placeholder = "メンダに話しかける...";
@@ -401,14 +401,16 @@ function onMenuBtn(category) {
     case "faq":
       addMsg("ゲームについて聞きたい", "user");
       isSending = true; setInputDisabled(true);
-      showTransfer("ゲームのこと？ …オウムさーん、お客さんですよ。", "oumu").then(() => {
+      showTransfer("ゲームのことですね。…オウムさーん、お客さんですよー。", "oumu").then(() => {
+        addCharMsg("oumu", "オウムだよ。ゲームのことなら、だいたい答えられる。");
         sendToWorker("ゲームについて教えてください", "menda");
       });
       break;
     case "billing":
       addMsg("お支払いについて", "user");
       isSending = true; setInputDisabled(true);
-      showTransfer("お支払い…ですか。デメニさん、お願いしていいですか？", "demeni").then(() => {
+      showTransfer("お支払いですね。…デメニさん、お願いします。", "demeni").then(() => {
+        addCharMsg("demeni", "デメニです。お支払い関連ですね。確認します。");
         sendToWorker("課金について教えてください", "menda");
       });
       break;
@@ -416,13 +418,14 @@ function onMenuBtn(category) {
       addMsg("規約について", "user");
       isSending = true; setInputDisabled(true);
       showTransfer("規約ですね…グソクさん、出番です。", "gusoku").then(() => {
+        addCharMsg("gusoku", "…グソクだ。規約関連なら対応できる。");
         sendToWorker("利用規約について教えてください", "menda");
       });
       break;
     case "bug":
       addMsg("バグ報告", "user");
       showTransfer("バグ…ですか。リュウグウさん、聞いてあげてください。", "ryuuguu").then(() => {
-        addCharMsg("ryuuguu", "…バグの内容を教えてください。下の入力欄に書いて送信してくださいね。");
+        addCharMsg("ryuuguu", "…不具合のこと、聞かせてください。\n下の入力欄に書いて送信してくださいね。");
         reportMode = "bug";
         reportLabelText.textContent = "バグ報告モード";
         reportLabel.style.display = "block";
@@ -433,7 +436,7 @@ function onMenuBtn(category) {
     case "feedback":
       addMsg("ご意見・要望", "user");
       showTransfer("ご意見…ありがとうございます。リュウグウさんが聞いてくれますよ。", "ryuuguu").then(() => {
-        addCharMsg("ryuuguu", "…お話、聞かせてください。下の入力欄にご意見やご要望を書いて送信してくださいね。");
+        addCharMsg("ryuuguu", "…お話、聞かせてください。\n下の入力欄にご意見やご要望を書いて送信してくださいね。");
         reportMode = "feedback";
         reportLabelText.textContent = "ご意見・要望モード";
         reportLabel.style.display = "block";
@@ -443,8 +446,8 @@ function onMenuBtn(category) {
       break;
     case "survey":
       addMsg("アンケート", "user");
-      showTransfer("アンケートですね。…ホウズキさん、お願いします。", "houzuki").then(() => {
-        addCharMsg("houzuki", "あ、あの…ホウズキです。もしよければ…簡単なアンケートにご協力いただけると嬉しいです。\n\nBFTKを何で知りましたか？ 下の入力欄で教えていただけると…すごく助かります…！");
+      showTransfer("アンケートですね。…ありがとうございます。ホウズキさん、お願いします。", "houzuki").then(() => {
+        addCharMsg("houzuki", "あ、あの…ホウズキです。ご協力、いただけると助かります。\n\nBFTKを何で知りましたか？ 下の入力欄で教えていただけると嬉しいです。");
         reportMode = "survey";
         reportLabelText.textContent = "アンケートモード";
         reportLabel.style.display = "block";
