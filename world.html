@@ -27,7 +27,9 @@
             content: "";
             position: absolute;
             inset: 0;
-            background: rgba(0, 0, 0, 0.55);
+            background:
+                linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 15%, rgba(0,0,0,0.4) 85%, rgba(0,0,0,0.8) 100%),
+                rgba(0, 0, 0, 0.35);
             pointer-events: none;
         }
         .world-scene-inner {
@@ -57,7 +59,6 @@
             text-shadow: 0 0 12px rgba(249, 168, 37, 0.2);
         }
         .world-scene-2 {
-            border-top: 1px solid rgba(249, 168, 37, 0.15);
         }
         @media (max-width: 600px) {
             .world-scene {
