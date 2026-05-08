@@ -332,7 +332,7 @@ function startCall() {
     dialogArea.classList.add("active");
     // 上限チェックを先に行う
     setTimeout(async () => {
-      if (getSession().count >= SESSION_LIMIT) {
+      if (!isStaff() && getSession().count >= SESSION_LIMIT) {
         await addMsg("本日の受付は終了しました。\nまた明日お越しください。", "system");
         setInputDisabled(true, "本日の上限に達しました");
       } else {
@@ -402,7 +402,9 @@ function incrementSession() {
   const s = getSession(); s.count++; s.date = today;
   try { localStorage.setItem(SESSION_KEY, JSON.stringify(s)); } catch {}
 }
+function isStaff() { return localStorage.getItem("bftk_staff") === "1"; }
 function checkSessionLimit() {
+  if (isStaff()) return true;
   const s = getSession();
   if (s.count >= SESSION_LIMIT) {
     addMsg("本日の受付は終了しました。\nまた明日お越しください。", "system");
