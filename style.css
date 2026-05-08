@@ -525,70 +525,83 @@ footer a:hover {
 .type-badge.neutral { background: #757575; color: #fff; }
 
 /* 三すくみ三角図 */
-.matchup-triangle {
+.triangle-wrap {
     position: relative;
-    width: 100%;
-    max-width: 320px;
-    aspect-ratio: 300 / 280;
+    width: min(100%, 420px);
+    aspect-ratio: 420 / 360;
     margin: 2.5rem auto 1rem;
+}
+.triangle-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
 }
 .tri-node {
     position: absolute;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.3rem;
-    transform: translate(-50%, -50%);
+    gap: 0.65rem;
+    text-align: center;
+    z-index: 2;
 }
 .tri-node img {
-    width: 72px;
-    height: 72px;
-    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    border-radius: 50%;
+    border: 1px solid rgba(249,168,37,0.18);
+    background: radial-gradient(circle at center, rgba(249,168,37,0.12), rgba(249,168,37,0.03));
+    box-shadow: 0 0 0 1px rgba(249,168,37,0.06), 0 10px 24px rgba(0,0,0,0.45);
 }
-.tri-label {
-    font-size: 0.8rem;
+.tri-node span {
+    color: #F9A825;
+    font-size: 0.95rem;
     font-weight: 700;
-    color: #fff;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.06em;
 }
-.tri-power { top: 12%; left: 50%; }
-.tri-speed { top: 82%; left: 18%; }
-.tri-technique { top: 82%; left: 82%; }
-.tri-svg {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-}
-.tri-neutral-row {
+.tri-power { top: 0; left: 50%; transform: translateX(-50%); }
+.tri-speed { left: 0; bottom: 0; }
+.tri-technique { right: 0; bottom: 0; }
+.neutral-box {
+    margin: 2rem auto 0;
+    width: min(100%, 380px);
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 0.8rem;
-    margin: 0.5rem auto 2rem;
-    padding: 0.8rem 1.2rem;
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 4px;
-    max-width: 320px;
-    background: rgba(255,255,255,0.02);
+    gap: 1rem;
+    padding: 1rem 1.1rem;
+    border: 1px solid rgba(249,168,37,0.18);
+    border-radius: 14px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
 }
-.tri-neutral-row img {
-    width: 44px;
-    height: 44px;
-    filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4));
+.neutral-box img {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    object-fit: contain;
 }
-.tri-neutral-note {
-    display: block;
-    font-size: 0.75rem;
-    color: #777;
-    margin-top: 0.2rem;
+.neutral-title {
+    color: #F9A825;
+    font-size: 0.92rem;
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+    letter-spacing: 0.04em;
+}
+.neutral-text {
+    color: #999;
+    font-size: 0.8rem;
+    line-height: 1.5;
 }
 @media (max-width: 480px) {
-    .matchup-triangle { max-width: 260px; }
-    .tri-node img { width: 56px; height: 56px; }
-    .tri-label { font-size: 0.7rem; }
-    .tri-neutral-row { max-width: 260px; }
+    .triangle-wrap { width: 100%; max-width: 320px; }
+    .tri-node img { width: 64px; height: 64px; }
+    .tri-node span { font-size: 0.82rem; }
+    .neutral-box { gap: 0.8rem; padding: 0.9rem; }
+    .neutral-box img { width: 42px; height: 42px; }
+    .neutral-title { font-size: 0.85rem; }
+    .neutral-text { font-size: 0.75rem; }
 }
 
 /* 旧: matchup-row (互換用) */

@@ -42,38 +42,39 @@
             <h2 class="section-title">TYPE MATCHUP</h2>
             <p class="section-lead">相性が生む、有利と不利。</p>
             <p class="section-body">3つのタイプがじゃんけんのように噛み合う三すくみ。有利なタイプで攻撃すれば大ダメージ、不利な相手には苦戦する。</p>
-            <div class="matchup-triangle">
-                <div class="tri-node tri-power">
-                    <img src="assets/icons/type-power.png" alt="パワー" width="80" height="80">
-                    <span class="tri-label">パワー</span>
-                </div>
-                <div class="tri-node tri-speed">
-                    <img src="assets/icons/type-speed.png" alt="スピード" width="80" height="80">
-                    <span class="tri-label">スピード</span>
-                </div>
-                <div class="tri-node tri-technique">
-                    <img src="assets/icons/type-technique.png" alt="テクニック" width="80" height="80">
-                    <span class="tri-label">テクニック</span>
-                </div>
-                <svg class="tri-svg" viewBox="0 0 300 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <div class="triangle-wrap">
+                <svg class="triangle-svg" viewBox="0 0 420 360" aria-hidden="true">
                     <defs>
-                        <marker id="ah" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-                            <path d="M0,0 L8,3 L0,6" fill="#F9A825"/>
+                        <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+                            <path d="M0 0 L10 5 L0 10 Z" fill="#F9A825"/>
                         </marker>
                     </defs>
-                    <!-- Power → Speed (left edge) -->
-                    <path d="M120,75 Q40,140 60,210" stroke="#F9A825" stroke-width="2.5" stroke-dasharray="6,3" marker-end="url(#ah)"/>
-                    <!-- Speed → Technique (bottom edge) -->
-                    <path d="M95,245 Q150,280 205,245" stroke="#F9A825" stroke-width="2.5" stroke-dasharray="6,3" marker-end="url(#ah)"/>
-                    <!-- Technique → Power (right edge) -->
-                    <path d="M240,210 Q260,140 180,75" stroke="#F9A825" stroke-width="2.5" stroke-dasharray="6,3" marker-end="url(#ah)"/>
+                    <polygon points="210,70 85,275 335,275" fill="none" stroke="rgba(249,168,37,.18)" stroke-width="1.5"/>
+                    <!-- Power → Speed -->
+                    <path d="M180 92 Q95 135 98 242" stroke="#F9A825" stroke-width="3" stroke-linecap="round" fill="none" stroke-dasharray="7 6" marker-end="url(#arrow)"/>
+                    <!-- Speed → Technique -->
+                    <path d="M120 286 Q210 325 300 286" stroke="#F9A825" stroke-width="3" stroke-linecap="round" fill="none" stroke-dasharray="7 6" marker-end="url(#arrow)"/>
+                    <!-- Technique → Power -->
+                    <path d="M322 242 Q325 135 240 92" stroke="#F9A825" stroke-width="3" stroke-linecap="round" fill="none" stroke-dasharray="7 6" marker-end="url(#arrow)"/>
                 </svg>
+                <div class="tri-node tri-power">
+                    <img src="assets/icons/type-power.png" alt="パワー">
+                    <span>パワー</span>
+                </div>
+                <div class="tri-node tri-speed">
+                    <img src="assets/icons/type-speed.png" alt="スピード">
+                    <span>スピード</span>
+                </div>
+                <div class="tri-node tri-technique">
+                    <img src="assets/icons/type-technique.png" alt="テクニック">
+                    <span>テクニック</span>
+                </div>
             </div>
-            <div class="tri-neutral-row">
-                <img src="assets/icons/type-neutral.png" alt="ニュートラル" width="48" height="48">
-                <div>
-                    <span class="tri-label">ニュートラル</span>
-                    <small class="tri-neutral-note">三すくみの外。有利も不利もない。</small>
+            <div class="neutral-box">
+                <img src="assets/icons/type-neutral.png" alt="ニュートラル">
+                <div class="neutral-content">
+                    <div class="neutral-title">ニュートラル</div>
+                    <div class="neutral-text">三すくみの外。有利も不利もない。</div>
                 </div>
             </div>
         </div>
