@@ -582,9 +582,8 @@ async function sendToWorker(text, character, inputType) {
     const data = await res.json();
     removeLoading(loadingEl);
     if (data.reply) {
-      const replyChar = validateCharacter(data.character || character);
-      switchCharacter(replyChar);
-      await addCharMsg(replyChar, data.reply);
+      switchCharacter(character);
+      await addCharMsg(character, data.reply);
       if (data.source === "llm") {
         conversationHistory.push({ role: "user", content: text });
         conversationHistory.push({ role: "assistant", content: data.reply });
