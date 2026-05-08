@@ -587,7 +587,7 @@ function addCharMsg(character, text) {
   div.appendChild(dots);
   chatLog.appendChild(div); chatLog.scrollTop = chatLog.scrollHeight;
   // テキスト長に応じた待機後にテキスト表示
-  const delay = Math.min(400 + text.length * 15, 1500);
+  const delay = Math.min(1500 + text.length * 30, 3000);
   return new Promise(resolve => {
     setTimeout(() => {
       div.removeChild(dots);
