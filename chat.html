@@ -413,6 +413,7 @@ function setInputDisabled(disabled, placeholder) {
 
 // ===== 引き継ぎ演出 =====
 async function showTransfer(fromLine, toChar) {
+  if (currentCharacter === toChar) return;
   await addCharMsg(currentCharacter, fromLine);
   addTransferMsg("── " + (CHAR_NAMES[toChar] || toChar) + " に接続中 ──");
   await new Promise(r => setTimeout(r, 800));
@@ -432,16 +433,12 @@ function onMenuBtn(category) {
   if (!checkSessionLimit()) return;
   reportMode = false;
   reportLabel.style.display = "none";
-  msgInput.placeholder = "メンダに話しかける...";
-
-  // メンダ以外から戻す
-  if (currentCharacter !== "menda") switchCharacter("menda");
 
   switch (category) {
     case "faq":
       addMsg("ゲームについて聞きたい", "user");
       isSending = true; setInputDisabled(true);
-      showTransfer("ゲームのことですね。…オウムさーん、お客さんですよー。", "oumu").then(async () => {
+      showTransfer("ゲームのことですね。…オウムに繋ぎます。", "oumu").then(async () => {
         await addCharMsg("oumu", "オウムだよ。ゲームのことなら、だいたい答えられる。");
         try { await sendToWorker("ゲームについて教えてください", "menda"); } finally { unlockInput(); }
       });
@@ -449,7 +446,7 @@ function onMenuBtn(category) {
     case "billing":
       addMsg("お支払いについて", "user");
       isSending = true; setInputDisabled(true);
-      showTransfer("お支払いですね。…デメニさん、お願いします。", "demeni").then(async () => {
+      showTransfer("お支払いですね。…デメニに繋ぎます。", "demeni").then(async () => {
         await addCharMsg("demeni", "デメニです。お支払い関連ですね。確認します。");
         try { await sendToWorker("課金について教えてください", "menda"); } finally { unlockInput(); }
       });
@@ -457,14 +454,14 @@ function onMenuBtn(category) {
     case "policy":
       addMsg("規約について", "user");
       isSending = true; setInputDisabled(true);
-      showTransfer("規約ですね…グソクさん、出番です。", "gusoku").then(async () => {
+      showTransfer("規約ですね。…グソクに繋ぎます。", "gusoku").then(async () => {
         await addCharMsg("gusoku", "…グソクだ。規約関連なら対応できる。");
         try { await sendToWorker("利用規約について教えてください", "menda"); } finally { unlockInput(); }
       });
       break;
     case "bug":
       addMsg("バグ報告", "user");
-      showTransfer("バグ…ですか。リュウグウさん、聞いてあげてください。", "ryuuguu").then(async () => {
+      showTransfer("バグ報告ですね。…リュウグウに繋ぎます。", "ryuuguu").then(async () => {
         await addCharMsg("ryuuguu", "…不具合のこと、聞かせてください。\n下の入力欄に書いて送信してくださいね。");
         reportMode = "bug";
         reportLabelText.textContent = "バグ報告モード";
@@ -475,7 +472,7 @@ function onMenuBtn(category) {
       break;
     case "feedback":
       addMsg("ご意見・要望", "user");
-      showTransfer("ご意見…ありがとうございます。リュウグウさんが聞いてくれますよ。", "ryuuguu").then(async () => {
+      showTransfer("ご意見ですね。…リュウグウに繋ぎます。", "ryuuguu").then(async () => {
         await addCharMsg("ryuuguu", "…お話、聞かせてください。\n下の入力欄にご意見やご要望を書いて送信してくださいね。");
         reportMode = "feedback";
         reportLabelText.textContent = "ご意見・要望モード";
@@ -486,7 +483,7 @@ function onMenuBtn(category) {
       break;
     case "survey":
       addMsg("アンケート", "user");
-      showTransfer("アンケートですね。…ありがとうございます。ホウズキさん、お願いします。", "houzuki").then(async () => {
+      showTransfer("アンケートですね。…ホウズキに繋ぎます。", "houzuki").then(async () => {
         await addCharMsg("houzuki", "あ、あの…ホウズキです。ご協力、いただけると助かります。\n\nBFTKを何で知りましたか？ 下の入力欄で教えていただけると嬉しいです。");
         reportMode = "survey";
         reportLabelText.textContent = "アンケートモード";
