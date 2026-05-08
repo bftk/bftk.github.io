@@ -334,14 +334,17 @@ function startCall() {
     // ダイアログ表示
     dialogArea.classList.remove("pre-call");
     dialogArea.classList.add("active");
-    // メンダの応答
+    // メンダの応答（上限チェックを先に行う）
     setTimeout(async () => {
-      await addCharMsg("menda", "はい…深海カスタマーサービスです。受付のメンダです。…ご用件をどうぞ。");
-      if (checkSessionLimit()) {
+      if (getSession().count >= SESSION_LIMIT) {
+        await addMsg("本日の受付は終了しました。\nまた明日お越しください。", "system");
+        setInputDisabled(true, "本日の上限に達しました");
+      } else {
+        await addCharMsg("menda", "はい…深海カスタマーサービスです。受付のメンダです。…ご用件をどうぞ。");
         setInputDisabled(false);
         msgInput.placeholder = "メンダに話しかける...";
+        msgInput.focus();
       }
-      msgInput.focus();
     }, 400);
   }, 2400);
 }
