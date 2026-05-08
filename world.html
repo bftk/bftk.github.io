@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>世界観 - BEAST FORCE TERRITORY KING</title>
-        <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="stylesheet" href="style.css">
     <!-- Google tag (gtag.js) -->
@@ -15,6 +15,56 @@
       gtag('js', new Date());
       gtag('config', 'G-K0TT1CMBVT');
     </script>
+    <style>
+        .world-scene {
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            padding: clamp(4rem, 10vw, 8rem) 2rem;
+        }
+        .world-scene::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.55);
+            pointer-events: none;
+        }
+        .world-scene-inner {
+            position: relative;
+            z-index: 2;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .world-scene .section-title {
+            margin-bottom: 2rem;
+        }
+        .world-scene .section-body {
+            color: rgba(255, 255, 255, 0.88);
+            text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
+        }
+        .world-scene .world-quote {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #F9A825;
+            text-shadow: 0 0 16px rgba(249, 168, 37, 0.3);
+            margin: 2rem 0;
+        }
+        .world-scene .world-finale {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 0 0 12px rgba(249, 168, 37, 0.2);
+        }
+        .world-scene-2 {
+            border-top: 1px solid rgba(249, 168, 37, 0.15);
+        }
+        @media (max-width: 600px) {
+            .world-scene {
+                padding: 3rem 1.2rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <nav>
@@ -26,9 +76,9 @@
             <a href="faq.html">FAQ</a>
         </div>
     </nav>
-    <div class="game-content">
 
-        <section class="game-section">
+    <section class="world-scene" style="background-image: url('world01.png')">
+        <div class="world-scene-inner">
             <h2 class="section-title">WORLD</h2>
             <p class="section-body">草原、森林、山岳、廃墟。<br>
                 各勢力は縄張りを守り、境界で衝突を繰り返していた。<br>
@@ -39,17 +89,22 @@
                 後に「星石」と呼ばれる物体。</p>
             <p class="section-body">星石を得た者たちは自らを「王」と名乗った。<br>
                 自称で王を名乗る者が増え、力の均衡は崩れ始めた。</p>
-            <p class="section-body">「王が増えすぎた。なら、一つに決める」</p>
+        </div>
+    </section>
+
+    <section class="world-scene world-scene-2" style="background-image: url('world02.png')">
+        <div class="world-scene-inner">
+            <p class="section-body world-quote">「王が増えすぎた。なら、一つに決める」</p>
             <p class="section-body">全勢力を巻き込む戦い──<br>
                 TERRITORY KINGの開催を。</p>
             <p class="section-body">すべての縄張りが舞台。<br>
                 勝ち残った勢力だけが頂点に立つ。</p>
-            <p class="section-body">報酬は星石の王冠。<br>
+            <p class="section-body world-finale">報酬は星石の王冠。<br>
                 そして、世界。</p>
-        </section>
+        </div>
+    </section>
 
-    </div>
-        <a href="chat.html" class="chat-fab" aria-label="キャラと話す"><img src="chat-icon.png" alt="キャラと話す"></a>
+    <a href="chat.html" class="chat-fab" aria-label="キャラと話す"><img src="chat-icon.png" alt="キャラと話す"></a>
     <footer>
         <a href="privacy.html">プライバシーポリシー</a>｜<a href="terms.html">利用規約</a>
         <p style="margin-top: 0.5rem;">&copy; 2026 BFTK Project</p>
