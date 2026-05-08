@@ -44,8 +44,33 @@ body.theme-houzuki .bg-glow { opacity: 1; background: radial-gradient(circle at 
   transition: opacity 0.5s ease, transform 0.5s ease;
   z-index: 1;
 }
-.portrait-img.hidden { opacity: 0; transform: translateX(-50%) scale(.95); }
-.portrait-img.visible { opacity: 1; transform: translateX(-50%) scale(1); }
+.portrait-img.hidden { opacity: 0; transform: translateX(-50%) scale(.95); filter: brightness(1); }
+.portrait-img.visible { opacity: 1; transform: translateX(-50%) scale(1); filter: brightness(1); }
+
+/* 立ち絵切替フラッシュ */
+.portrait-flash {
+  position: absolute; inset: 0; z-index: 4; pointer-events: none;
+  opacity: 0;
+}
+.portrait-flash.active {
+  animation: flashBurst .45s ease-out forwards;
+}
+@keyframes flashBurst {
+  0% { opacity: 0; }
+  12% { opacity: .7; }
+  30% { opacity: .3; }
+  100% { opacity: 0; }
+}
+
+/* 立ち絵出現アニメーション */
+@keyframes materialize {
+  0% { opacity: 0; transform: translateX(-50%) scale(1.06); filter: brightness(2.5); }
+  35% { opacity: 1; filter: brightness(1.6); }
+  100% { opacity: 1; transform: translateX(-50%) scale(1); filter: brightness(1); }
+}
+.portrait-img.appearing {
+  animation: materialize .55s ease-out forwards;
+}
 
 /* ヘッダー（立ち絵の上にオーバーレイ） */
 .vn-header {
@@ -227,6 +252,7 @@ body.theme-houzuki .bg-glow { opacity: 1; background: radial-gradient(circle at 
     <div class="vn-header">
       <div class="title">BFTK Deep Sea CS<span>深海コールセンター</span></div>
     </div>
+    <div class="portrait-flash" id="portraitFlash"></div>
     <img class="portrait-img pre-call" id="portrait" src="assets/cs/menda.webp" alt="キャラクター立ち絵">
     <div class="active-name-bar menda pre-call" id="activeNameBar">
       <div class="indicator"></div>
@@ -324,14 +350,25 @@ function switchCharacter(character) {
 
   document.body.className = "theme-" + safe;
 
-  // 立ち絵フェード切替
-  portrait.classList.remove("visible");
+  // 立ち絵フラッシュ切替
+  const flash = document.getElementById("portraitFlash");
+  portrait.classList.remove("visible", "appearing");
   portrait.classList.add("hidden");
   setTimeout(() => {
     portrait.src = "assets/cs/" + safe + ".webp";
     portrait.onload = () => {
+      // フラッシュ発動
+      flash.style.background = "radial-gradient(circle at 50% 40%, rgba(255,255,255,.9), transparent 70%)";
+      flash.classList.remove("active");
+      void flash.offsetWidth;
+      flash.classList.add("active");
+      // 映写エフェクトで出現
       portrait.classList.remove("hidden");
-      portrait.classList.add("visible");
+      portrait.classList.add("appearing");
+      portrait.addEventListener("animationend", () => {
+        portrait.classList.remove("appearing");
+        portrait.classList.add("visible");
+      }, { once: true });
     };
   }, 300);
 
