@@ -405,7 +405,7 @@ function incrementSession() {
 function checkSessionLimit() {
   const s = getSession();
   if (s.count >= SESSION_LIMIT) {
-    addMsg("本日の受付は終了しました。…また明日お越しくださいね。", "system");
+    addMsg("本日の受付は終了しました。\nまた明日お越しください。", "system");
     setInputDisabled(true, "本日の上限に達しました");
     return false;
   }
@@ -660,7 +660,6 @@ function addCharMsg(character, text) {
 VALID_CHARACTERS.forEach(c => { const i = new Image(); i.src = "assets/cs/" + c + ".webp"; });
 // 初期状態: 入力無効（コール後に有効化）
 setInputDisabled(true, "コールしてください");
-checkSessionLimit();
 </script>
 </body>
 </html>
