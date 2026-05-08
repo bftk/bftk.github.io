@@ -266,12 +266,12 @@ body.theme-houzuki .bg-glow { opacity: 1; background: radial-gradient(circle at 
     <div class="chat-log" id="chatLog" role="log" aria-live="polite" aria-label="チャット履歴">
     </div>
     <div class="btn-menu" id="btnMenu" role="toolbar" aria-label="メニュー">
-      <button onclick="onMenuBtn('faq')">ゲームについて</button>
-      <button onclick="onMenuBtn('billing')">お支払い</button>
-      <button onclick="onMenuBtn('policy')">規約</button>
-      <button onclick="onMenuBtn('bug')">バグ報告</button>
-      <button onclick="onMenuBtn('feedback')">ご意見・要望</button>
-      <button onclick="onMenuBtn('survey')">アンケート</button>
+      <button data-cat="faq" onclick="onMenuBtn('faq')">ゲームについて</button>
+      <button data-cat="billing" onclick="onMenuBtn('billing')">お支払い</button>
+      <button data-cat="policy" onclick="onMenuBtn('policy')">規約</button>
+      <button data-cat="bug" onclick="onMenuBtn('bug')">バグ報告</button>
+      <button data-cat="feedback" onclick="onMenuBtn('feedback')">ご意見・要望</button>
+      <button data-cat="survey" onclick="onMenuBtn('survey')">アンケート</button>
     </div>
     <div class="report-mode-label" id="reportLabel" style="display:none;"><span id="reportLabelText"></span> <button class="cancel-btn" onclick="cancelReportMode()">[ キャンセル ]</button></div>
     <div class="chat-input">
@@ -299,6 +299,7 @@ const dialogArea = document.getElementById("dialogArea");
 const VALID_CHARACTERS = ["menda", "gusoku", "demeni", "oumu", "ryuuguu", "houzuki"];
 const CHAR_NAMES = { menda: "メンダ", gusoku: "グソク", demeni: "デメニ", oumu: "オウム", ryuuguu: "リュウグウ", houzuki: "ホウズキ" };
 const CHAR_ROLES = { menda: "総合受付", gusoku: "規約担当", demeni: "課金担当", oumu: "FAQ担当", ryuuguu: "お客様の声", houzuki: "アンケート" };
+const CAT_TO_CHAR = { faq: "oumu", billing: "demeni", policy: "gusoku", bug: "ryuuguu", feedback: "ryuuguu", survey: "houzuki" };
 
 let conversationHistory = [];
 let reportMode = false;
@@ -466,6 +467,7 @@ function onMenuBtn(category) {
         reportMode = "bug";
         reportLabelText.textContent = "バグ報告モード";
         reportLabel.style.display = "block";
+        updateMenuButtons();
         msgInput.placeholder = "バグの内容を入力...";
         msgInput.focus();
       });
@@ -477,6 +479,7 @@ function onMenuBtn(category) {
         reportMode = "feedback";
         reportLabelText.textContent = "ご意見・要望モード";
         reportLabel.style.display = "block";
+        updateMenuButtons();
         msgInput.placeholder = "ご意見・要望を入力...";
         msgInput.focus();
       });
@@ -488,6 +491,7 @@ function onMenuBtn(category) {
         reportMode = "survey";
         reportLabelText.textContent = "アンケートモード";
         reportLabel.style.display = "block";
+        updateMenuButtons();
         msgInput.placeholder = "回答を入力...";
         msgInput.focus();
       });
@@ -498,8 +502,9 @@ function onMenuBtn(category) {
 function cancelReportMode() {
   reportMode = false;
   reportLabel.style.display = "none";
-  msgInput.placeholder = "メンダに話しかける...";
   switchCharacter("menda");
+  updateMenuButtons();
+  msgInput.placeholder = "メンダに話しかける...";
   msgInput.focus();
 }
 
@@ -507,8 +512,14 @@ function unlockInput() {
   isSending = false;
   if (!checkSessionLimit()) return;
   setInputDisabled(false);
+  updateMenuButtons();
   msgInput.placeholder = (CHAR_NAMES[currentCharacter] || "メンダ") + "に話しかける...";
   msgInput.focus();
+}
+function updateMenuButtons() {
+  for (const btn of btnMenu.querySelectorAll("button[data-cat]")) {
+    btn.disabled = (CAT_TO_CHAR[btn.dataset.cat] === currentCharacter);
+  }
 }
 
 // ===== 送信処理 =====
