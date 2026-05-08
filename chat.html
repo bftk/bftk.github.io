@@ -96,7 +96,7 @@ body.theme-houzuki .bg-glow { opacity: 1; background: radial-gradient(circle at 
   align-self: flex-start; width: 100%; max-width: 100%;
   background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.01));
   border: 1px solid rgba(255,255,255,.06);
-  border-radius: 12px; padding: 10px 14px; position: relative; overflow: hidden;
+  border-radius: 12px; padding: 10px 14px; position: relative;
 }
 .msg.bot::before {
   content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
@@ -575,9 +575,13 @@ function addMsg(text, type) {
 function addCharMsg(character, text) {
   const safeChar = validateCharacter(character);
   const div = document.createElement("div"); div.className = "msg bot " + safeChar;
+  div.style.opacity = "1";
   const label = document.createElement("div"); label.className = "char-label " + safeChar;
-  label.textContent = CHAR_NAMES[safeChar] || safeChar; div.appendChild(label);
+  label.textContent = CHAR_NAMES[safeChar] || safeChar;
+  label.style.cssText = "color: inherit; -webkit-text-fill-color: currentColor;";
+  div.appendChild(label);
   const body = document.createElement("div"); body.className = "msg-body";
+  body.style.cssText = "color: #e0e0e0; -webkit-text-fill-color: #e0e0e0;";
   linkifyText(text, body); div.appendChild(body);
   chatLog.appendChild(div); chatLog.scrollTop = chatLog.scrollHeight;
 }
