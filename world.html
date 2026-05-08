@@ -18,29 +18,24 @@
     <style>
         .world-scene {
             position: relative;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             padding: clamp(4rem, 10vw, 8rem) 2rem;
+        }
+        .world-scene::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 15%, rgba(0,0,0,0.4) 85%, rgba(0,0,0,0.8) 100%),
+                rgba(0, 0, 0, 0.35);
+            pointer-events: none;
         }
         .world-scene-inner {
             position: relative;
             z-index: 2;
             max-width: 700px;
-            padding: clamp(2rem, 4vw, 3rem);
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            border-radius: 4px;
-        }
-        .world-scene-inner::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.55);
-            border-radius: 4px;
-            pointer-events: none;
-        }
-        .world-scene-inner > * {
-            position: relative;
-            z-index: 1;
         }
         .world-scene:not(.world-scene-2) .world-scene-inner {
             margin: 0 auto 0 clamp(2rem, 8vw, 10rem);
@@ -92,8 +87,8 @@
         </div>
     </nav>
 
-    <section class="world-scene">
-        <div class="world-scene-inner" style="background-image: url('world01.png')">
+    <section class="world-scene" style="background-image: url('world01.png')">
+        <div class="world-scene-inner">
             <h2 class="section-title">WORLD</h2>
             <p class="section-body">草原、森林、山岳、廃墟。<br>
                 各勢力は縄張りを守り、境界で衝突を繰り返していた。<br>
@@ -107,8 +102,8 @@
         </div>
     </section>
 
-    <section class="world-scene world-scene-2">
-        <div class="world-scene-inner" style="background-image: url('world02.png')">
+    <section class="world-scene world-scene-2" style="background-image: url('world02.png')">
+        <div class="world-scene-inner">
             <p class="section-body world-quote">「王が増えすぎた。なら、一つに決める」</p>
             <p class="section-body">全勢力を巻き込む戦い──<br>
                 TERRITORY KINGの開催を。</p>
