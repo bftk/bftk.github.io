@@ -47,22 +47,60 @@ body.theme-houzuki .bg-glow { opacity: 1; background: radial-gradient(circle at 
 .portrait-img.hidden { opacity: 0; transform: translateX(-50%) scale(.95); filter: brightness(1); }
 .portrait-img.visible { opacity: 1; transform: translateX(-50%) scale(1); filter: brightness(1); }
 
-/* 立ち絵切替フラッシュ */
+/* ===== グリッチ切替エフェクト ===== */
 .portrait-flash {
   position: absolute; inset: 0; z-index: 4; pointer-events: none;
   opacity: 0;
 }
-.portrait-flash.active {
-  animation: flashBurst .45s ease-out forwards;
+
+/* グリッチ中の立ち絵 */
+.portrait-img.glitch-out {
+  animation: glitchOut .35s steps(4) forwards;
 }
-@keyframes flashBurst {
-  0% { opacity: 0; }
-  12% { opacity: .7; }
-  30% { opacity: .3; }
+.portrait-img.glitch-in {
+  animation: glitchIn .4s steps(3) forwards;
+}
+
+@keyframes glitchOut {
+  0%   { opacity: 1; transform: translateX(-50%) scale(1); filter: brightness(1) hue-rotate(0deg); }
+  20%  { opacity: 1; transform: translateX(calc(-50% + 8px)) scale(1); filter: brightness(1.8) hue-rotate(90deg); }
+  40%  { opacity: 1; transform: translateX(calc(-50% - 12px)) scaleY(1.02); filter: brightness(0.6) hue-rotate(-60deg); }
+  60%  { opacity: .7; transform: translateX(calc(-50% + 5px)) scaleY(.97); filter: brightness(2) hue-rotate(180deg); }
+  80%  { opacity: .3; transform: translateX(calc(-50% - 3px)) scale(1.01); filter: brightness(0.3); }
+  100% { opacity: 0; transform: translateX(-50%) scale(1.04); filter: brightness(0); }
+}
+
+@keyframes glitchIn {
+  0%   { opacity: 0; transform: translateX(-50%) scale(1.04); filter: brightness(3) hue-rotate(180deg); }
+  25%  { opacity: .6; transform: translateX(calc(-50% - 10px)) scaleY(.98); filter: brightness(1.8) hue-rotate(-90deg); }
+  50%  { opacity: .9; transform: translateX(calc(-50% + 6px)) scaleY(1.01); filter: brightness(1.4) hue-rotate(40deg); }
+  75%  { opacity: 1; transform: translateX(calc(-50% - 2px)) scale(1); filter: brightness(1.1) hue-rotate(0deg); }
+  100% { opacity: 1; transform: translateX(-50%) scale(1); filter: brightness(1) hue-rotate(0deg); }
+}
+
+/* スキャンライン＆ノイズオーバーレイ */
+.portrait-flash.glitch-active {
+  opacity: 1;
+  animation: glitchFlash .5s steps(6) forwards;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,255,255,.04) 2px,
+      rgba(0,255,255,.04) 4px
+    );
+}
+@keyframes glitchFlash {
+  0%   { opacity: 1; }
+  15%  { opacity: .8; background-color: rgba(0,255,255,.08); }
+  30%  { opacity: 1; background-color: rgba(255,0,100,.06); }
+  50%  { opacity: .6; }
+  70%  { opacity: .3; background-color: transparent; }
   100% { opacity: 0; }
 }
 
-/* 立ち絵出現アニメーション */
+/* フォールバック: 初回出現用 */
 @keyframes materialize {
   0% { opacity: 0; transform: translateX(-50%) scale(1.06); filter: brightness(2.5); }
   35% { opacity: 1; filter: brightness(1.6); }
@@ -356,27 +394,24 @@ function switchCharacter(character) {
 
   document.body.className = "theme-" + safe;
 
-  // 立ち絵フラッシュ切替
+  // グリッチ切替
   const flash = document.getElementById("portraitFlash");
-  portrait.classList.remove("visible", "appearing");
-  portrait.classList.add("hidden");
+  portrait.classList.remove("visible", "appearing", "glitch-in");
+  portrait.classList.add("glitch-out");
+  flash.classList.remove("glitch-active");
+  void flash.offsetWidth;
+  flash.classList.add("glitch-active");
   setTimeout(() => {
+    portrait.classList.remove("glitch-out");
     portrait.src = "assets/cs/" + safe + ".webp";
     portrait.onload = () => {
-      // フラッシュ発動
-      flash.style.background = "radial-gradient(circle at 50% 40%, rgba(255,255,255,.9), transparent 70%)";
-      flash.classList.remove("active");
-      void flash.offsetWidth;
-      flash.classList.add("active");
-      // 映写エフェクトで出現
-      portrait.classList.remove("hidden");
-      portrait.classList.add("appearing");
+      portrait.classList.add("glitch-in");
       portrait.addEventListener("animationend", () => {
-        portrait.classList.remove("appearing");
+        portrait.classList.remove("glitch-in");
         portrait.classList.add("visible");
       }, { once: true });
     };
-  }, 300);
+  }, 350);
 
   // 名前バー更新
   activeNameBar.className = "active-name-bar " + safe;
