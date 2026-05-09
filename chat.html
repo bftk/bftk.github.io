@@ -522,6 +522,7 @@ function getGreetingLine(char) {
 }
 
 let conversationHistory = [];
+let pendingIntent = null;
 let reportMode = false;
 let currentCharacter = "menda";
 let isSending = false;
@@ -860,17 +861,20 @@ async function sendToWorker(text, character, inputType) {
   const loadingEl = showLoading();
   try {
     const res = await fetch(WORKER_URL, { method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: text, history: conversationHistory, character: character, sessionId: SESSION_ID, turn: turnCount, inputType: inputType || "free", ...(NIGHT_MODE && { nightShift: true }) }) });
+      body: JSON.stringify({ message: text, history: conversationHistory, character: character, sessionId: SESSION_ID, turn: turnCount, inputType: inputType || "free", ...(NIGHT_MODE && { nightShift: true }), ...(pendingIntent && { pendingIntent }) }) });
     const data = await res.json();
     removeLoading(loadingEl);
     if (data.reply) {
       switchCharacter(character);
       await addCharMsg(character, data.reply);
+      // pendingIntent状態更新
+      pendingIntent = data.pendingIntent || null;
+      // 会話履歴記録
       if (data.source === "llm") {
         conversationHistory.push({ role: "user", content: text });
         conversationHistory.push({ role: "assistant", content: data.reply });
         if (conversationHistory.length > 10) conversationHistory = conversationHistory.slice(-10);
-      } else if (data.source === "faq" || data.source === "billing" || data.source === "policy") {
+      } else if (data.source === "faq" || data.source === "billing" || data.source === "policy" || data.source === "intent") {
         conversationHistory.push({ role: "user", content: text });
         conversationHistory.push({ role: "assistant", content: data.historyTag || "[案内済み]" });
         if (conversationHistory.length > 10) conversationHistory = conversationHistory.slice(-10);
