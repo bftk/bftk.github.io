@@ -355,7 +355,7 @@ body.theme-houzuki .bg-glow { opacity: 1; background: radial-gradient(circle at 
     <img class="portrait-img pre-call" id="portrait" src="assets/cs/menda.webp" alt="キャラクター立ち絵">
     <div class="active-name-bar menda pre-call" id="activeNameBar">
       <div class="indicator"></div>
-      <div class="name">ンダちゃん</div>
+      <div class="name">ンダ</div>
       <div class="role">総合受付</div>
     </div>
   </div>
@@ -396,8 +396,7 @@ const callStatus = document.getElementById("callStatus");
 const dialogArea = document.getElementById("dialogArea");
 
 const VALID_CHARACTERS = ["menda", "musha", "demeni", "mukai", "ryuuguu", "houzuki", "tomori"];
-const CHAR_NAMES = { menda: "ンダちゃん", musha: "武者", demeni: "デメニ", mukai: "向井くん", ryuuguu: "辰宮", houzuki: "ズッキー", tomori: "トモリ" };
-const CHAR_CALL = { menda: "ンダ", musha: "武者", demeni: "デメニ", mukai: "向井", ryuuguu: "辰宮", houzuki: "ズッキー", tomori: "トモリ" };
+const CHAR_NAMES = { menda: "ンダ", musha: "武者", demeni: "デメニ", mukai: "向井", ryuuguu: "辰宮", houzuki: "ズッキー", tomori: "トモリ" };
 const CHAR_ROLES = { menda: "総合受付", musha: "規約担当", demeni: "課金担当", mukai: "対応責任者", ryuuguu: "ご意見・要望", houzuki: "アンケート", tomori: "バグ報告" };
 const CAT_TO_CHAR = { faq: "mukai", billing: "demeni", policy: "musha", bug: "ryuuguu", feedback: "ryuuguu", survey: "houzuki" };
 
@@ -462,7 +461,7 @@ function switchCharacter(character) {
   const linkText = document.getElementById("linkText");
   const scanLine = document.getElementById("scanLine");
   const flash = document.getElementById("portraitFlash");
-  const charName = (CHAR_CALL[safe] || safe).toUpperCase();
+  const charName = (CHAR_NAMES[safe] || safe).toUpperCase();
 
   // リセット
   portrait.classList.remove("visible", "appearing", "departing", "micro-glitch");
@@ -561,7 +560,7 @@ function setInputDisabled(disabled, placeholder) {
 async function showTransfer(fromLine, toChar) {
   if (currentCharacter === toChar) return;
   await addCharMsg(currentCharacter, fromLine);
-  addTransferMsg("── " + (CHAR_CALL[toChar] || toChar) + " に接続中 ──");
+  addTransferMsg("── " + (CHAR_NAMES[toChar] || toChar) + " に接続中 ──");
   await new Promise(r => setTimeout(r, 800));
   switchCharacter(toChar);
 }
@@ -658,7 +657,7 @@ function unlockInput() {
   if (!checkSessionLimit()) return;
   setInputDisabled(false);
   updateMenuButtons();
-  msgInput.placeholder = (CHAR_CALL[currentCharacter] || "ンダ") + "に話しかける...";
+  msgInput.placeholder = (CHAR_NAMES[currentCharacter] || "ンダ") + "に話しかける...";
   msgInput.focus();
 }
 function updateMenuButtons() {
