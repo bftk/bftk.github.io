@@ -539,7 +539,7 @@ function onMenuBtn(category) {
     case "faq":
       addMsg("ゲームについて聞きたい", "user");
       isSending = true; setInputDisabled(true);
-      showTransfer("ゲームのことですね。…向井くんに繋ぎます。", "mukai").then(async () => {
+      showTransfer("ゲームのことですね。…向井に繋ぎます。", "mukai").then(async () => {
         await addCharMsg("mukai", "向井です。ゲームのことでしたら、お任せください。");
         try { await sendToWorker("ゲームについて教えてください", "mukai", "button"); } finally { unlockInput(); }
       });
