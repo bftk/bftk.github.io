@@ -256,7 +256,7 @@ body.theme-houzuki .bg-glow { opacity: 1; background: radial-gradient(circle at 
     <img class="portrait-img pre-call" id="portrait" src="assets/cs/menda.webp" alt="キャラクター立ち絵">
     <div class="active-name-bar menda pre-call" id="activeNameBar">
       <div class="indicator"></div>
-      <div class="name">メンダ</div>
+      <div class="name">ンダちゃん</div>
       <div class="role">総合受付</div>
     </div>
   </div>
@@ -275,7 +275,7 @@ body.theme-houzuki .bg-glow { opacity: 1; background: radial-gradient(circle at 
     </div>
     <div class="report-mode-label" id="reportLabel" style="display:none;"><span id="reportLabelText"></span> <button class="cancel-btn" onclick="cancelReportMode()">[ キャンセル ]</button></div>
     <div class="chat-input">
-      <input type="text" id="msgInput" placeholder="メンダに話しかける..." maxlength="500" aria-label="メッセージ入力">
+      <input type="text" id="msgInput" placeholder="ンダちゃんに話しかける..." maxlength="500" aria-label="メッセージ入力">
       <button id="sendBtn" onclick="sendMsg()">送信</button>
     </div>
   </div>
@@ -296,9 +296,9 @@ const callScreen = document.getElementById("callScreen");
 const callStatus = document.getElementById("callStatus");
 const dialogArea = document.getElementById("dialogArea");
 
-const VALID_CHARACTERS = ["menda", "musha", "demeni", "mukai", "ryuuguu", "houzuki"];
-const CHAR_NAMES = { menda: "メンダ", musha: "武者", demeni: "デメニ", mukai: "向井くん", ryuuguu: "リュウグウ", houzuki: "ホウズキ" };
-const CHAR_ROLES = { menda: "総合受付", musha: "規約担当", demeni: "課金担当", mukai: "対応責任者", ryuuguu: "お客様の声", houzuki: "アンケート" };
+const VALID_CHARACTERS = ["menda", "musha", "demeni", "mukai", "ryuuguu", "houzuki", "tomori"];
+const CHAR_NAMES = { menda: "ンダちゃん", musha: "武者", demeni: "デメニ", mukai: "向井くん", ryuuguu: "辰宮", houzuki: "ズッキー", tomori: "トモリ" };
+const CHAR_ROLES = { menda: "総合受付", musha: "規約担当", demeni: "課金担当", mukai: "対応責任者", ryuuguu: "ご意見・要望", houzuki: "アンケート", tomori: "バグ報告" };
 const CAT_TO_CHAR = { faq: "mukai", billing: "demeni", policy: "musha", bug: "ryuuguu", feedback: "ryuuguu", survey: "houzuki" };
 
 let conversationHistory = [];
@@ -340,9 +340,9 @@ function startCall() {
         portrait.classList.remove("pre-call");
         portrait.classList.add("visible");
         activeNameBar.classList.remove("pre-call");
-        await addCharMsg("menda", "はい…深海カスタマーサービスです。受付のメンダです。…ご用件をどうぞ。");
+        await addCharMsg("menda", "はい…深海カスタマーサービスです。受付のンダちゃんです。…ご用件をどうぞ。");
         setInputDisabled(false);
-        msgInput.placeholder = "メンダに話しかける...";
+        msgInput.placeholder = "ンダちゃんに話しかける...";
         msgInput.focus();
       }
     }, 400);
@@ -469,8 +469,8 @@ function onMenuBtn(category) {
       break;
     case "bug":
       addMsg("バグ報告", "user");
-      showTransfer("バグ報告ですね。…リュウグウに繋ぎます。", "ryuuguu").then(async () => {
-        await addCharMsg("ryuuguu", "…不具合のこと、聞かせてください。\n下の入力欄に書いて送信してくださいね。");
+      showTransfer("バグ報告ですね。…トモリに繋ぎます。", "tomori").then(async () => {
+        await addCharMsg("tomori", "…不具合ですね。状況を教えてください。\n下の入力欄に書いて送信してください。");
         reportMode = "bug";
         reportLabelText.textContent = "バグ報告モード";
         reportLabel.style.display = "block";
@@ -481,7 +481,7 @@ function onMenuBtn(category) {
       break;
     case "feedback":
       addMsg("ご意見・要望", "user");
-      showTransfer("ご意見ですね。…リュウグウに繋ぎます。", "ryuuguu").then(async () => {
+      showTransfer("ご意見ですね。…辰宮に繋ぎます。", "ryuuguu").then(async () => {
         await addCharMsg("ryuuguu", "…お話、聞かせてください。\n下の入力欄にご意見やご要望を書いて送信してくださいね。");
         reportMode = "feedback";
         reportLabelText.textContent = "ご意見・要望モード";
@@ -493,8 +493,8 @@ function onMenuBtn(category) {
       break;
     case "survey":
       addMsg("アンケート", "user");
-      showTransfer("アンケートですね。…ホウズキに繋ぎます。", "houzuki").then(async () => {
-        await addCharMsg("houzuki", "あ、あの…ホウズキです。ご協力、いただけると助かります。\n\nBFTKを何で知りましたか？ 下の入力欄で教えていただけると嬉しいです。");
+      showTransfer("アンケートですね。…ズッキーに繋ぎます。", "houzuki").then(async () => {
+        await addCharMsg("houzuki", "あ、あの…ズッキーです。ご協力、いただけると助かります。\n\nBFTKを何で知りましたか？ 下の入力欄で教えていただけると嬉しいです。");
         reportMode = "survey";
         reportLabelText.textContent = "アンケートモード";
         reportLabel.style.display = "block";
@@ -511,7 +511,7 @@ function cancelReportMode() {
   reportLabel.style.display = "none";
   switchCharacter("menda");
   updateMenuButtons();
-  msgInput.placeholder = "メンダに話しかける...";
+  msgInput.placeholder = "ンダちゃんに話しかける...";
   msgInput.focus();
 }
 
@@ -520,7 +520,7 @@ function unlockInput() {
   if (!checkSessionLimit()) return;
   setInputDisabled(false);
   updateMenuButtons();
-  msgInput.placeholder = (CHAR_NAMES[currentCharacter] || "メンダ") + "に話しかける...";
+  msgInput.placeholder = (CHAR_NAMES[currentCharacter] || "ンダちゃん") + "に話しかける...";
   msgInput.focus();
 }
 function updateMenuButtons() {
@@ -548,7 +548,7 @@ async function sendMsg() {
       const rt = reportMode;
       reportMode = false;
       reportLabel.style.display = "none";
-      msgInput.placeholder = "メンダに話しかける...";
+      msgInput.placeholder = "ンダちゃんに話しかける...";
       await sendReport(text, rt);
     } else {
       await sendToWorker(text, currentCharacter, "free");

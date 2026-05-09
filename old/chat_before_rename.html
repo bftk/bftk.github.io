@@ -13,9 +13,9 @@ body { background: #0a0a1a; color: #e0e0e0; font-family: sans-serif; display: fl
 /* ===== 背景キャラグロー ===== */
 .bg-glow { position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0; transition: opacity 0.8s ease, background 0.8s ease; }
 body.theme-menda .bg-glow { opacity: 1; background: radial-gradient(circle at 50% 30%, rgba(255,140,80,.15), transparent 60%); }
-body.theme-gusoku .bg-glow { opacity: 1; background: radial-gradient(circle at 50% 30%, rgba(160,160,180,.12), transparent 60%); }
+body.theme-musha .bg-glow { opacity: 1; background: radial-gradient(circle at 50% 30%, rgba(160,160,180,.12), transparent 60%); }
 body.theme-demeni .bg-glow { opacity: 1; background: radial-gradient(circle at 50% 30%, rgba(80,180,255,.15), transparent 60%); }
-body.theme-oumu .bg-glow { opacity: 1; background: radial-gradient(circle at 50% 30%, rgba(220,180,60,.15), transparent 60%); }
+body.theme-mukai .bg-glow { opacity: 1; background: radial-gradient(circle at 50% 30%, rgba(220,180,60,.15), transparent 60%); }
 body.theme-ryuuguu .bg-glow { opacity: 1; background: radial-gradient(circle at 50% 30%, rgba(255,120,170,.12), transparent 60%); }
 body.theme-houzuki .bg-glow { opacity: 1; background: radial-gradient(circle at 50% 30%, rgba(160,100,220,.15), transparent 60%); }
 
@@ -93,9 +93,9 @@ body.theme-houzuki .bg-glow { opacity: 1; background: radial-gradient(circle at 
 @keyframes pulse { 0%,100% { opacity: .4; } 50% { opacity: 1; } }
 
 .active-name-bar.menda { color: #c07040; }
-.active-name-bar.gusoku { color: #999; }
+.active-name-bar.musha { color: #999; }
 .active-name-bar.demeni { color: #4080a0; }
-.active-name-bar.oumu { color: #a09040; }
+.active-name-bar.mukai { color: #a09040; }
 .active-name-bar.ryuuguu { color: #a06070; }
 .active-name-bar.houzuki { color: #8060a0; }
 
@@ -128,9 +128,9 @@ body.theme-houzuki .bg-glow { opacity: 1; background: radial-gradient(circle at 
   background: linear-gradient(90deg, transparent, currentColor, transparent); opacity: .3;
 }
 .msg.bot.menda { color: #c07040; }
-.msg.bot.gusoku { color: #999; }
+.msg.bot.musha { color: #999; }
 .msg.bot.demeni { color: #4080a0; }
-.msg.bot.oumu { color: #a09040; }
+.msg.bot.mukai { color: #a09040; }
 .msg.bot.ryuuguu { color: #a06070; }
 .msg.bot.houzuki { color: #8060a0; }
 .msg.bot .msg-body { color: #e0e0e0 !important; opacity: 1; }
@@ -296,15 +296,17 @@ const callScreen = document.getElementById("callScreen");
 const callStatus = document.getElementById("callStatus");
 const dialogArea = document.getElementById("dialogArea");
 
-const VALID_CHARACTERS = ["menda", "gusoku", "demeni", "oumu", "ryuuguu", "houzuki"];
-const CHAR_NAMES = { menda: "メンダ", gusoku: "グソク", demeni: "デメニ", oumu: "オウム", ryuuguu: "リュウグウ", houzuki: "ホウズキ" };
-const CHAR_ROLES = { menda: "総合受付", gusoku: "規約担当", demeni: "課金担当", oumu: "FAQ担当", ryuuguu: "お客様の声", houzuki: "アンケート" };
-const CAT_TO_CHAR = { faq: "oumu", billing: "demeni", policy: "gusoku", bug: "ryuuguu", feedback: "ryuuguu", survey: "houzuki" };
+const VALID_CHARACTERS = ["menda", "musha", "demeni", "mukai", "ryuuguu", "houzuki"];
+const CHAR_NAMES = { menda: "メンダ", musha: "武者", demeni: "デメニ", mukai: "向井くん", ryuuguu: "リュウグウ", houzuki: "ホウズキ" };
+const CHAR_ROLES = { menda: "総合受付", musha: "規約担当", demeni: "課金担当", mukai: "対応責任者", ryuuguu: "お客様の声", houzuki: "アンケート" };
+const CAT_TO_CHAR = { faq: "mukai", billing: "demeni", policy: "musha", bug: "ryuuguu", feedback: "ryuuguu", survey: "houzuki" };
 
 let conversationHistory = [];
 let reportMode = false;
 let currentCharacter = "menda";
 let isSending = false;
+let turnCount = 0;
+const SESSION_ID = (crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).slice(2));
 
 // ===== コール演出 =====
 function startCall() {
@@ -325,21 +327,24 @@ function startCall() {
     callScreen.classList.add("hidden");
     // テーマ適用
     document.body.className = "theme-menda";
-    // 立ち絵フェードイン
-    portrait.classList.remove("pre-call");
-    portrait.classList.add("visible");
-    activeNameBar.classList.remove("pre-call");
     // ダイアログ表示
     dialogArea.classList.remove("pre-call");
     dialogArea.classList.add("active");
-    // メンダの応答
+    // 上限チェックを先に行う
     setTimeout(async () => {
-      await addCharMsg("menda", "はい…深海カスタマーサービスです。受付のメンダです。…ご用件をどうぞ。");
-      if (checkSessionLimit()) {
+      if (!isStaff() && getSession().count >= SESSION_LIMIT) {
+        await addMsg("本日の受付は終了しました。\nまた明日お越しください。", "system");
+        setInputDisabled(true, "本日の上限に達しました");
+      } else {
+        // 立ち絵フェードイン（上限未達時のみ）
+        portrait.classList.remove("pre-call");
+        portrait.classList.add("visible");
+        activeNameBar.classList.remove("pre-call");
+        await addCharMsg("menda", "はい…深海カスタマーサービスです。受付のメンダです。…ご用件をどうぞ。");
         setInputDisabled(false);
         msgInput.placeholder = "メンダに話しかける...";
+        msgInput.focus();
       }
-      msgInput.focus();
     }, 400);
   }, 2400);
 }
@@ -397,10 +402,12 @@ function incrementSession() {
   const s = getSession(); s.count++; s.date = today;
   try { localStorage.setItem(SESSION_KEY, JSON.stringify(s)); } catch {}
 }
+function isStaff() { return localStorage.getItem("bftk_staff") === "1"; }
 function checkSessionLimit() {
+  if (isStaff()) return true;
   const s = getSession();
   if (s.count >= SESSION_LIMIT) {
-    addMsg("本日の受付は終了しました。…また明日お越しくださいね。", "system");
+    addMsg("本日の受付は終了しました。\nまた明日お越しください。", "system");
     setInputDisabled(true, "本日の上限に達しました");
     return false;
   }
@@ -439,9 +446,9 @@ function onMenuBtn(category) {
     case "faq":
       addMsg("ゲームについて聞きたい", "user");
       isSending = true; setInputDisabled(true);
-      showTransfer("ゲームのことですね。…オウムに繋ぎます。", "oumu").then(async () => {
-        await addCharMsg("oumu", "オウムだよ。ゲームのことなら、だいたい答えられる。");
-        try { await sendToWorker("ゲームについて教えてください", "oumu"); } finally { unlockInput(); }
+      showTransfer("ゲームのことですね。…向井くんに繋ぎます。", "mukai").then(async () => {
+        await addCharMsg("mukai", "向井です。ゲームのことでしたら、お任せください。");
+        try { await sendToWorker("ゲームについて教えてください", "mukai", "button"); } finally { unlockInput(); }
       });
       break;
     case "billing":
@@ -449,15 +456,15 @@ function onMenuBtn(category) {
       isSending = true; setInputDisabled(true);
       showTransfer("お支払いですね。…デメニに繋ぎます。", "demeni").then(async () => {
         await addCharMsg("demeni", "デメニです。お支払い関連ですね。確認します。");
-        try { await sendToWorker("課金について教えてください", "demeni"); } finally { unlockInput(); }
+        try { await sendToWorker("課金について教えてください", "demeni", "button"); } finally { unlockInput(); }
       });
       break;
     case "policy":
       addMsg("規約について", "user");
       isSending = true; setInputDisabled(true);
-      showTransfer("規約ですね。…グソクに繋ぎます。", "gusoku").then(async () => {
-        await addCharMsg("gusoku", "…グソクだ。規約関連なら対応できる。");
-        try { await sendToWorker("利用規約について教えてください", "gusoku"); } finally { unlockInput(); }
+      showTransfer("規約ですね。…武者に繋ぎます。", "musha").then(async () => {
+        await addCharMsg("musha", "…武者だ。規約関連なら対応できる。");
+        try { await sendToWorker("利用規約について教えてください", "musha", "button"); } finally { unlockInput(); }
       });
       break;
     case "bug":
@@ -544,7 +551,7 @@ async function sendMsg() {
       msgInput.placeholder = "メンダに話しかける...";
       await sendReport(text, rt);
     } else {
-      await sendToWorker(text, currentCharacter);
+      await sendToWorker(text, currentCharacter, "free");
     }
   } finally {
     unlockInput();
@@ -552,10 +559,11 @@ async function sendMsg() {
 }
 
 async function sendReport(text, reportType) {
+  turnCount++;
   const loadingEl = showLoading();
   try {
     const res = await fetch(WORKER_URL, { method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: text, bugReport: true, reportType: reportType }) });
+      body: JSON.stringify({ message: text, bugReport: true, reportType: reportType, sessionId: SESSION_ID, turn: turnCount, inputType: "free" }) });
     const data = await res.json();
     removeLoading(loadingEl);
     const replyChar = validateCharacter(data.character);
@@ -565,17 +573,17 @@ async function sendReport(text, reportType) {
   } catch (e) { removeLoading(loadingEl); addMsg("通信エラー: サーバーに接続できません", "error"); }
 }
 
-async function sendToWorker(text, character) {
+async function sendToWorker(text, character, inputType) {
+  turnCount++;
   const loadingEl = showLoading();
   try {
     const res = await fetch(WORKER_URL, { method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: text, history: conversationHistory, character: character }) });
+      body: JSON.stringify({ message: text, history: conversationHistory, character: character, sessionId: SESSION_ID, turn: turnCount, inputType: inputType || "free" }) });
     const data = await res.json();
     removeLoading(loadingEl);
     if (data.reply) {
-      const replyChar = validateCharacter(data.character);
-      switchCharacter(replyChar);
-      await addCharMsg(replyChar, data.reply);
+      switchCharacter(character);
+      await addCharMsg(character, data.reply);
       if (data.source === "llm") {
         conversationHistory.push({ role: "user", content: text });
         conversationHistory.push({ role: "assistant", content: data.reply });
@@ -653,7 +661,6 @@ function addCharMsg(character, text) {
 VALID_CHARACTERS.forEach(c => { const i = new Image(); i.src = "assets/cs/" + c + ".webp"; });
 // 初期状態: 入力無効（コール後に有効化）
 setInputDisabled(true, "コールしてください");
-checkSessionLimit();
 </script>
 </body>
 </html>
