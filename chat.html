@@ -351,7 +351,7 @@ body.theme-houzuki .bg-glow { opacity: 1; background: radial-gradient(circle at 
     <img class="portrait-img pre-call" id="portrait" src="assets/cs/menda.webp" alt="キャラクター立ち絵">
     <div class="active-name-bar menda pre-call" id="activeNameBar">
       <div class="indicator"></div>
-      <div class="name">ンダちゃん @休憩中</div>
+      <div class="name">ンダちゃん @夜勤対応中</div>
       <div class="role">総合受付</div>
     </div>
   </div>
@@ -501,8 +501,8 @@ const NIGHT_LINES = {
 };
 
 // モードフラグ（排他: 両方trueならNIGHT優先）
-const BREAK_MODE = true;  // @休憩中（リリース時にfalseにする）
-const NIGHT_MODE = false;  // @夜勤対応中
+const BREAK_MODE = false;  // @休憩中（リリース時にfalseにする）
+const NIGHT_MODE = true;   // @夜勤対応中
 
 const appearedChars = new Set();
 function getGreetingLine(char) {
