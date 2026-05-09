@@ -397,7 +397,8 @@ const dialogArea = document.getElementById("dialogArea");
 
 const VALID_CHARACTERS = ["menda", "musha", "demeni", "mukai", "ryuuguu", "houzuki", "tomori"];
 const CHAR_NAMES = { menda: "ンダ", musha: "武者", demeni: "デメニ", mukai: "向井", ryuuguu: "辰宮", houzuki: "ズッキー", tomori: "トモリ" };
-const CHAR_DISPLAY = { menda: "ンダちゃん @休憩中", musha: "武者 @休憩中", demeni: "デメニ @休憩中", mukai: "向井くん @休憩中", ryuuguu: "辰宮 @休憩中", houzuki: "ズッキー @休憩中", tomori: "トモリ @休憩中" };
+const CHAR_DISPLAY_NORMAL = { menda: "ンダちゃん", musha: "武者", demeni: "デメニ", mukai: "向井くん", ryuuguu: "辰宮", houzuki: "ズッキー", tomori: "トモリ" };
+const CHAR_DISPLAY_BREAK = { menda: "ンダちゃん @休憩中", musha: "武者 @休憩中", demeni: "デメニ @休憩中", mukai: "向井くん @休憩中", ryuuguu: "辰宮 @休憩中", houzuki: "ズッキー @休憩中", tomori: "トモリ @休憩中" };
 const CHAR_ROLES = { menda: "総合受付", musha: "規約担当", demeni: "課金担当", mukai: "対応責任者", ryuuguu: "ご意見・要望", houzuki: "アンケート", tomori: "バグ報告" };
 const CAT_TO_CHAR = { faq: "mukai", billing: "demeni", policy: "musha", bug: "ryuuguu", feedback: "ryuuguu", survey: "houzuki" };
 
@@ -453,8 +454,10 @@ const BREAK_LINES = {
     "通知ログ、確認しました。……では、始めましょうか。",
   ],
 };
+const BREAK_MODE = true; // @休憩中モード（リリース時にfalseにする）
 const appearedChars = new Set();
 function getBreakLine(char) {
+  if (!BREAK_MODE) return null;
   const lines = BREAK_LINES[char];
   if (!lines) return null;
   return lines[Math.floor(Math.random() * lines.length)];
@@ -500,7 +503,8 @@ function startCall() {
         portrait.classList.add("visible");
         activeNameBar.classList.remove("pre-call");
         appearedChars.add("menda");
-        await addCharMsg("menda", getBreakLine("menda"));
+        const mendaLine = getBreakLine("menda") || "はい…深海カスタマーサービスです。受付のンダです。…ご用件をどうぞ。";
+        await addCharMsg("menda", mendaLine);
         setInputDisabled(false);
         msgInput.placeholder = "ンダに話しかける...";
         msgInput.focus();
@@ -578,7 +582,8 @@ function switchCharacter(character) {
 
   // 名前バー更新
   activeNameBar.className = "active-name-bar " + safe;
-  activeNameBar.querySelector(".name").textContent = CHAR_DISPLAY[safe] || safe;
+  const disp = BREAK_MODE ? CHAR_DISPLAY_BREAK : CHAR_DISPLAY_NORMAL;
+  activeNameBar.querySelector(".name").textContent = disp[safe] || safe;
   activeNameBar.querySelector(".role").textContent = CHAR_ROLES[safe] || "";
 
   currentCharacter = safe;
