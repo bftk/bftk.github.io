@@ -392,6 +392,7 @@ const VALID_CHARACTERS = ["menda", "musha", "demeni", "mukai", "ryuuguu", "houzu
 const CHAR_NAMES = { menda: "ンダ", musha: "武者", demeni: "デメニ", mukai: "向井", ryuuguu: "辰宮", houzuki: "ズッキー", tomori: "トモリ" };
 const CHAR_DISPLAY_NORMAL = { menda: "ンダちゃん", musha: "武者", demeni: "デメニ", mukai: "向井くん", ryuuguu: "辰宮", houzuki: "ズッキー", tomori: "トモリ" };
 const CHAR_DISPLAY_BREAK = { menda: "ンダちゃん @休憩中", musha: "武者 @休憩中", demeni: "デメニ @休憩中", mukai: "向井くん @休憩中", ryuuguu: "辰宮 @休憩中", houzuki: "ズッキー @休憩中", tomori: "トモリ @休憩中" };
+const CHAR_DISPLAY_NIGHT = { menda: "ンダちゃん @夜勤対応中", musha: "武者 @夜勤対応中", demeni: "デメニ @夜勤対応中", mukai: "向井くん @夜勤対応中", ryuuguu: "辰宮 @夜勤対応中", houzuki: "ズッキー @夜勤対応中", tomori: "トモリ @夜勤対応中" };
 const CHAR_ROLES = { menda: "総合受付", musha: "規約担当", demeni: "課金担当", mukai: "対応責任者", ryuuguu: "ご意見・要望", houzuki: "アンケート", tomori: "バグ報告" };
 const CAT_TO_CHAR = { faq: "mukai", billing: "demeni", policy: "musha", bug: "ryuuguu", feedback: "ryuuguu", survey: "houzuki" };
 
@@ -447,13 +448,73 @@ const BREAK_LINES = {
     "通知ログ、確認しました。……では、始めましょうか。",
   ],
 };
-const BREAK_MODE = true; // @休憩中モード（リリース時にfalseにする）
+const NIGHT_LINES = {
+  menda: [
+    "こんばんは……深海カスタマーサービスです。……夜の回線、まだ静かですね。",
+    "お待ちしてました……。……夜勤のンダが対応しますね。",
+    "はい……起きてますよ。……深夜帯ですので、少しゆっくりお話ししましょうか。",
+    "……この時間の基地、静かで落ち着くんです。……では、ご用件をどうぞ。",
+    "こんばんは……。……眠くなったら、温かい飲み物おすすめですよ。",
+  ],
+  musha: [
+    "……夜勤中だ。問題ない。",
+    "……まだ起きている。対応可能だ。",
+    "……深夜帯は静かでいい。",
+    "……眠気はない。続けろ。",
+    "……この時間は通信も少ない。",
+  ],
+  demeni: [
+    "こんばんは。夜間対応中です。わたくしが承ります。",
+    "深夜帯の回線ですね。……応答は安定しています。",
+    "この時間は問い合わせも落ち着いています。ゆっくりお話しいただけますよ。",
+    "夜勤シフト中です。……眠気対策は十分ですので、ご安心ください。",
+    "こんばんは。基地内照明を落としておりますので、少々静かな声量で失礼します。",
+  ],
+  mukai: [
+    "こんばんは、向井です。夜勤帯ですが、まだまだ元気ですよ。",
+    "この時間に来てくださる方、意外と多いんですよね。ゆっくりどうぞ。",
+    "夜の基地って静かでしょう？ 向井は結構好きなんです。",
+    "眠くなってません？ 向井は大丈夫なので、安心してくださいね。",
+    "こんばんは。深夜帯は少人数ですが、その分しっかり見てますよ。",
+  ],
+  ryuuguu: [
+    "……こんばんは。……深夜の海は、とても静かですね。",
+    "……この時間は、みなさん少し声がやさしくなる気がします。",
+    "……眠れない夜でしたか。……わたしでよければ、お付き合いしますね。",
+    "……基地の灯りだけが揺れていて……きれいなんですよ。",
+    "……夜勤中です。……静かな時間ですので、慌てずお話しくださいね。",
+  ],
+  houzuki: [
+    "こ、こんばんは……。あの……夜勤担当のズッキーです……。",
+    "す、少し眠いですけど……が、がんばります……！",
+    "あ、あの……深夜って静かすぎて、ちょっと緊張しますね……。",
+    "こんばんは……。……いま、休憩室もすごく静かで……。",
+    "ね、眠気覚まし飲みすぎて……ちょっとだけ目、冴えてます……。",
+  ],
+  tomori: [
+    "こんばんは。夜間監視ログと並行して対応しています。",
+    "……深夜帯はエラー監視が多いので、僕はわりと慣れてます。",
+    "この時間、基地のファン音だけ残るんですよね。嫌いじゃないです。",
+    "夜勤対応中です。……応答速度は問題ありません。",
+    "こんばんは。……眠気はありますけど、システムは正常です。",
+  ],
+};
+
+// モードフラグ（排他: 両方trueならNIGHT優先）
+const BREAK_MODE = true;  // @休憩中（リリース時にfalseにする）
+const NIGHT_MODE = false;  // @夜勤対応中
+
 const appearedChars = new Set();
-function getBreakLine(char) {
-  if (!BREAK_MODE) return null;
-  const lines = BREAK_LINES[char];
-  if (!lines) return null;
-  return lines[Math.floor(Math.random() * lines.length)];
+function getGreetingLine(char) {
+  if (NIGHT_MODE) {
+    const lines = NIGHT_LINES[char];
+    if (lines) return lines[Math.floor(Math.random() * lines.length)];
+  }
+  if (BREAK_MODE) {
+    const lines = BREAK_LINES[char];
+    if (lines) return lines[Math.floor(Math.random() * lines.length)];
+  }
+  return null;
 }
 
 let conversationHistory = [];
@@ -496,7 +557,7 @@ function startCall() {
         portrait.classList.add("visible");
         activeNameBar.classList.remove("pre-call");
         appearedChars.add("menda");
-        const mendaLine = getBreakLine("menda") || "はい…深海カスタマーサービスです。受付のンダです。…ご用件をどうぞ。";
+        const mendaLine = getGreetingLine("menda") || "はい…深海カスタマーサービスです。受付のンダです。…ご用件をどうぞ。";
         await addCharMsg("menda", mendaLine);
         setInputDisabled(false);
         msgInput.placeholder = "ンダに話しかける...";
@@ -575,7 +636,7 @@ function switchCharacter(character) {
 
   // 名前バー更新
   activeNameBar.className = "active-name-bar " + safe;
-  const disp = BREAK_MODE ? CHAR_DISPLAY_BREAK : CHAR_DISPLAY_NORMAL;
+  const disp = NIGHT_MODE ? CHAR_DISPLAY_NIGHT : BREAK_MODE ? CHAR_DISPLAY_BREAK : CHAR_DISPLAY_NORMAL;
   activeNameBar.querySelector(".name").textContent = disp[safe] || safe;
   activeNameBar.querySelector(".role").textContent = CHAR_ROLES[safe] || "";
 
@@ -655,7 +716,7 @@ function onMenuBtn(category) {
       addMsg("ゲームについて聞きたい", "user");
       isSending = true; setInputDisabled(true);
       showTransfer("ゲームのことですね。…向井に繋ぎます。", "mukai").then(async () => {
-        if (!appearedChars.has("mukai")) { appearedChars.add("mukai"); await addCharMsg("mukai", getBreakLine("mukai")); }
+        if (!appearedChars.has("mukai")) { appearedChars.add("mukai"); await addCharMsg("mukai", getGreetingLine("mukai")); }
         else { await addCharMsg("mukai", "向井です。ゲームのことでしたら、お任せください。"); }
         try { await sendToWorker("ゲームについて教えてください", "mukai", "button"); } finally { unlockInput(); }
       });
@@ -664,7 +725,7 @@ function onMenuBtn(category) {
       addMsg("お支払いについて", "user");
       isSending = true; setInputDisabled(true);
       showTransfer("お支払いですね。…デメニに繋ぎます。", "demeni").then(async () => {
-        if (!appearedChars.has("demeni")) { appearedChars.add("demeni"); await addCharMsg("demeni", getBreakLine("demeni")); }
+        if (!appearedChars.has("demeni")) { appearedChars.add("demeni"); await addCharMsg("demeni", getGreetingLine("demeni")); }
         else { await addCharMsg("demeni", "デメニです。お支払い関連ですね。確認します。"); }
         try { await sendToWorker("課金について教えてください", "demeni", "button"); } finally { unlockInput(); }
       });
@@ -673,7 +734,7 @@ function onMenuBtn(category) {
       addMsg("規約について", "user");
       isSending = true; setInputDisabled(true);
       showTransfer("規約ですね。…武者に繋ぎます。", "musha").then(async () => {
-        if (!appearedChars.has("musha")) { appearedChars.add("musha"); await addCharMsg("musha", getBreakLine("musha")); }
+        if (!appearedChars.has("musha")) { appearedChars.add("musha"); await addCharMsg("musha", getGreetingLine("musha")); }
         else { await addCharMsg("musha", "…武者だ。規約関連なら対応できる。"); }
         try { await sendToWorker("利用規約について教えてください", "musha", "button"); } finally { unlockInput(); }
       });
@@ -681,7 +742,7 @@ function onMenuBtn(category) {
     case "bug":
       addMsg("バグ報告", "user");
       showTransfer("バグ報告ですね。…トモリに繋ぎます。", "tomori").then(async () => {
-        if (!appearedChars.has("tomori")) { appearedChars.add("tomori"); await addCharMsg("tomori", getBreakLine("tomori")); }
+        if (!appearedChars.has("tomori")) { appearedChars.add("tomori"); await addCharMsg("tomori", getGreetingLine("tomori")); }
         else { await addCharMsg("tomori", "…不具合ですね。状況を教えてください。\n下の入力欄に書いて送信してください。"); }
         reportMode = "bug";
         updateMenuButtons();
@@ -692,7 +753,7 @@ function onMenuBtn(category) {
     case "feedback":
       addMsg("ご意見・要望", "user");
       showTransfer("ご意見ですね。…辰宮に繋ぎます。", "ryuuguu").then(async () => {
-        if (!appearedChars.has("ryuuguu")) { appearedChars.add("ryuuguu"); await addCharMsg("ryuuguu", getBreakLine("ryuuguu")); }
+        if (!appearedChars.has("ryuuguu")) { appearedChars.add("ryuuguu"); await addCharMsg("ryuuguu", getGreetingLine("ryuuguu")); }
         else { await addCharMsg("ryuuguu", "…お話、聞かせてください。\n下の入力欄にご意見やご要望を書いて送信してくださいね。"); }
         reportMode = "feedback";
         updateMenuButtons();
@@ -704,7 +765,7 @@ function onMenuBtn(category) {
       addMsg("アンケート", "user");
       isSending = true; setInputDisabled(true);
       showTransfer("アンケートですね。…ズッキーに繋ぎます。", "houzuki").then(async () => {
-        if (!appearedChars.has("houzuki")) { appearedChars.add("houzuki"); await addCharMsg("houzuki", getBreakLine("houzuki")); }
+        if (!appearedChars.has("houzuki")) { appearedChars.add("houzuki"); await addCharMsg("houzuki", getGreetingLine("houzuki")); }
         await addCharMsg("houzuki", "あ、あの…すみません、今はイベント期間じゃないので、アンケートはないんです……。\nでも、お話でしたらお付き合いしますので…！");
         try { await sendToWorker("アンケートについて", "houzuki", "button"); } finally { unlockInput(); }
       });
