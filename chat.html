@@ -623,9 +623,22 @@ function setInputDisabled(disabled, placeholder) {
 }
 
 // ===== 引き継ぎ演出 =====
+// キャラごとの転送セリフ（現在のキャラ → 宛先キャラへの口調）
+const TRANSFER_LINES = {
+  menda: (to) => CHAR_NAMES[to] + "に繋ぎますね。",
+  musha: (to) => "……" + CHAR_NAMES[to] + "の担当だ。回す。",
+  demeni: (to) => CHAR_NAMES[to] + "に転送いたします。",
+  mukai: (to) => CHAR_NAMES[to] + "に繋ぎますね。少々お待ちください。",
+  ryuuguu: (to) => "……" + CHAR_NAMES[to] + "にお繋ぎしますね。",
+  houzuki: (to) => "あ、あの……" + CHAR_NAMES[to] + "に繋ぎます……！",
+  tomori: (to) => "……" + CHAR_NAMES[to] + "に回します。",
+};
 async function showTransfer(fromLine, toChar) {
   if (currentCharacter === toChar) return;
-  await addCharMsg(currentCharacter, fromLine);
+  // 現在のキャラの口調で転送セリフを生成
+  const transferFn = TRANSFER_LINES[currentCharacter];
+  const line = transferFn ? transferFn(toChar) : fromLine;
+  await addCharMsg(currentCharacter, line);
   addTransferMsg("── " + (CHAR_NAMES[toChar] || toChar) + " に接続中 ──");
   await new Promise(r => setTimeout(r, 800));
   switchCharacter(toChar);
