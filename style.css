@@ -82,8 +82,34 @@ nav {
     color: #F9A825;
     letter-spacing: 0.3em;
 }
-.video-placeholder {
+.tenga-showcase {
     margin-top: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+.tenga-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.tenga-info {
+    display: flex;
+    align-items: baseline;
+    gap: 0.8rem;
+}
+.tenga-name {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #F9A825;
+}
+.tenga-desc {
+    font-size: 0.85rem;
+    color: #aaa;
+}
+.video-placeholder {
+    margin-top: 0;
     aspect-ratio: 16 / 9;
     max-width: 560px;
     background: rgba(255,255,255,0.03);
