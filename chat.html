@@ -272,10 +272,6 @@ body.theme-houzuki .bg-glow { opacity: 1; background: radial-gradient(circle at 
 .chat-input button:disabled { background: #222; cursor: not-allowed; }
 
 /* 報告モード */
-.report-mode-label { color: #a06070; font-size: 11px; padding: 4px 12px; text-align: center; flex-shrink: 0; }
-.cancel-btn { color: #667; cursor: pointer; text-decoration: underline; margin-left: 6px; background: none; border: none; font-size: 11px; padding: 0; }
-.cancel-btn:hover { color: #e0e0e0; }
-.cancel-btn:focus { outline: 1px solid #8899cc; outline-offset: 2px; }
 
 /* ===== 内線電話スクリーン ===== */
 .call-screen {
@@ -372,7 +368,6 @@ body.theme-houzuki .bg-glow { opacity: 1; background: radial-gradient(circle at 
       <button data-cat="feedback" onclick="onMenuBtn('feedback')">ご意見・要望</button>
       <button data-cat="survey" onclick="onMenuBtn('survey')">アンケート</button>
     </div>
-    <div class="report-mode-label" id="reportLabel" style="display:none;"><span id="reportLabelText"></span> <button class="cancel-btn" onclick="cancelReportMode()">[ キャンセル ]</button></div>
     <div class="chat-input">
       <input type="text" id="msgInput" placeholder="ンダに話しかける..." maxlength="500" aria-label="メッセージ入力">
       <button id="sendBtn" onclick="sendMsg()">送信</button>
@@ -387,8 +382,6 @@ const chatLog = document.getElementById("chatLog");
 const msgInput = document.getElementById("msgInput");
 const sendBtn = document.getElementById("sendBtn");
 const btnMenu = document.getElementById("btnMenu");
-const reportLabel = document.getElementById("reportLabel");
-const reportLabelText = document.getElementById("reportLabelText");
 const portrait = document.getElementById("portrait");
 const activeNameBar = document.getElementById("activeNameBar");
 const callScreen = document.getElementById("callScreen");
@@ -656,7 +649,6 @@ function onMenuBtn(category) {
   if (isSending) return;
   if (!checkSessionLimit()) return;
   reportMode = false;
-  reportLabel.style.display = "none";
 
   switch (category) {
     case "faq":
@@ -692,8 +684,6 @@ function onMenuBtn(category) {
         if (!appearedChars.has("tomori")) { appearedChars.add("tomori"); await addCharMsg("tomori", getBreakLine("tomori")); }
         else { await addCharMsg("tomori", "…不具合ですね。状況を教えてください。\n下の入力欄に書いて送信してください。"); }
         reportMode = "bug";
-        reportLabelText.textContent = "バグ報告モード";
-        reportLabel.style.display = "block";
         updateMenuButtons();
         msgInput.placeholder = "バグの内容を入力...";
         msgInput.focus();
@@ -705,8 +695,6 @@ function onMenuBtn(category) {
         if (!appearedChars.has("ryuuguu")) { appearedChars.add("ryuuguu"); await addCharMsg("ryuuguu", getBreakLine("ryuuguu")); }
         else { await addCharMsg("ryuuguu", "…お話、聞かせてください。\n下の入力欄にご意見やご要望を書いて送信してくださいね。"); }
         reportMode = "feedback";
-        reportLabelText.textContent = "ご意見・要望モード";
-        reportLabel.style.display = "block";
         updateMenuButtons();
         msgInput.placeholder = "ご意見・要望を入力...";
         msgInput.focus();
@@ -718,8 +706,6 @@ function onMenuBtn(category) {
         if (!appearedChars.has("houzuki")) { appearedChars.add("houzuki"); await addCharMsg("houzuki", getBreakLine("houzuki")); }
         else { await addCharMsg("houzuki", "あ、あの…ズッキーです。ご協力、いただけると助かります。\n\nBFTKを何で知りましたか？ 下の入力欄で教えていただけると嬉しいです。"); }
         reportMode = "survey";
-        reportLabelText.textContent = "アンケートモード";
-        reportLabel.style.display = "block";
         updateMenuButtons();
         msgInput.placeholder = "回答を入力...";
         msgInput.focus();
@@ -728,14 +714,6 @@ function onMenuBtn(category) {
   }
 }
 
-function cancelReportMode() {
-  reportMode = false;
-  reportLabel.style.display = "none";
-  switchCharacter("menda");
-  updateMenuButtons();
-  msgInput.placeholder = "ンダに話しかける...";
-  msgInput.focus();
-}
 
 function unlockInput() {
   isSending = false;
@@ -769,8 +747,6 @@ async function sendMsg() {
     if (reportMode) {
       const rt = reportMode;
       reportMode = false;
-      reportLabel.style.display = "none";
-      msgInput.placeholder = "ンダに話しかける...";
       await sendReport(text, rt);
     } else {
       await sendToWorker(text, currentCharacter, "free");
