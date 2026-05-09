@@ -47,67 +47,98 @@ body.theme-houzuki .bg-glow { opacity: 1; background: radial-gradient(circle at 
 .portrait-img.hidden { opacity: 0; transform: translateX(-50%) scale(.95); filter: brightness(1); }
 .portrait-img.visible { opacity: 1; transform: translateX(-50%) scale(1); filter: brightness(1); }
 
-/* ===== グリッチ切替エフェクト ===== */
-.portrait-flash {
-  position: absolute; inset: 0; z-index: 4; pointer-events: none;
+/* ===== Pressure Gate + Bathysphere Scan 切替エフェクト ===== */
+
+/* シャッター（耐圧隔壁） */
+.gate-door {
+  position: absolute; top: 0; width: 52%; height: 100%; z-index: 6; pointer-events: none;
+  background: linear-gradient(to bottom, rgba(60,100,160,.3), rgba(10,10,30,.95));
+  backdrop-filter: blur(4px);
   opacity: 0;
 }
+.gate-door.left { left: 0; border-right: 1px solid rgba(120,200,255,.35); }
+.gate-door.right { right: 0; border-left: 1px solid rgba(120,200,255,.35); }
+.gate-door.left.closing { opacity: 1; animation: leftClose .72s cubic-bezier(.77,0,.18,1) forwards; }
+.gate-door.right.closing { opacity: 1; animation: rightClose .72s cubic-bezier(.77,0,.18,1) forwards; }
 
-/* グリッチ中の立ち絵 */
-.portrait-img.glitch-out {
-  animation: glitchOut .35s steps(4) forwards;
+@keyframes leftClose {
+  0%   { transform: translateX(-100%); }
+  35%  { transform: translateX(0%); }
+  65%  { transform: translateX(0%); }
+  100% { transform: translateX(-100%); }
 }
-.portrait-img.glitch-in {
-  animation: glitchIn .4s steps(3) forwards;
-}
-
-@keyframes glitchOut {
-  0%   { opacity: 1; transform: translateX(-50%) scale(1); filter: brightness(1) hue-rotate(0deg); }
-  20%  { opacity: 1; transform: translateX(calc(-50% + 8px)) scale(1); filter: brightness(1.8) hue-rotate(90deg); }
-  40%  { opacity: 1; transform: translateX(calc(-50% - 12px)) scaleY(1.02); filter: brightness(0.6) hue-rotate(-60deg); }
-  60%  { opacity: .7; transform: translateX(calc(-50% + 5px)) scaleY(.97); filter: brightness(2) hue-rotate(180deg); }
-  80%  { opacity: .3; transform: translateX(calc(-50% - 3px)) scale(1.01); filter: brightness(0.3); }
-  100% { opacity: 0; transform: translateX(-50%) scale(1.04); filter: brightness(0); }
-}
-
-@keyframes glitchIn {
-  0%   { opacity: 0; transform: translateX(-50%) scale(1.04); filter: brightness(3) hue-rotate(180deg); }
-  25%  { opacity: .6; transform: translateX(calc(-50% - 10px)) scaleY(.98); filter: brightness(1.8) hue-rotate(-90deg); }
-  50%  { opacity: .9; transform: translateX(calc(-50% + 6px)) scaleY(1.01); filter: brightness(1.4) hue-rotate(40deg); }
-  75%  { opacity: 1; transform: translateX(calc(-50% - 2px)) scale(1); filter: brightness(1.1) hue-rotate(0deg); }
-  100% { opacity: 1; transform: translateX(-50%) scale(1); filter: brightness(1) hue-rotate(0deg); }
+@keyframes rightClose {
+  0%   { transform: translateX(100%); }
+  35%  { transform: translateX(0%); }
+  65%  { transform: translateX(0%); }
+  100% { transform: translateX(100%); }
 }
 
-/* スキャンライン＆ノイズオーバーレイ */
-.portrait-flash.glitch-active {
+/* スキャンライン（深海スキャン投影） */
+.scan-line {
+  position: absolute; inset: 0; z-index: 5; pointer-events: none; opacity: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(120,220,255,0) 42%,
+    rgba(120,220,255,.7) 50%,
+    rgba(120,220,255,0) 58%,
+    transparent 100%
+  );
+}
+.scan-line.active {
   opacity: 1;
-  animation: glitchFlash .5s steps(6) forwards;
-  background:
-    repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 2px,
-      rgba(0,255,255,.04) 2px,
-      rgba(0,255,255,.04) 4px
-    );
+  animation: scanDown .45s ease-out forwards;
 }
-@keyframes glitchFlash {
-  0%   { opacity: 1; }
-  15%  { opacity: .8; background-color: rgba(0,255,255,.08); }
-  30%  { opacity: 1; background-color: rgba(255,0,100,.06); }
-  50%  { opacity: .6; }
-  70%  { opacity: .3; background-color: transparent; }
-  100% { opacity: 0; }
+@keyframes scanDown {
+  0%   { transform: translateY(-100%); opacity: 1; }
+  80%  { opacity: .6; }
+  100% { transform: translateY(100%); opacity: 0; }
 }
 
-/* フォールバック: 初回出現用 */
+/* キャラ出現（スキャン後の投影） */
 @keyframes materialize {
-  0% { opacity: 0; transform: translateX(-50%) scale(1.06); filter: brightness(2.5); }
-  35% { opacity: 1; filter: brightness(1.6); }
-  100% { opacity: 1; transform: translateX(-50%) scale(1); filter: brightness(1); }
+  0%   { opacity: 0; transform: translateX(-50%) translateY(12px) scale(.97); filter: blur(6px) brightness(1.8); }
+  50%  { opacity: 1; transform: translateX(-50%) translateY(2px) scale(.99); filter: blur(1px) brightness(1.2); }
+  100% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); filter: blur(0) brightness(1); }
 }
 .portrait-img.appearing {
-  animation: materialize .55s ease-out forwards;
+  animation: materialize .5s ease-out forwards;
+}
+
+/* キャラ退場（投影解除） */
+@keyframes dematerialize {
+  0%   { opacity: 1; transform: translateX(-50%) scale(1); filter: brightness(1); }
+  50%  { opacity: .5; filter: brightness(1.6) blur(2px); }
+  100% { opacity: 0; transform: translateX(-50%) scale(.97); filter: brightness(2) blur(6px); }
+}
+.portrait-img.departing {
+  animation: dematerialize .25s ease-in forwards;
+}
+
+/* 微グリッチ（1フレームだけRGBズレ） */
+.portrait-img.micro-glitch {
+  animation: microGlitch .06s steps(2) forwards;
+}
+@keyframes microGlitch {
+  0%   { filter: brightness(1) hue-rotate(0deg); }
+  50%  { filter: brightness(1.4) hue-rotate(60deg); transform: translateX(calc(-50% + 3px)); }
+  100% { filter: brightness(1) hue-rotate(0deg); transform: translateX(-50%); }
+}
+
+/* portrait-flash（リングのグロー残光） */
+.portrait-flash {
+  position: absolute; inset: 0; z-index: 4; pointer-events: none;
+  opacity: 0; border: 1px solid rgba(120,220,255,.3);
+  box-shadow: 0 0 20px rgba(120,220,255,.2);
+}
+.portrait-flash.ring-glow {
+  animation: ringGlow .7s ease-out forwards;
+}
+@keyframes ringGlow {
+  0%   { opacity: 0; transform: scale(.96); }
+  25%  { opacity: .8; }
+  100% { opacity: 0; transform: scale(1.02); }
 }
 
 /* ヘッダー（立ち絵の上にオーバーレイ） */
@@ -290,6 +321,9 @@ body.theme-houzuki .bg-glow { opacity: 1; background: radial-gradient(circle at 
     <div class="vn-header">
       <div class="title">BFTK Deep Sea CS<span>深海コールセンター</span></div>
     </div>
+    <div class="gate-door left" id="gateLeft"></div>
+    <div class="gate-door right" id="gateRight"></div>
+    <div class="scan-line" id="scanLine"></div>
     <div class="portrait-flash" id="portraitFlash"></div>
     <img class="portrait-img pre-call" id="portrait" src="assets/cs/menda.webp" alt="キャラクター立ち絵">
     <div class="active-name-bar menda pre-call" id="activeNameBar">
@@ -394,24 +428,47 @@ function switchCharacter(character) {
 
   document.body.className = "theme-" + safe;
 
-  // グリッチ切替
+  // Pressure Gate + Bathysphere Scan 切替
   const flash = document.getElementById("portraitFlash");
-  portrait.classList.remove("visible", "appearing", "glitch-in");
-  portrait.classList.add("glitch-out");
-  flash.classList.remove("glitch-active");
-  void flash.offsetWidth;
-  flash.classList.add("glitch-active");
+  const gateL = document.getElementById("gateLeft");
+  const gateR = document.getElementById("gateRight");
+  const scanLine = document.getElementById("scanLine");
+
+  // 1. 微グリッチ → 退場
+  portrait.classList.remove("visible", "appearing", "departing", "micro-glitch");
+  portrait.classList.add("micro-glitch");
   setTimeout(() => {
-    portrait.classList.remove("glitch-out");
-    portrait.src = "assets/cs/" + safe + ".webp";
-    portrait.onload = () => {
-      portrait.classList.add("glitch-in");
-      portrait.addEventListener("animationend", () => {
-        portrait.classList.remove("glitch-in");
-        portrait.classList.add("visible");
-      }, { once: true });
-    };
-  }, 350);
+    portrait.classList.remove("micro-glitch");
+    portrait.classList.add("departing");
+  }, 60);
+
+  // 2. シャッター閉じ（0.1s後に開始）
+  setTimeout(() => {
+    gateL.classList.remove("closing"); gateR.classList.remove("closing");
+    void gateL.offsetWidth;
+    gateL.classList.add("closing"); gateR.classList.add("closing");
+    // シャッターが完全に閉まるタイミング（35%地点 = 0.25s）でキャラ差替
+    setTimeout(() => {
+      portrait.classList.remove("departing");
+      portrait.src = "assets/cs/" + safe + ".webp";
+      portrait.onload = () => {
+        // 3. スキャンライン発動
+        scanLine.classList.remove("active");
+        void scanLine.offsetWidth;
+        scanLine.classList.add("active");
+        // 4. リンググロー
+        flash.classList.remove("ring-glow");
+        void flash.offsetWidth;
+        flash.classList.add("ring-glow");
+        // 5. キャラ出現（投影）
+        portrait.classList.add("appearing");
+        portrait.addEventListener("animationend", () => {
+          portrait.classList.remove("appearing");
+          portrait.classList.add("visible");
+        }, { once: true });
+      };
+    }, 250);
+  }, 100);
 
   // 名前バー更新
   activeNameBar.className = "active-name-bar " + safe;
