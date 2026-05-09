@@ -101,6 +101,15 @@ nav {
     align-items: baseline;
     gap: 0.8rem;
 }
+.tenga-planet {
+    font-size: 0.7rem;
+    color: #888;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 3px;
+    padding: 0.1em 0.4em;
+    white-space: nowrap;
+}
 .tenga-name {
     font-family: 'Noto Sans JP', sans-serif;
     font-weight: 700;
