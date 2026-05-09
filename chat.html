@@ -860,7 +860,7 @@ async function sendToWorker(text, character, inputType) {
   const loadingEl = showLoading();
   try {
     const res = await fetch(WORKER_URL, { method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: text, history: conversationHistory, character: character, sessionId: SESSION_ID, turn: turnCount, inputType: inputType || "free" }) });
+      body: JSON.stringify({ message: text, history: conversationHistory, character: character, sessionId: SESSION_ID, turn: turnCount, inputType: inputType || "free", ...(NIGHT_MODE && { nightShift: true }) }) });
     const data = await res.json();
     removeLoading(loadingEl);
     if (data.reply) {
