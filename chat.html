@@ -702,13 +702,11 @@ function onMenuBtn(category) {
       break;
     case "survey":
       addMsg("アンケート", "user");
+      isSending = true; setInputDisabled(true);
       showTransfer("アンケートですね。…ズッキーに繋ぎます。", "houzuki").then(async () => {
         if (!appearedChars.has("houzuki")) { appearedChars.add("houzuki"); await addCharMsg("houzuki", getBreakLine("houzuki")); }
-        else { await addCharMsg("houzuki", "あ、あの…ズッキーです。ご協力、いただけると助かります。\n\nBFTKを何で知りましたか？ 下の入力欄で教えていただけると嬉しいです。"); }
-        reportMode = "survey";
-        updateMenuButtons();
-        msgInput.placeholder = "回答を入力...";
-        msgInput.focus();
+        await addCharMsg("houzuki", "あ、あの…すみません、今はイベント期間じゃないので、アンケートはないんです……。\nでも、お話でしたらお付き合いしますので…！");
+        try { await sendToWorker("アンケートについて", "houzuki", "button"); } finally { unlockInput(); }
       });
       break;
   }
