@@ -870,6 +870,10 @@ async function sendToWorker(text, character, inputType) {
         conversationHistory.push({ role: "user", content: text });
         conversationHistory.push({ role: "assistant", content: data.reply });
         if (conversationHistory.length > 10) conversationHistory = conversationHistory.slice(-10);
+      } else if (data.source === "faq" || data.source === "billing" || data.source === "policy") {
+        conversationHistory.push({ role: "user", content: text });
+        conversationHistory.push({ role: "assistant", content: data.historyTag || "[案内済み]" });
+        if (conversationHistory.length > 10) conversationHistory = conversationHistory.slice(-10);
       }
       incrementSession();
     } else { addMsg("エラー: " + (data.error || "応答なし"), "error"); }
