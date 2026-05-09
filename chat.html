@@ -504,6 +504,10 @@ const NIGHT_LINES = {
 const BREAK_MODE = false;  // @休憩中（リリース時にfalseにする）
 const NIGHT_MODE = true;   // @夜勤対応中
 
+// 夜勤シフト: 曜日→担当（0=日,1=月,...6=土）
+const NIGHT_SHIFT = ["ryuuguu", "menda", "musha", "demeni", "mukai", "houzuki", "tomori"];
+const NIGHT_CHAR = NIGHT_MODE ? NIGHT_SHIFT[new Date().getDay()] : null;
+
 const appearedChars = new Set();
 function getGreetingLine(char) {
   if (NIGHT_MODE) {
@@ -542,10 +546,19 @@ function startCall() {
     // コールスクリーンをフェードアウト
     callScreen.classList.add("hidden");
     // テーマ適用
-    document.body.className = "theme-menda";
+    const startChar = NIGHT_CHAR || "menda";
+    document.body.className = "theme-" + startChar;
+    currentCharacter = startChar;
     // ダイアログ表示
     dialogArea.classList.remove("pre-call");
     dialogArea.classList.add("active");
+    // 名前バー更新
+    const disp = NIGHT_MODE ? CHAR_DISPLAY_NIGHT : BREAK_MODE ? CHAR_DISPLAY_BREAK : CHAR_DISPLAY_NORMAL;
+    activeNameBar.className = "active-name-bar " + startChar;
+    activeNameBar.querySelector(".name").textContent = disp[startChar] || startChar;
+    activeNameBar.querySelector(".role").textContent = NIGHT_MODE ? "夜勤担当" : (CHAR_ROLES[startChar] || "");
+    // 立ち絵の初期画像を設定
+    portrait.src = "assets/cs/" + startChar + ".webp";
     // 上限チェックを先に行う
     setTimeout(async () => {
       if (!isStaff() && getSession().count >= SESSION_LIMIT) {
@@ -556,11 +569,11 @@ function startCall() {
         portrait.classList.remove("pre-call");
         portrait.classList.add("visible");
         activeNameBar.classList.remove("pre-call");
-        appearedChars.add("menda");
-        const mendaLine = getGreetingLine("menda") || "はい…深海カスタマーサービスです。受付のンダです。…ご用件をどうぞ。";
-        await addCharMsg("menda", mendaLine);
+        appearedChars.add(startChar);
+        const greetLine = getGreetingLine(startChar) || "はい…深海カスタマーサービスです。受付のンダです。…ご用件をどうぞ。";
+        await addCharMsg(startChar, greetLine);
         setInputDisabled(false);
-        msgInput.placeholder = "ンダに話しかける...";
+        msgInput.placeholder = (CHAR_NAMES[startChar] || "ンダ") + "に話しかける...";
         msgInput.focus();
       }
     }, 400);
@@ -638,7 +651,7 @@ function switchCharacter(character) {
   activeNameBar.className = "active-name-bar " + safe;
   const disp = NIGHT_MODE ? CHAR_DISPLAY_NIGHT : BREAK_MODE ? CHAR_DISPLAY_BREAK : CHAR_DISPLAY_NORMAL;
   activeNameBar.querySelector(".name").textContent = disp[safe] || safe;
-  activeNameBar.querySelector(".role").textContent = CHAR_ROLES[safe] || "";
+  activeNameBar.querySelector(".role").textContent = NIGHT_MODE ? "夜勤担当" : (CHAR_ROLES[safe] || "");
 
   currentCharacter = safe;
 }
@@ -706,10 +719,22 @@ function addTransferMsg(text) {
 }
 
 // ===== ボタンメニュー =====
+const CATEGORY_LABELS = { faq: "ゲームについて聞きたい", billing: "お支払いについて", policy: "規約について", bug: "バグ報告", feedback: "ご意見・要望", survey: "アンケート" };
 function onMenuBtn(category) {
   if (isSending) return;
   if (!checkSessionLimit()) return;
   reportMode = false;
+
+  // 夜勤モード: 転送せず夜勤担当がそのまま対応
+  if (NIGHT_MODE && NIGHT_CHAR) {
+    addMsg(CATEGORY_LABELS[category] || category, "user");
+    isSending = true; setInputDisabled(true);
+    const prompt = { faq: "ゲームについて教えてください", billing: "課金について教えてください", policy: "利用規約について教えてください", bug: "バグを報告したい", feedback: "意見・要望がある", survey: "アンケートについて" };
+    (async () => {
+      try { await sendToWorker(prompt[category] || category, NIGHT_CHAR, "button"); } finally { unlockInput(); }
+    })();
+    return;
+  }
 
   switch (category) {
     case "faq":
@@ -784,7 +809,7 @@ function unlockInput() {
 }
 function updateMenuButtons() {
   for (const btn of btnMenu.querySelectorAll("button[data-cat]")) {
-    btn.disabled = (CAT_TO_CHAR[btn.dataset.cat] === currentCharacter);
+    btn.disabled = NIGHT_MODE ? false : (CAT_TO_CHAR[btn.dataset.cat] === currentCharacter);
   }
 }
 
