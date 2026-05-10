@@ -229,6 +229,31 @@ nav {
     color: #000;
 }
 
+/* ゲーム情報テーブル */
+.game-info {
+    margin-top: 2.5rem;
+    width: min(100%, 420px);
+    border-top: 1px solid rgba(249,168,37,0.2);
+}
+.game-info-row {
+    display: flex;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.game-info-row dt {
+    width: 7rem;
+    flex-shrink: 0;
+    padding: 0.7rem 0;
+    font-size: 0.75rem;
+    color: #F9A825;
+    letter-spacing: 0.08em;
+}
+.game-info-row dd {
+    padding: 0.7rem 0;
+    font-size: 0.85rem;
+    color: #ccc;
+    letter-spacing: 0.03em;
+}
+
 /* フッター */
 footer {
     border-top: 1px solid rgba(255,255,255,0.06);
