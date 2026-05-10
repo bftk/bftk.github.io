@@ -943,15 +943,15 @@ footer a:hover {
 }
 .hub-panel-featured {
     padding: 2.4rem 4rem 2.4rem 2rem;
-    border: 1px solid rgba(249,168,37,0.32);
-    background: linear-gradient(135deg, rgba(249,168,37,0.08), rgba(255,255,255,0.02));
-    box-shadow: 0 0 0 1px rgba(249,168,37,0.08) inset, 0 0 24px rgba(249,168,37,0.08);
+    border: 1px solid rgba(249,168,37,0.45);
+    background: linear-gradient(135deg, rgba(249,168,37,0.12), rgba(255,255,255,0.02));
+    box-shadow: 0 0 0 1px rgba(249,168,37,0.15) inset, 0 0 40px rgba(249,168,37,0.12);
 }
 .hub-panel-featured::after {
     content: "";
     position: absolute;
-    inset: 10px;
-    border: 1px solid rgba(249,168,37,0.12);
+    inset: 8px;
+    border: 1px solid rgba(249,168,37,0.22);
     pointer-events: none;
 }
 .hub-panel-featured .hub-panel-arrow {
@@ -959,13 +959,12 @@ footer a:hover {
 }
 .featured-corner {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 8px;
+    right: 8px;
     width: 80px;
     height: 80px;
-    border-top: 1px solid rgba(249,168,37,0.3);
-    border-right: 1px solid rgba(249,168,37,0.3);
-    opacity: 0.6;
+    border-top: 1px solid rgba(249,168,37,0.5);
+    border-right: 1px solid rgba(249,168,37,0.5);
     pointer-events: none;
 }
 .hub-panel {
