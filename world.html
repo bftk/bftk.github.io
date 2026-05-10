@@ -22,6 +22,7 @@
             background-position: center;
             background-repeat: no-repeat;
             padding: clamp(4rem, 10vw, 8rem) 2rem;
+            padding-top: 18vh;
         }
         .world-scene::before {
             content: "";
@@ -35,13 +36,13 @@
         .world-scene-inner {
             position: relative;
             z-index: 2;
-            max-width: 700px;
+            max-width: 500px;
         }
         .world-scene:not(.world-scene-2) .world-scene-inner {
             margin: 0 auto 0 clamp(2rem, 8vw, 10rem);
         }
         .world-scene-2 .world-scene-inner {
-            margin: 0 clamp(1rem, 4vw, 4rem) 0 auto;
+            margin: 0 clamp(2rem, 8vw, 10rem) 0 auto;
         }
         .world-scene .section-title {
             margin-bottom: 2rem;
@@ -49,6 +50,7 @@
         .world-scene .section-body {
             color: rgba(255, 255, 255, 0.88);
             text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
+            line-height: 2.0;
         }
         .world-scene .world-quote {
             font-size: 1.15rem;
@@ -63,7 +65,13 @@
             color: rgba(255, 255, 255, 0.95);
             text-shadow: 0 0 12px rgba(249, 168, 37, 0.2);
         }
-        .world-scene-2 {
+        .world-scene-2 .section-body {
+            color: rgba(255, 245, 230, 0.92);
+        }
+        .world-scene-2::before {
+            background:
+                linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.6) 15%, rgba(0,0,0,0.6) 85%, rgba(0,0,0,0.8) 100%),
+                rgba(0, 0, 0, 0.55);
         }
         @media (max-width: 600px) {
             .world-scene {
@@ -103,6 +111,8 @@
         </div>
     </section>
 
+    <div style="height: 1px; max-width: 60%; margin: 0 auto; background: linear-gradient(to right, transparent, rgba(255,180,80,0.4), transparent);"></div>
+
     <section class="world-scene world-scene-2" style="background-image: url('world02.png')">
         <div class="world-scene-inner">
             <p class="section-body world-quote">「王が増えすぎた。なら、一つに決める」</p>
@@ -114,6 +124,8 @@
                 そして、世界。</p>
         </div>
     </section>
+
+    <div style="height: 20vh; background: linear-gradient(to bottom, rgba(0,0,0,0.9), #050507 60%);"></div>
 
     <a href="chat.html" class="chat-fab" aria-label="キャラと話す"><img src="chat-icon.png" alt="キャラと話す"></a>
     <footer>
