@@ -943,16 +943,19 @@ footer a:hover {
 }
 .hub-panel-featured {
     padding: 2.4rem 4rem 2.4rem 2rem;
-    border: 1px solid rgba(249,168,37,0.45);
-    background: linear-gradient(135deg, rgba(249,168,37,0.12), rgba(255,255,255,0.02));
-    box-shadow: 0 0 0 1px rgba(249,168,37,0.15) inset, 0 0 40px rgba(249,168,37,0.12);
+    border: 1px solid rgba(192,192,210,0.4);
+    background: linear-gradient(135deg, rgba(192,192,210,0.08), rgba(255,255,255,0.02));
+    box-shadow: 0 0 0 1px rgba(192,192,210,0.12) inset, 0 0 40px rgba(192,192,210,0.1);
 }
 .hub-panel-featured::after {
     content: "";
     position: absolute;
     inset: 8px;
-    border: 1px solid rgba(249,168,37,0.22);
+    border: 1px solid rgba(192,192,210,0.18);
     pointer-events: none;
+}
+.hub-panel-featured::before {
+    background: linear-gradient(180deg, rgba(192,192,210,0.8), transparent);
 }
 .hub-panel-featured .hub-panel-arrow {
     right: 2.5rem;
@@ -963,8 +966,8 @@ footer a:hover {
     right: 8px;
     width: 80px;
     height: 80px;
-    border-top: 1px solid rgba(249,168,37,0.5);
-    border-right: 1px solid rgba(249,168,37,0.5);
+    border-top: 1px solid rgba(192,192,210,0.45);
+    border-right: 1px solid rgba(192,192,210,0.45);
     pointer-events: none;
 }
 .hub-panel {
