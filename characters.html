@@ -3,10 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>キャラクター - BFTK</title>
-        <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <title>FACTION ARCHIVE - BFTK</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="stylesheet" href="style.css">
+    <meta property="og:title" content="FACTION ARCHIVE - BFTK">
+    <meta property="og:description" content="草原・森林・山岳・廃墟。四つの勢力が覇権を懸けて激突する。勢力アーカイブを公開。">
+    <meta property="og:url" content="https://bftk-game.com/characters.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="BFTK">
+    <meta property="og:locale" content="ja_JP">
+    <meta name="twitter:card" content="summary">
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-K0TT1CMBVT"></script>
     <script>
@@ -15,6 +22,250 @@
       gtag('js', new Date());
       gtag('config', 'G-K0TT1CMBVT');
     </script>
+    <style>
+        .fa-wrap {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem 4rem;
+        }
+
+        /* --- 勢力セクション --- */
+        .faction {
+            border: 1px solid rgba(255,255,255,0.06);
+            padding: 2.2rem 2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(255,255,255,0.035), rgba(255,255,255,0.008));
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+            border-left: 4px solid #333;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .faction::after {
+            content: attr(data-code);
+            position: absolute;
+            top: 1.2rem;
+            right: 1.5rem;
+            font-family: 'Cinzel', serif;
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 900;
+            line-height: 1;
+            pointer-events: none;
+            user-select: none;
+        }
+        .faction.plains { border-left-color: #F9A825; }
+        .faction.forest { border-left-color: #2E7D32; }
+        .faction.mountain { border-left-color: #C62828; }
+        .faction.ruins { border-left-color: #795548; }
+        .faction.mixed { border-left-color: #757575; }
+
+        .faction.plains::after { color: rgba(249,168,37,0.06); }
+        .faction.forest::after { color: rgba(46,125,50,0.06); }
+        .faction.mountain::after { color: rgba(198,40,40,0.06); }
+        .faction.ruins::after { color: rgba(121,85,72,0.06); }
+        .faction.mixed::after { color: rgba(117,117,117,0.06); }
+
+        .faction.plains:hover { border-color: rgba(249,168,37,0.22); border-left-color: #F9A825; box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 0 30px rgba(249,168,37,0.06); }
+        .faction.forest:hover { border-color: rgba(46,125,50,0.22); border-left-color: #2E7D32; box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 0 30px rgba(46,125,50,0.06); }
+        .faction.mountain:hover { border-color: rgba(198,40,40,0.22); border-left-color: #C62828; box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 0 30px rgba(198,40,40,0.06); }
+        .faction.ruins:hover { border-color: rgba(121,85,72,0.22); border-left-color: #795548; box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 0 30px rgba(121,85,72,0.06); }
+        .faction.mixed:hover { border-color: rgba(117,117,117,0.22); border-left-color: #757575; box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 0 30px rgba(117,117,117,0.06); }
+
+        /* ヘッダー */
+        .fa-label {
+            font-family: 'Cinzel', serif;
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 0.25em;
+            color: rgba(255,255,255,0.3);
+            margin-bottom: 0.3rem;
+        }
+        .fa-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.15rem;
+        }
+        .fa-name-en {
+            font-family: 'Cinzel', serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            color: rgba(255,255,255,0.25);
+        }
+
+        /* イデオロギー引用 */
+        .fa-ideology {
+            margin: 1.2rem 0;
+            padding-left: 1rem;
+            font-size: 1rem;
+            font-weight: 500;
+            line-height: 1.6;
+        }
+        .faction.plains .fa-ideology { color: rgba(249,168,37,0.85); border-left: 2px solid rgba(249,168,37,0.3); }
+        .faction.forest .fa-ideology { color: rgba(100,200,110,0.85); border-left: 2px solid rgba(46,125,50,0.3); }
+        .faction.mountain .fa-ideology { color: rgba(255,110,100,0.85); border-left: 2px solid rgba(198,40,40,0.3); }
+        .faction.ruins .fa-ideology { color: rgba(190,150,120,0.85); border-left: 2px solid rgba(121,85,72,0.3); }
+        .faction.mixed .fa-ideology { color: rgba(180,180,180,0.85); border-left: 2px solid rgba(117,117,117,0.3); }
+
+        /* 説明文 */
+        .fa-desc {
+            font-size: 0.9rem;
+            color: #999;
+            line-height: 1.9;
+            margin-bottom: 1.5rem;
+        }
+
+        /* 戦闘スタイルタグ */
+        .fa-style {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.8rem;
+        }
+        .fa-style-label {
+            font-family: 'Cinzel', serif;
+            font-size: 0.6rem;
+            letter-spacing: 0.15em;
+            color: rgba(255,255,255,0.3);
+        }
+        .fa-style-tag {
+            padding: 0.35rem 0.7rem;
+            font-size: 0.7rem;
+            letter-spacing: 0.06em;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.03);
+            color: rgba(255,255,255,0.6);
+        }
+        .faction.plains .fa-style-tag { border-color: rgba(249,168,37,0.18); }
+        .faction.forest .fa-style-tag { border-color: rgba(46,125,50,0.18); }
+        .faction.mountain .fa-style-tag { border-color: rgba(198,40,40,0.18); }
+        .faction.ruins .fa-style-tag { border-color: rgba(121,85,72,0.18); }
+
+        /* --- 機密ファイルUI: キーメンバー --- */
+        .dossier-title {
+            font-family: 'Cinzel', serif;
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
+            color: rgba(255,255,255,0.25);
+            margin-bottom: 0.6rem;
+        }
+        .dossier-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 0.6rem;
+            margin-bottom: 1.2rem;
+        }
+        .dossier {
+            border: 1px solid rgba(255,255,255,0.06);
+            background: rgba(0,0,0,0.3);
+            padding: 1rem 1rem 0.8rem;
+            position: relative;
+        }
+        .dossier::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+        }
+        .faction.plains .dossier::before { background: linear-gradient(90deg, #F9A825, transparent); }
+        .faction.forest .dossier::before { background: linear-gradient(90deg, #2E7D32, transparent); }
+        .faction.mountain .dossier::before { background: linear-gradient(90deg, #C62828, transparent); }
+        .faction.ruins .dossier::before { background: linear-gradient(90deg, #795548, transparent); }
+
+        .dossier-class {
+            font-family: 'Cinzel', serif;
+            font-size: 0.55rem;
+            letter-spacing: 0.2em;
+            display: block;
+            margin-bottom: 0.4rem;
+        }
+        .faction.plains .dossier-class { color: rgba(249,168,37,0.7); }
+        .faction.forest .dossier-class { color: rgba(100,200,110,0.7); }
+        .faction.mountain .dossier-class { color: rgba(255,110,100,0.7); }
+        .faction.ruins .dossier-class { color: rgba(190,150,120,0.7); }
+
+        .dossier-name {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #eee;
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+        .dossier-species {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.35);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        .dossier-status {
+            font-family: 'Cinzel', serif;
+            font-size: 0.55rem;
+            letter-spacing: 0.15em;
+            color: rgba(255,255,255,0.2);
+        }
+        .dossier-lock {
+            position: absolute;
+            bottom: 0.6rem;
+            right: 0.8rem;
+            font-family: 'Cinzel', serif;
+            font-size: 0.5rem;
+            letter-spacing: 0.15em;
+            color: rgba(255,255,255,0.1);
+        }
+
+        /* ユニット数 */
+        .fa-unit-count {
+            font-family: 'Cinzel', serif;
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.3);
+            letter-spacing: 0.1em;
+            text-align: right;
+        }
+        .fa-unit-count strong {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* --- 混合セクション --- */
+        .faction.mixed .fa-desc {
+            margin-bottom: 0.8rem;
+        }
+
+        /* --- フッター注記 --- */
+        .fa-note {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.04);
+            background: rgba(255,255,255,0.015);
+        }
+        .fa-note-label {
+            font-family: 'Cinzel', serif;
+            font-size: 0.6rem;
+            letter-spacing: 0.25em;
+            color: rgba(249,168,37,0.5);
+            margin-bottom: 0.5rem;
+        }
+        .fa-note-text {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.4);
+            line-height: 1.7;
+        }
+
+        @media (max-width: 600px) {
+            .fa-wrap { padding: 1.5rem 1rem 2rem; }
+            .faction { padding: 1.8rem 1.2rem; }
+            .faction::after { font-size: 2.5rem; top: 0.8rem; right: 1rem; }
+            .fa-name { font-size: 1.2rem; }
+            .fa-ideology { font-size: 0.92rem; }
+            .fa-desc { font-size: 0.85rem; line-height: 1.8; }
+            .dossier-grid { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
     <nav>
@@ -26,15 +277,226 @@
             <a href="faq.html">FAQ</a>
         </div>
     </nav>
-    <div class="page-content">
-        <h1 class="page-title">キャラクター</h1>
-        <p class="page-subtitle">草原・森林・山岳・廃墟</p>
-        <p class="coming-soon">COMING SOON</p>
-    </div>
-        <a href="chat.html" class="chat-fab" aria-label="キャラと話す"><img src="chat-icon.png" alt="キャラと話す"></a>
+
+    <section class="hub-hero">
+        <div class="hub-hero-bg" aria-hidden="true">ARCHIVE</div>
+        <div class="hub-hero-inner">
+            <p class="hub-hero-label">FACTION ARCHIVE</p>
+            <h1 class="hub-hero-title">四つの勢力、一つの王座。</h1>
+            <p class="hub-hero-sub">獣人たちは、それぞれの思想と欲望を掲げ、覇権を争う。</p>
+        </div>
+    </section>
+
+    <section class="fa-wrap">
+
+        <!-- ===== 草原 ===== -->
+        <div class="faction plains" data-reveal data-code="01">
+            <p class="fa-label">FACTION 01</p>
+            <h2 class="fa-name">草原</h2>
+            <p class="fa-name-en">GRASSLAND ALLIANCE</p>
+
+            <p class="fa-ideology">「富が秩序を作る。秩序が王を作る」</p>
+
+            <p class="fa-desc">交易と資本によって覇権を築いた経済大国。大会の主催者でありながら、自ら優勝を狙う。豊かな資源と整備されたインフラを背景に、圧倒的な余裕と芯のある威圧で他勢力を迎え撃つ。勝つべくして勝つ――それが草原の流儀。</p>
+
+            <div class="fa-style">
+                <span class="fa-style-label">COMBAT</span>
+                <span class="fa-style-tag">初心者向け</span>
+                <span class="fa-style-tag">ステータス強化</span>
+                <span class="fa-style-tag">戦場制圧</span>
+            </div>
+
+            <p class="dossier-title">KEY MEMBERS</p>
+            <div class="dossier-grid">
+                <div class="dossier">
+                    <span class="dossier-class">KING</span>
+                    <span class="dossier-name">キングス</span>
+                    <span class="dossier-species">ライオン / Lion</span>
+                    <span class="dossier-status">STATUS : ACTIVE</span>
+                    <span class="dossier-lock">DATA LOCKED</span>
+                </div>
+                <div class="dossier">
+                    <span class="dossier-class">ELITE</span>
+                    <span class="dossier-name">サラ</span>
+                    <span class="dossier-species">チーター / Cheetah</span>
+                    <span class="dossier-status">STATUS : ACTIVE</span>
+                    <span class="dossier-lock">DATA LOCKED</span>
+                </div>
+                <div class="dossier">
+                    <span class="dossier-class">OPERATIVE</span>
+                    <span class="dossier-name">ゼブラゼブラ</span>
+                    <span class="dossier-species">シマウマ / Zebra</span>
+                    <span class="dossier-status">STATUS : ACTIVE</span>
+                    <span class="dossier-lock">DATA LOCKED</span>
+                </div>
+            </div>
+
+            <p class="fa-unit-count">TOTAL <strong>20</strong> UNITS</p>
+        </div>
+
+        <!-- ===== 森林 ===== -->
+        <div class="faction forest" data-reveal data-code="02">
+            <p class="fa-label">FACTION 02</p>
+            <h2 class="fa-name">森林</h2>
+            <p class="fa-name-en">FOREST REPUBLIC</p>
+
+            <p class="fa-ideology">「楽しく暮らせればいい。でも暴君には抵抗する」</p>
+
+            <p class="fa-desc">豊かな木々に覆われた森を拠点とする自由人たちの勢力。くじ引きで王に選ばれたバンガが率いる。ノリは軽いが筋は通す。多様な個性が集まり、誰もが自分の役割で森を支える。暴君の支配だけは許さない。</p>
+
+            <div class="fa-style">
+                <span class="fa-style-label">COMBAT</span>
+                <span class="fa-style-tag">バランス型</span>
+                <span class="fa-style-tag">編成自由度</span>
+                <span class="fa-style-tag">カテゴリ分散</span>
+            </div>
+
+            <p class="dossier-title">KEY MEMBERS</p>
+            <div class="dossier-grid">
+                <div class="dossier">
+                    <span class="dossier-class">KING</span>
+                    <span class="dossier-name">バンガ</span>
+                    <span class="dossier-species">ベンガルトラ / Bengal Tiger</span>
+                    <span class="dossier-status">STATUS : ACTIVE</span>
+                    <span class="dossier-lock">DATA LOCKED</span>
+                </div>
+                <div class="dossier">
+                    <span class="dossier-class">STRATEGIST</span>
+                    <span class="dossier-name">レイカ</span>
+                    <span class="dossier-species">ヒョウ / Leopard</span>
+                    <span class="dossier-status">STATUS : ACTIVE</span>
+                    <span class="dossier-lock">DATA LOCKED</span>
+                </div>
+                <div class="dossier">
+                    <span class="dossier-class">SCHOLAR</span>
+                    <span class="dossier-name">ルア</span>
+                    <span class="dossier-species">オランウータン / Orangutan</span>
+                    <span class="dossier-status">STATUS : ACTIVE</span>
+                    <span class="dossier-lock">DATA LOCKED</span>
+                </div>
+            </div>
+
+            <p class="fa-unit-count">TOTAL <strong>20</strong> UNITS</p>
+        </div>
+
+        <!-- ===== 山岳 ===== -->
+        <div class="faction mountain" data-reveal data-code="03">
+            <p class="fa-label">FACTION 03</p>
+            <h2 class="fa-name">山岳</h2>
+            <p class="fa-name-en">MOUNTAIN FORTRESS</p>
+
+            <p class="fa-ideology">「当然、勝つのは俺たちだ」</p>
+
+            <p class="fa-desc">山上の城塞都市を拠点とする、誇り高き勢力。王ゴルダは地下深くに座し、その姿を見た者はいない。四天王を中心とした統治は堅固にして独特。圧倒的な自信とスケールの壊れた天然さで、他勢力の挑戦を待ち受ける。</p>
+
+            <div class="fa-style">
+                <span class="fa-style-label">COMBAT</span>
+                <span class="fa-style-tag">スキル優位型</span>
+                <span class="fa-style-tag">スキルバフ</span>
+                <span class="fa-style-tag">号令</span>
+            </div>
+
+            <p class="dossier-title">KEY MEMBERS</p>
+            <div class="dossier-grid">
+                <div class="dossier">
+                    <span class="dossier-class">KING</span>
+                    <span class="dossier-name">ゴルダ</span>
+                    <span class="dossier-species">イヌワシ / Golden Eagle</span>
+                    <span class="dossier-status">STATUS : ████████</span>
+                    <span class="dossier-lock">CLASSIFIED</span>
+                </div>
+                <div class="dossier">
+                    <span class="dossier-class">FOUR GENERALS</span>
+                    <span class="dossier-name">ホーン</span>
+                    <span class="dossier-species">ビッグホーンシープ / Bighorn Sheep</span>
+                    <span class="dossier-status">STATUS : ACTIVE</span>
+                    <span class="dossier-lock">DATA LOCKED</span>
+                </div>
+                <div class="dossier">
+                    <span class="dossier-class">FOUR GENERALS</span>
+                    <span class="dossier-name">ツァン</span>
+                    <span class="dossier-species">バーラル / Bharal</span>
+                    <span class="dossier-status">STATUS : ACTIVE</span>
+                    <span class="dossier-lock">DATA LOCKED</span>
+                </div>
+            </div>
+
+            <p class="fa-unit-count">TOTAL <strong>20</strong> UNITS</p>
+        </div>
+
+        <!-- ===== 廃墟 ===== -->
+        <div class="faction ruins" data-reveal data-code="04">
+            <p class="fa-label">FACTION 04</p>
+            <h2 class="fa-name">廃墟</h2>
+            <p class="fa-name-en">RUINS SYNDICATE</p>
+
+            <p class="fa-ideology">「自由は、奪われてたまるか」</p>
+
+            <p class="fa-desc">人間が去った遺構に暮らす者たち。表向きの王ドブの裏で、真のボスが全てを操る。統治されない自由こそ廃墟の誇り。底辺から這い上がる切実な闘志と、生き抜くための知恵が武器。施設と罠で戦場を支配する。</p>
+
+            <div class="fa-style">
+                <span class="fa-style-label">COMBAT</span>
+                <span class="fa-style-tag">地形拠点型</span>
+                <span class="fa-style-tag">施設・罠</span>
+                <span class="fa-style-tag">瘴気</span>
+            </div>
+
+            <p class="dossier-title">KEY MEMBERS</p>
+            <div class="dossier-grid">
+                <div class="dossier">
+                    <span class="dossier-class">SHADOW BOSS</span>
+                    <span class="dossier-name">クロッカ</span>
+                    <span class="dossier-species">ブチハイエナ / Spotted Hyena</span>
+                    <span class="dossier-status">STATUS : ████████</span>
+                    <span class="dossier-lock">CLASSIFIED</span>
+                </div>
+                <div class="dossier">
+                    <span class="dossier-class">KING (OFFICIAL)</span>
+                    <span class="dossier-name">ドブ</span>
+                    <span class="dossier-species">ドブネズミ / Brown Rat</span>
+                    <span class="dossier-status">STATUS : ACTIVE</span>
+                    <span class="dossier-lock">DATA LOCKED</span>
+                </div>
+                <div class="dossier">
+                    <span class="dossier-class">OPERATIVE</span>
+                    <span class="dossier-name">アヌビ</span>
+                    <span class="dossier-species">ジャッカル / Jackal</span>
+                    <span class="dossier-status">STATUS : ACTIVE</span>
+                    <span class="dossier-lock">DATA LOCKED</span>
+                </div>
+            </div>
+
+            <p class="fa-unit-count">TOTAL <strong>20</strong> UNITS</p>
+        </div>
+
+        <!-- ===== 混合・無所属 ===== -->
+        <div class="faction mixed" data-reveal data-code="EX">
+            <p class="fa-label">FACTION EX</p>
+            <h2 class="fa-name">混合・無所属</h2>
+            <p class="fa-name-en">MIXED / UNAFFILIATED</p>
+
+            <p class="fa-ideology">「どこにも属さない。だから、どこへでも行ける」</p>
+
+            <p class="fa-desc">四勢力のどこにも属さず、独自の理由で大会に参戦する獣人たち。勢力の枠を超えたデッキ構築の鍵となる存在。</p>
+
+            <p class="fa-unit-count">TOTAL <strong>5</strong> UNITS</p>
+        </div>
+
+        <!-- 注記 -->
+        <div class="fa-note" data-reveal>
+            <p class="fa-note-label">NOTICE</p>
+            <p class="fa-note-text">各ユニットの詳細プロフィール・ビジュアルは順次公開予定。</p>
+        </div>
+
+    </section>
+
+    <a href="chat.html" class="chat-fab" aria-label="キャラと話す"><img src="chat-icon.png" alt="キャラと話す"></a>
     <footer>
         <a href="privacy.html">プライバシーポリシー</a>｜<a href="terms.html">利用規約</a>
         <p style="margin-top: 0.5rem;">&copy; 2026 BFTK Project</p>
     </footer>
+    <script>
+    document.addEventListener('DOMContentLoaded',()=>{const o=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('is-visible');o.unobserve(x.target)}})},{threshold:0.12});document.querySelectorAll('[data-reveal]').forEach(el=>o.observe(el))});
+    </script>
 </body>
 </html>
