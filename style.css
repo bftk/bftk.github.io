@@ -1021,6 +1021,9 @@ footer a:hover {
 .hub-grid .hub-panel {
     margin-bottom: 0;
 }
+.hub-grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+}
 .hub-panel-featured {
     padding: 2.4rem 4rem 2.4rem 2rem;
     border: 1px solid rgba(192,192,210,0.4);
