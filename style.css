@@ -59,6 +59,15 @@ nav {
     min-height: calc(100vh - 140px);
     text-align: center;
     padding: 2rem;
+    background: url('hero-visual.png') center center / cover no-repeat;
+    position: relative;
+}
+.page-content::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(5,5,5,0.7);
+    pointer-events: none;
 }
 .page-title {
     font-family: 'Cinzel', serif;
@@ -69,18 +78,24 @@ nav {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    position: relative;
+    z-index: 1;
 }
 .page-subtitle {
     font-size: 1rem;
     color: #aaa;
     margin-top: 0.8rem;
     letter-spacing: 0.05em;
+    position: relative;
+    z-index: 1;
 }
 .coming-soon {
     font-size: 1.3rem;
     margin-top: 2rem;
     color: #F9A825;
     letter-spacing: 0.3em;
+    position: relative;
+    z-index: 1;
 }
 .ace-grid {
     margin-top: 1.5rem;
@@ -181,19 +196,14 @@ nav {
 .hero-title {
     font-size: 2.5rem;
 }
-.hero-visual {
-    width: min(100%, 600px);
-    height: auto;
-    margin-top: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 0 60px rgba(249,168,37,0.15);
-}
 .hero-catchcopy {
     font-size: 1.3rem;
     font-weight: 700;
     color: #fff;
     margin-top: 1.5rem;
     letter-spacing: 0.1em;
+    position: relative;
+    z-index: 1;
 }
 .hero-cta {
     margin-top: 2rem;
@@ -241,6 +251,8 @@ nav {
     margin-top: 2.5rem;
     width: min(100%, 420px);
     border-top: 1px solid rgba(249,168,37,0.2);
+    position: relative;
+    z-index: 1;
 }
 .game-info-row {
     display: flex;
