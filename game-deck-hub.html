@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>遊び方 - BFTK</title>
+    <title>デッキ構築 - BFTK</title>
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="stylesheet" href="style.css">
-    <meta property="og:title" content="遊び方 - BFTK">
-    <meta property="og:description" content="カード入手・デッキ構築・バトル。3つのカテゴリで遊び方を解説。">
-    <meta property="og:url" content="https://bftk-game.com/game.html">
-    <link rel="canonical" href="https://bftk-game.com/game.html">
+    <meta property="og:title" content="デッキ構築 - BFTK">
+    <meta property="og:description" content="デッキの組み方とカードの仕組み。コスト、タイプ、エース効果、スキル。">
+    <meta property="og:url" content="https://bftk-game.com/game-deck-hub.html">
+    <link rel="canonical" href="https://bftk-game.com/game-deck-hub.html">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="BFTK">
     <meta property="og:locale" content="ja_JP">
@@ -35,59 +35,70 @@
     </nav>
 
     <section class="hub-hero">
-        <div class="hub-hero-bg" aria-hidden="true">TERRITORY</div>
+        <div class="hub-hero-bg" aria-hidden="true">DECK</div>
         <div class="hub-hero-inner">
-            <p class="hub-hero-label">PLAY GUIDE</p>
-            <h1 class="hub-hero-title">プレイガイド</h1>
+            <p class="hub-hero-label">DECK BUILDING</p>
+            <h1 class="hub-hero-title">デッキ構築</h1>
         </div>
     </section>
 
     <section class="hub-panels">
         <div class="hub-grid">
-        <a href="game-cards.html" class="hub-panel" data-reveal>
+        <a href="game-deck.html" class="hub-panel" data-reveal>
             <div class="hub-panel-meta">
                 <span class="hub-panel-no">01</span>
-                <span class="hub-panel-tag">SYSTEM_CARDS</span>
-            </div>
-            <h2 class="hub-panel-title">カード入手</h2>
-            <p class="hub-panel-desc">カードの入手方法</p>
-            <ul class="hub-panel-points">
-                <li>COMING SOON</li>
-            </ul>
-            <span class="hub-panel-arrow" aria-hidden="true">&rarr;</span>
-        </a>
-        <a href="game-deck-hub.html" class="hub-panel" data-reveal>
-            <div class="hub-panel-meta">
-                <span class="hub-panel-no">02</span>
                 <span class="hub-panel-tag">SYSTEM_DECK</span>
             </div>
             <h2 class="hub-panel-title">デッキ構築</h2>
-            <p class="hub-panel-desc">デッキの組み方とカードの仕組み</p>
+            <p class="hub-panel-desc">8枚・コスト8以内。構築の方針がそのまま戦略になる。</p>
             <ul class="hub-panel-points">
-                <li>コスト</li>
-                <li>タイプ</li>
+                <li>コスト上限8</li>
+                <li>4勢力</li>
+            </ul>
+            <span class="hub-panel-arrow" aria-hidden="true">&rarr;</span>
+        </a>
+        <a href="game-types.html" class="hub-panel" data-reveal>
+            <div class="hub-panel-meta">
+                <span class="hub-panel-no">02</span>
+                <span class="hub-panel-tag">SYSTEM_TYPES</span>
+            </div>
+            <h2 class="hub-panel-title">タイプ相性</h2>
+            <p class="hub-panel-desc">三すくみが生む有利と不利。タイプごとの戦い方の違い。</p>
+            <ul class="hub-panel-points">
+                <li>三すくみ</li>
+                <li>近接 / 突進 / 遠距離</li>
+            </ul>
+            <span class="hub-panel-arrow" aria-hidden="true">&rarr;</span>
+        </a>
+        <a href="game-ace.html" class="hub-panel" data-reveal>
+            <div class="hub-panel-meta">
+                <span class="hub-panel-no">03</span>
+                <span class="hub-panel-tag">SYSTEM_ABILITIES</span>
+            </div>
+            <h2 class="hub-panel-title">エース効果と特技</h2>
+            <p class="hub-panel-desc">戦略を決めるエース効果。カードに宿る特技。</p>
+            <ul class="hub-panel-points">
                 <li>エース効果</li>
-                <li>スキル</li>
+                <li>特技</li>
+            </ul>
+            <span class="hub-panel-arrow" aria-hidden="true">&rarr;</span>
+        </a>
+        <a href="game-skills.html" class="hub-panel" data-reveal>
+            <div class="hub-panel-meta">
+                <span class="hub-panel-no">04</span>
+                <span class="hub-panel-tag">SYSTEM_SKILLS</span>
+            </div>
+            <h2 class="hub-panel-title">スキルと天牙</h2>
+            <p class="hub-panel-desc">BGゲージが頂点に達したとき、天牙が目覚める。</p>
+            <ul class="hub-panel-points">
+                <li>固有スキル</li>
+                <li>BGゲージ</li>
+                <li>天牙</li>
             </ul>
             <span class="hub-panel-arrow" aria-hidden="true">&rarr;</span>
         </a>
         </div>
-        <a href="game-battle.html" class="hub-panel hub-panel-featured" data-reveal>
-            <span class="featured-corner" aria-hidden="true"></span>
-            <div class="hub-panel-meta">
-                <span class="hub-panel-no">03</span>
-                <span class="hub-panel-tag">SYSTEM_BATTLE</span>
-            </div>
-            <h2 class="hub-panel-title">バトル</h2>
-            <p class="hub-panel-desc">出撃から決着まで</p>
-            <ul class="hub-panel-points">
-                <li>出撃</li>
-                <li>戦闘</li>
-                <li>侵攻</li>
-                <li>決着</li>
-            </ul>
-            <span class="hub-panel-arrow" aria-hidden="true">&rarr;</span>
-        </a>
+        <p style="text-align:center; margin-top:2rem;"><a href="game.html" style="color:#F9A825; text-decoration:none;">&larr; プレイガイドに戻る</a></p>
     </section>
 
     <a href="chat.html" class="chat-fab" aria-label="キャラと話す"><img src="chat-icon.png" alt="キャラと話す"></a>
