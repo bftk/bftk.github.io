@@ -59,7 +59,7 @@ nav {
     min-height: calc(100vh - 140px);
     text-align: center;
     padding: 2rem;
-    background: url('hero-visual.webp') center center / cover no-repeat;
+    background: url('hero-visual.webp') center center no-repeat;
     position: relative;
 }
 .page-content::before {
