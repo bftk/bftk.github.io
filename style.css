@@ -181,6 +181,13 @@ nav {
 .hero-title {
     font-size: 2.5rem;
 }
+.hero-visual {
+    width: min(100%, 600px);
+    height: auto;
+    margin-top: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 0 60px rgba(249,168,37,0.15);
+}
 .hero-catchcopy {
     font-size: 1.3rem;
     font-weight: 700;
