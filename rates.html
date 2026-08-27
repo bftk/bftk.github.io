@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>提供割合 - BFTK</title>
+    <link rel="canonical" href="https://bftk-game.com/rates.html">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="stylesheet" href="style.css">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-K0TT1CMBVT"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-K0TT1CMBVT');
+    </script>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="nav-logo">BFTK</a>
+        <div class="nav-links">
+            <a href="world.html">世界観</a>
+            <a href="game.html">遊び方</a>
+            <a href="characters.html">キャラクター</a>
+            <a href="faq.html">FAQ</a>
+        </div>
+    </nav>
+
+    <div class="game-content">
+
+        <div class="game-section guide-header">
+            <h1 class="section-lead">提供割合</h1>
+            <p class="section-body">本ページでは、ガチャで獲得できるキャラクターの提供割合を掲載しています。</p>
+        </div>
+
+        <!-- 通常ガチャ レアリティ別 -->
+        <div class="game-section">
+            <h2 class="section-title">通常ガチャ レアリティ別提供割合</h2>
+            <table class="guide-table">
+                <thead>
+                    <tr>
+                        <th>レアリティ</th>
+                        <th>全体</th>
+                        <th>ピックアップ対象 1体あたり</th>
+                        <th>その他 1体あたり</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>SR</td>
+                        <td>6.5%</td>
+                        <td>4.225%（1体）</td>
+                        <td>0.108%（21体）</td>
+                    </tr>
+                    <tr>
+                        <td>R</td>
+                        <td>25.4%</td>
+                        <td>5.080%（2体）</td>
+                        <td>0.635%（24体）</td>
+                    </tr>
+                    <tr>
+                        <td>C</td>
+                        <td>68.1%</td>
+                        <td>—</td>
+                        <td>1.661%（41体）</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="section-note">※ 表示は素の提供割合です。確率変動・保証を含む実効値ではありません。<br>※ 小数第3位で四捨五入しているため、合計が100%にならない場合があります。</p>
+        </div>
+
+        <!-- 今月のピックアップ -->
+        <div class="game-section">
+            <h2 class="section-title">今月のピックアップ</h2>
+            <div id="pickup-active" style="display:none">
+                <table class="guide-table">
+                    <thead>
+                        <tr><th>レアリティ</th><th>キャラ名</th><th>提供割合</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>SR</td><td id="pu-sr-name"></td><td>4.225%</td></tr>
+                        <tr><td>R</td><td id="pu-r1-name"></td><td>5.080%</td></tr>
+                        <tr><td>R</td><td id="pu-r2-name"></td><td>5.080%</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="pickup-fallback">
+                <p class="section-body">今月のピックアップ対象を取得できませんでした。<br>ゲーム内のガチャ画面でご確認いただけます。</p>
+            </div>
+        </div>
+
+        <!-- 確率変動・保証 -->
+        <div class="game-section">
+            <h2 class="section-title">確率変動・保証</h2>
+
+            <p class="section-lead">SR確率アップ</p>
+            <table class="guide-table">
+                <thead>
+                    <tr><th>数えるもの</th><th>発動</th><th>リセット</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>連続でSR以外を引いた回数</td>
+                        <td>35連目以降、1連ごとにSR提供割合 +2%</td>
+                        <td>SRを獲得した時点で0に戻る</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p class="section-lead">ピックアップ保証</p>
+            <table class="guide-table">
+                <thead>
+                    <tr><th>数えるもの</th><th>発動</th><th>リセット</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>連続でピックアップ対象以外を引いた回数</td>
+                        <td>70連目でピックアップSRを1体確定で獲得</td>
+                        <td>ピックアップ対象を獲得した時点で0に戻る</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="section-body">※ ピックアップ対象以外のSRを獲得しても、ピックアップ保証の回数はリセットされません。</p>
+
+            <p class="section-lead">10連保証</p>
+            <p class="section-body">10回連続で引いた場合、R以上のキャラクターが必ず1体以上含まれます。</p>
+        </div>
+
+        <!-- 勢力ガチャ -->
+        <div class="game-section">
+            <h2 class="section-title">勢力ガチャ</h2>
+            <p class="section-body">森林・草原・山岳・廃墟の4バナーが常設されています。各バナーにはその勢力に所属する20体のみが含まれます。ピックアップはありません。SR確率アップはありません。</p>
+            <p class="section-body">レアリティ別の提供割合は通常ガチャと同じです（SR 6.5% / R 25.4% / C 68.1%）。</p>
+
+            <p class="section-lead">天井</p>
+            <p class="section-body">60連（連続でSR以外を引いた回数）でその勢力のSRを1体確定で獲得。SRを獲得した時点でリセット。10連でR以上1枚保証あり。</p>
+
+            <p class="section-lead">勢力別 1体あたりの提供割合</p>
+            <table class="guide-table">
+                <thead>
+                    <tr><th>勢力</th><th>構成（SR/R/C）</th><th>SR 1体</th><th>R 1体</th><th>C 1体</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>森林</td><td>5 / 5 / 10</td><td>1.300%</td><td>5.080%</td><td>6.810%</td></tr>
+                    <tr><td>草原</td><td>5 / 7 / 8</td><td>1.300%</td><td>3.629%</td><td>8.513%</td></tr>
+                    <tr><td>山岳</td><td>5 / 6 / 9</td><td>1.300%</td><td>4.233%</td><td>7.567%</td></tr>
+                    <tr><td>廃墟</td><td>5 / 5 / 10</td><td>1.300%</td><td>5.080%</td><td>6.810%</td></tr>
+                </tbody>
+            </table>
+            <p class="section-body">※ 混色（6体）・無所属（3体）は勢力ガチャには含まれません（通常ガチャ専用）。</p>
+        </div>
+
+        <!-- キャラクター一覧 -->
+        <div class="game-section">
+            <h2 class="section-title">キャラクター一覧（全89体）</h2>
+            <p class="section-body">SR 22体 / R 26体 / C 41体。通常ガチャの提供割合はピックアップ対象外の場合の値です。</p>
+
+            <p class="section-lead">森林（20体）</p>
+            <table class="guide-table">
+                <thead>
+                    <tr><th>キャラ名</th><th>レアリティ</th><th>通常ガチャ</th><th>森林ガチャ</th></tr>
+                </thead>
+                <tbody>
+                    <tr data-char="バンガ"><td>バンガ</td><td>SR</td><td>0.108%</td><td>1.300%</td></tr>
+                    <tr data-char="ニシキ"><td>ニシキ</td><td>SR</td><td>0.108%</td><td>1.300%</td></tr>
+                    <tr data-char="ルア"><td>ルア</td><td>SR</td><td>0.108%</td><td>1.300%</td></tr>
+                    <tr data-char="スズビー"><td>スズビー</td><td>SR</td><td>0.108%</td><td>1.300%</td></tr>
+                    <tr data-char="マヤ"><td>マヤ</td><td>SR</td><td>0.108%</td><td>1.300%</td></tr>
+                    <tr data-char="レイカ"><td>レイカ</td><td>R</td><td>0.635%</td><td>5.080%</td></tr>
+                    <tr data-char="シラユキ"><td>シラユキ</td><td>R</td><td>0.635%</td><td>5.080%</td></tr>
+                    <tr data-char="フクスケ"><td>フクスケ</td><td>R</td><td>0.635%</td><td>5.080%</td></tr>
+                    <tr data-char="アメミコ"><td>アメミコ</td><td>R</td><td>0.635%</td><td>5.080%</td></tr>
+                    <tr data-char="ヤマカン"><td>ヤマカン</td><td>R</td><td>0.635%</td><td>5.080%</td></tr>
+                    <tr data-char="清正"><td>清正</td><td>C</td><td>1.661%</td><td>6.810%</td></tr>
+                    <tr data-char="クモスケ"><td>クモスケ</td><td>C</td><td>1.661%</td><td>6.810%</td></tr>
+                    <tr data-char="秀吉"><td>秀吉</td><td>C</td><td>1.661%</td><td>6.810%</td></tr>
+                    <tr data-char="フワリ"><td>フワリ</td><td>C</td><td>1.661%</td><td>6.810%</td></tr>
+                    <tr data-char="クロベ"><td>クロベ</td><td>C</td><td>1.661%</td><td>6.810%</td></tr>
+                    <tr data-char="ネムタ"><td>ネムタ</td><td>C</td><td>1.661%</td><td>6.810%</td></tr>
+                    <tr data-char="パタパタ"><td>パタパタ</td><td>C</td><td>1.661%</td><td>6.810%</td></tr>
+                    <tr data-char="ハヤテ"><td>ハヤテ</td><td>C</td><td>1.661%</td><td>6.810%</td></tr>
+                    <tr data-char="ゲンタロウ"><td>ゲンタロウ</td><td>C</td><td>1.661%</td><td>6.810%</td></tr>
+                    <tr data-char="アニー"><td>アニー</td><td>C</td><td>1.661%</td><td>6.810%</td></tr>
+                </tbody>
+            </table>
+
+            <p class="section-lead">草原（20体）</p>
+            <table class="guide-table">
+                <thead>
+                    <tr><th>キャラ名</th><th>レアリティ</th><th>通常ガチャ</th><th>草原ガチャ</th></tr>
+                </thead>
+                <tbody>
+                    <tr data-char="キングス"><td>キングス</td><td>SR</td><td>0.108%</td><td>1.300%</td></tr>
+                    <tr data-char="サラ"><td>サラ</td><td>SR</td><td>0.108%</td><td>1.300%</td></tr>
+                    <tr data-char="ゼブラゼブラ"><td>ゼブラゼブラ</td><td>SR</td><td>0.108%</td><td>1.300%</td></tr>
+                    <tr data-char="ンドゥグ"><td>ンドゥグ</td><td>SR</td><td>0.108%</td><td>1.300%</td></tr>
+                    <tr data-char="アグアラ"><td>アグアラ</td><td>SR</td><td>0.108%</td><td>1.300%</td></tr>
+                    <tr data-char="マラ"><td>マラ</td><td>R</td><td>0.635%</td><td>3.629%</td></tr>
+                    <tr data-char="サバ"><td>サバ</td><td>R</td><td>0.635%</td><td>3.629%</td></tr>
+                    <tr data-char="タリク"><td>タリク</td><td>R</td><td>0.635%</td><td>3.629%</td></tr>
+                    <tr data-char="クルン"><td>クルン</td><td>R</td><td>0.635%</td><td>3.629%</td></tr>
+                    <tr data-char="サジタ"><td>サジタ</td><td>R</td><td>0.635%</td><td>3.629%</td></tr>
+                    <tr data-char="タキ"><td>タキ</td><td>R</td><td>0.635%</td><td>3.629%</td></tr>
+                    <tr data-char="リリー"><td>リリー</td><td>R</td><td>0.635%</td><td>3.629%</td></tr>
+                    <tr data-char="ワリビ"><td>ワリビ</td><td>C</td><td>1.661%</td><td>8.513%</td></tr>
+                    <tr data-char="バリッド"><td>バリッド</td><td>C</td><td>1.661%</td><td>8.513%</td></tr>
+                    <tr data-char="ワキナ"><td>ワキナ</td><td>C</td><td>1.661%</td><td>8.513%</td></tr>
+                    <tr data-char="ケタ"><td>ケタ</td><td>C</td><td>1.661%</td><td>8.513%</td></tr>
+                    <tr data-char="バトル"><td>バトル</td><td>C</td><td>1.661%</td><td>8.513%</td></tr>
+                    <tr data-char="チャスキ"><td>チャスキ</td><td>C</td><td>1.661%</td><td>8.513%</td></tr>
+                    <tr data-char="ドロム"><td>ドロム</td><td>C</td><td>1.661%</td><td>8.513%</td></tr>
+                    <tr data-char="カンガ"><td>カンガ</td><td>C</td><td>1.661%</td><td>8.513%</td></tr>
+                </tbody>
+            </table>
+
+            <p class="section-lead">山岳（20体）</p>
+            <table class="guide-table">
+                <thead>
+                    <tr><th>キャラ名</th><th>レアリティ</th><th>通常ガチャ</th><th>山岳ガチャ</th></tr>
+                </thead>
+                <tbody>
+                    <tr data-char="ゴルダ"><td>ゴルダ</td><td>SR</td><td>0.108%</td><td>1.300%</td></tr>
+                    <tr data-char="シルヴァ"><td>シルヴァ</td><td>SR</td><td>0.108%</td><td>1.300%</td></tr>
+                    <tr data-char="ホーン"><td>ホーン</td><td>SR</td><td>0.108%</td><td>1.300%</td></tr>
+                    <tr data-char="ツァン"><td>ツァン</td><td>SR</td><td>0.108%</td><td>1.300%</td></tr>
+                    <tr data-char="ライ"><td>ライ</td><td>SR</td><td>0.108%</td><td>1.300%</td></tr>
+                    <tr data-char="イワオ"><td>イワオ</td><td>R</td><td>0.635%</td><td>4.233%</td></tr>
+                    <tr data-char="ミーラ"><td>ミーラ</td><td>R</td><td>0.635%</td><td>4.233%</td></tr>
+                    <tr data-char="ダーラ"><td>ダーラ</td><td>R</td><td>0.635%</td><td>4.233%</td></tr>
+                    <tr data-char="ラマラマ"><td>ラマラマ</td><td>R</td><td>0.635%</td><td>4.233%</td></tr>
+                    <tr data-char="チーラ"><td>チーラ</td><td>R</td><td>0.635%</td><td>4.233%</td></tr>
+                    <tr data-char="コッチン"><td>コッチン</td><td>R</td><td>0.635%</td><td>4.233%</td></tr>
+                    <tr data-char="マルモ"><td>マルモ</td><td>C</td><td>1.661%</td><td>7.567%</td></tr>
+                    <tr data-char="コンドラ"><td>コンドラ</td><td>C</td><td>1.661%</td><td>7.567%</td></tr>
+                    <tr data-char="タール"><td>タール</td><td>C</td><td>1.661%</td><td>7.567%</td></tr>
+                    <tr data-char="チルー"><td>チルー</td><td>C</td><td>1.661%</td><td>7.567%</td></tr>
+                    <tr data-char="ゴラン"><td>ゴラン</td><td>C</td><td>1.661%</td><td>7.567%</td></tr>
+                    <tr data-char="スズ"><td>スズ</td><td>C</td><td>1.661%</td><td>7.567%</td></tr>
+                    <tr data-char="ポリー"><td>ポリー</td><td>C</td><td>1.661%</td><td>7.567%</td></tr>
+                    <tr data-char="ガゼラ"><td>ガゼラ</td><td>C</td><td>1.661%</td><td>7.567%</td></tr>
+                    <tr data-char="モナル"><td>モナル</td><td>C</td><td>1.661%</td><td>7.567%</td></tr>
+                </tbody>
+            </table>
+
+            <p class="section-lead">廃墟（20体）</p>
+            <table class="guide-table">
+                <thead>
+                    <tr><th>キャラ名</th><th>レアリティ</th><th>通常ガチャ</th><th>廃墟ガチャ</th></tr>
+                </thead>
+                <tbody>
+                    <tr data-char="クロッカ"><td>クロッカ</td><td>SR</td><td>0.108%</td><td>1.300%</td></tr>
+                    <tr data-char="ネクロ"><td>ネクロ</td><td>SR</td><td>0.108%</td><td>1.300%</td></tr>
+                    <tr data-char="アヌビ"><td>アヌビ</td><td>SR</td><td>0.108%</td><td>1.300%</td></tr>
+                    <tr data-char="ヴォロン"><td>ヴォロン</td><td>SR</td><td>0.108%</td><td>1.300%</td></tr>
+                    <tr data-char="ケイヤ"><td>ケイヤ</td><td>SR</td><td>0.108%</td><td>1.300%</td></tr>
+                    <tr data-char="ボロ"><td>ボロ</td><td>R</td><td>0.635%</td><td>5.080%</td></tr>
+                    <tr data-char="サビタ"><td>サビタ</td><td>R</td><td>0.635%</td><td>5.080%</td></tr>
+                    <tr data-char="ハイナ"><td>ハイナ</td><td>R</td><td>0.635%</td><td>5.080%</td></tr>
+                    <tr data-char="ジーナ"><td>ジーナ</td><td>R</td><td>0.635%</td><td>5.080%</td></tr>
+                    <tr data-char="コヨル"><td>コヨル</td><td>R</td><td>0.635%</td><td>5.080%</td></tr>
+                    <tr data-char="ポッサ"><td>ポッサ</td><td>C</td><td>1.661%</td><td>6.810%</td></tr>
+                    <tr data-char="マング"><td>マング</td><td>C</td><td>1.661%</td><td>6.810%</td></tr>
+                    <tr data-char="フェレ"><td>フェレ</td><td>C</td><td>1.661%</td><td>6.810%</td></tr>
+                    <tr data-char="ゴミー"><td>ゴミー</td><td>C</td><td>1.661%</td><td>6.810%</td></tr>
+                    <tr data-char="アラクネ"><td>アラクネ</td><td>C</td><td>1.661%</td><td>6.810%</td></tr>
+                    <tr data-char="ノラ"><td>ノラ</td><td>C</td><td>1.661%</td><td>6.810%</td></tr>
+                    <tr data-char="チャック"><td>チャック</td><td>C</td><td>1.661%</td><td>6.810%</td></tr>
+                    <tr data-char="ポンコ"><td>ポンコ</td><td>C</td><td>1.661%</td><td>6.810%</td></tr>
+                    <tr data-char="正則"><td>正則</td><td>C</td><td>1.661%</td><td>6.810%</td></tr>
+                    <tr data-char="ドブ"><td>ドブ</td><td>C</td><td>1.661%</td><td>6.810%</td></tr>
+                </tbody>
+            </table>
+
+            <p class="section-lead">混色（6体）— 通常ガチャ専用</p>
+            <table class="guide-table">
+                <thead>
+                    <tr><th>キャラ名</th><th>レアリティ</th><th>通常ガチャ</th></tr>
+                </thead>
+                <tbody>
+                    <tr data-char="空我"><td>空我</td><td>SR</td><td>0.108%</td></tr>
+                    <tr data-char="ミスト"><td>ミスト</td><td>SR</td><td>0.108%</td></tr>
+                    <tr data-char="ナーヴァ"><td>ナーヴァ</td><td>R</td><td>0.635%</td></tr>
+                    <tr data-char="柚子"><td>柚子</td><td>R</td><td>0.635%</td></tr>
+                    <tr data-char="千葉"><td>千葉</td><td>C</td><td>1.661%</td></tr>
+                    <tr data-char="ミドガー"><td>ミドガー</td><td>C</td><td>1.661%</td></tr>
+                </tbody>
+            </table>
+
+            <p class="section-lead">無所属（3体）— 通常ガチャ専用</p>
+            <table class="guide-table">
+                <thead>
+                    <tr><th>キャラ名</th><th>レアリティ</th><th>通常ガチャ</th></tr>
+                </thead>
+                <tbody>
+                    <tr data-char="ルコ"><td>ルコ</td><td>R</td><td>0.635%</td></tr>
+                    <tr data-char="タンバ"><td>タンバ</td><td>C</td><td>1.661%</td></tr>
+                    <tr data-char="レーツ"><td>レーツ</td><td>C</td><td>1.661%</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p class="section-note">※ 表示はすべて素の提供割合です。確率変動（天井）を含む実効値ではありません。<br>※ 小数第3位で四捨五入しているため、個別の合計が全体と一致しない場合があります。</p>
+
+    </div>
+
+    <a href="chat.html" class="chat-fab" aria-label="キャラと話す"><img src="chat-icon.png" alt="キャラと話す"></a>
+    <footer>
+        <a href="privacy.html">プライバシーポリシー</a>｜<a href="terms.html">利用規約</a>｜<a href="rates.html">提供割合</a>｜<a href="company.html">運営者情報</a>
+        <p style="margin-top: 0.5rem;">&copy; HIAS</p>
+    </footer>
+
+    <script>
+    (async function() {
+        var active = document.getElementById('pickup-active');
+        var fallback = document.getElementById('pickup-fallback');
+        try {
+            var res = await fetch('https://api.bftk-game.com/rates');
+            if (!res.ok) throw new Error(res.status);
+            var data = await res.json();
+            document.getElementById('pu-sr-name').textContent = data.pickup_sr;
+            document.getElementById('pu-r1-name').textContent = data.pickup_r[0];
+            document.getElementById('pu-r2-name').textContent = data.pickup_r[1];
+            active.style.display = '';
+            fallback.style.display = 'none';
+            // 89体一覧の該当行もPU率に更新（同一キャラに2つの数値が載るのを防ぐ）
+            [{name: data.pickup_sr, rate: '4.225%'},
+             {name: data.pickup_r[0], rate: '5.080%'},
+             {name: data.pickup_r[1], rate: '5.080%'}
+            ].forEach(function(pu) {
+                var row = document.querySelector('tr[data-char="' + pu.name + '"]');
+                if (row) row.cells[2].textContent = pu.rate + '\uff08\u30d4\u30c3\u30af\u30a2\u30c3\u30d7\u4e2d\uff09';
+            });
+        } catch (e) {
+            active.style.display = 'none';
+            fallback.style.display = '';
+        }
+    })();
+    </script>
+</body>
+</html>
