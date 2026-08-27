@@ -352,8 +352,8 @@ body.theme-houzuki .bg-glow { opacity: 1; background: radial-gradient(circle at 
     <img class="portrait-img pre-call" id="portrait" src="assets/cs/menda.webp" alt="キャラクター立ち絵">
     <div class="active-name-bar menda pre-call" id="activeNameBar">
       <div class="indicator"></div>
-      <div class="name">ンダちゃん @夜勤対応中</div>
-      <div class="role">総合受付</div>
+      <div class="name">ンダちゃん</div>
+      <div class="role">案内役</div>
     </div>
   </div>
 
@@ -362,15 +362,19 @@ body.theme-houzuki .bg-glow { opacity: 1; background: radial-gradient(circle at 
     <div class="chat-log" id="chatLog" role="log" aria-live="polite" aria-label="チャット履歴">
     </div>
     <div class="btn-menu" id="btnMenu" role="toolbar" aria-label="メニュー">
-      <button data-cat="faq" onclick="onMenuBtn('faq')">ゲームについて</button>
-      <button data-cat="billing" onclick="onMenuBtn('billing')">お支払い</button>
-      <button data-cat="policy" onclick="onMenuBtn('policy')">規約</button>
-      <button data-cat="bug" onclick="onMenuBtn('bug')">バグ報告</button>
-      <button data-cat="feedback" onclick="onMenuBtn('feedback')">ご意見・要望</button>
-      <button data-cat="survey" onclick="onMenuBtn('survey')">アンケート</button>
+      <button data-cat="ACCOUNT" onclick="onMenuBtn('ACCOUNT')">アカウント・データ</button>
+      <button data-cat="BILLING" onclick="onMenuBtn('BILLING')">お支払い</button>
+      <button data-cat="REPORT" onclick="onMenuBtn('REPORT')">不具合・違反報告</button>
+      <button data-cat="FEEDBACK" onclick="onMenuBtn('FEEDBACK')">ご意見・要望</button>
+      <button data-cat="POLICY" onclick="onMenuBtn('POLICY')">規約・プライバシー</button>
+    </div>
+    <div class="btn-menu" id="subMenu" role="toolbar" aria-label="サブメニュー" style="display:none;">
+      <button data-cat="BUG" onclick="onMenuBtn('BUG')">不具合報告</button>
+      <button data-cat="VIOLATION" onclick="onMenuBtn('VIOLATION')">違反報告</button>
+      <button onclick="hideSubMenu()">戻る</button>
     </div>
     <div class="chat-input">
-      <input type="text" id="msgInput" placeholder="ンダに話しかける..." maxlength="500" aria-label="メッセージ入力">
+      <input type="text" id="msgInput" placeholder="どんなことをお探しですか？" maxlength="500" aria-label="メッセージ入力">
       <button id="sendBtn" onclick="sendMsg()">送信</button>
     </div>
   </div>
@@ -393,9 +397,8 @@ const VALID_CHARACTERS = ["menda", "musha", "demeni", "mukai", "ryuuguu", "houzu
 const CHAR_NAMES = { menda: "ンダ", musha: "武者", demeni: "デメニ", mukai: "向井", ryuuguu: "辰宮", houzuki: "ズッキー", tomori: "トモリ" };
 const CHAR_DISPLAY_NORMAL = { menda: "ンダちゃん", musha: "武者", demeni: "デメニ", mukai: "向井くん", ryuuguu: "辰宮", houzuki: "ズッキー", tomori: "トモリ" };
 const CHAR_DISPLAY_BREAK = { menda: "ンダちゃん @休憩中", musha: "武者 @休憩中", demeni: "デメニ @休憩中", mukai: "向井くん @休憩中", ryuuguu: "辰宮 @休憩中", houzuki: "ズッキー @休憩中", tomori: "トモリ @休憩中" };
-const CHAR_DISPLAY_NIGHT = { menda: "ンダちゃん @夜勤対応中", musha: "武者 @夜勤対応中", demeni: "デメニ @夜勤対応中", mukai: "向井くん @夜勤対応中", ryuuguu: "辰宮 @夜勤対応中", houzuki: "ズッキー @夜勤対応中", tomori: "トモリ @夜勤対応中" };
-const CHAR_ROLES = { menda: "総合受付", musha: "規約担当", demeni: "課金担当", mukai: "対応責任者", ryuuguu: "ご意見・要望", houzuki: "アンケート", tomori: "バグ報告" };
-const CAT_TO_CHAR = { faq: "mukai", billing: "demeni", policy: "musha", bug: "ryuuguu", feedback: "ryuuguu", survey: "houzuki" };
+const CHAR_ROLES = { menda: "案内役", musha: "規約・プライバシー", demeni: "お支払い", mukai: "問題解決", ryuuguu: "ご意見・要望", houzuki: "お知らせ・イベント", tomori: "バグ報告" };
+const CATEGORY_TO_CHAR = { ACCOUNT: "mukai", BILLING: "demeni", POLICY: "musha", BUG: "tomori", VIOLATION: "mukai", FEEDBACK: "ryuuguu", ANNOUNCEMENT: "houzuki", FREEFORM: "menda" };
 
 // 休憩中セリフ（各キャラ初回登場時にランダムで1つ）
 const BREAK_LINES = {
@@ -449,72 +452,11 @@ const BREAK_LINES = {
     "通知ログ、確認しました。……では、始めましょうか。",
   ],
 };
-const NIGHT_LINES = {
-  menda: [
-    "こんばんは……深海カスタマーサービスです。……夜の回線、まだ静かですね。……ご相談があれば、どうぞ。",
-    "お待ちしてました……。……夜勤のンダが対応しますね。",
-    "はい……起きてますよ。……深夜帯ですので、少しゆっくりお話ししましょうか。",
-    "……この時間の基地、静かで落ち着くんです。……では、ご用件をどうぞ。",
-    "こんばんは……。……眠くなったら、温かい飲み物おすすめですよ。……それで、今日はどうされました？",
-  ],
-  musha: [
-    "……夜勤中だ。問題ない。話せ。",
-    "……まだ起きている。対応可能だ。",
-    "……深夜帯は静かでいい。用件を聞く。",
-    "……眠気はない。続けろ。",
-    "……この時間は通信も少ない。今のうちに話せ。",
-  ],
-  demeni: [
-    "こんばんは。夜間対応中です。わたくしが承ります。",
-    "深夜帯の回線ですね。……応答は安定しています。ご用件を確認します。",
-    "この時間は問い合わせも落ち着いています。ゆっくりお話しいただけますよ。",
-    "夜勤シフト中です。……眠気対策は十分ですので、ご安心ください。ご相談内容をどうぞ。",
-    "こんばんは。基地内照明を落としておりますので、少々静かな声量で失礼します。ご用件をお聞かせください。",
-  ],
-  mukai: [
-    "こんばんは、向井です。夜勤帯ですが、まだまだ元気ですよ。どうされました？",
-    "この時間に来てくださる方、意外と多いんですよね。ゆっくりどうぞ。",
-    "夜の基地って静かでしょう？ 向井は結構好きなんです。……さて、今日はどんなご相談ですか？",
-    "眠くなってません？ 向井は大丈夫なので、安心してくださいね。お話、伺いますよ。",
-    "こんばんは。深夜帯は少人数ですが、その分しっかり見てますよ。何かありました？",
-  ],
-  ryuuguu: [
-    "……こんばんは。……深夜の海は、とても静かですね。……お話、聞かせてください。",
-    "……この時間は、みなさん少し声がやさしくなる気がします。……今日は、どうされました？",
-    "……眠れない夜でしたか。……わたしでよければ、お付き合いしますね。",
-    "……基地の灯りだけが揺れていて……きれいなんですよ。……ご相談、受け取りますね。",
-    "……夜勤中です。……静かな時間ですので、慌てずお話しくださいね。",
-  ],
-  houzuki: [
-    "こ、こんばんは……。あの……夜勤担当のズッキーです……。ご、ご用件を伺います……。",
-    "す、少し眠いですけど……が、がんばります……！ あ、あの……どうされましたか？",
-    "あ、あの……深夜って静かすぎて、ちょっと緊張しますね……。で、でも、お話はちゃんと聞きます……！",
-    "こんばんは……。……いま、休憩室もすごく静かで……。あ、あの……ご相談、大丈夫ですので。",
-    "ね、眠気覚まし飲みすぎて……ちょっとだけ目、冴えてます……。えっと……今日は何かありましたか？",
-  ],
-  tomori: [
-    "こんばんは。夜間監視ログと並行して対応しています。……それで、どんな状況ですか。",
-    "……深夜帯はエラー監視が多いので、僕はわりと慣れてます。内容を聞きます。",
-    "この時間、基地のファン音だけ残るんですよね。嫌いじゃないです。……それで、何が起きました？",
-    "夜勤対応中です。……応答速度は問題ありません。",
-    "こんばんは。……眠気はありますけど、システムは正常です。相談内容をお願いします。",
-  ],
-};
-
-// モードフラグ（排他: 両方trueならNIGHT優先）
+// モードフラグ
 const BREAK_MODE = false;  // @休憩中（リリース時にfalseにする）
-const NIGHT_MODE = true;   // @夜勤対応中
-
-// 夜勤シフト: 曜日→担当（0=日,1=月,...6=土）
-const NIGHT_SHIFT = ["ryuuguu", "menda", "musha", "demeni", "mukai", "houzuki", "tomori"];
-const NIGHT_CHAR = NIGHT_MODE ? NIGHT_SHIFT[new Date().getDay()] : null;
 
 const appearedChars = new Set();
 function getGreetingLine(char) {
-  if (NIGHT_MODE) {
-    const lines = NIGHT_LINES[char];
-    if (lines) return lines[Math.floor(Math.random() * lines.length)];
-  }
   if (BREAK_MODE) {
     const lines = BREAK_LINES[char];
     if (lines) return lines[Math.floor(Math.random() * lines.length)];
@@ -548,17 +490,17 @@ function startCall() {
     // コールスクリーンをフェードアウト
     callScreen.classList.add("hidden");
     // テーマ適用
-    const startChar = NIGHT_CHAR || "menda";
+    const startChar = "menda";
     document.body.className = "theme-" + startChar;
     currentCharacter = startChar;
     // ダイアログ表示
     dialogArea.classList.remove("pre-call");
     dialogArea.classList.add("active");
     // 名前バー更新
-    const disp = NIGHT_MODE ? CHAR_DISPLAY_NIGHT : BREAK_MODE ? CHAR_DISPLAY_BREAK : CHAR_DISPLAY_NORMAL;
+    const disp = BREAK_MODE ? CHAR_DISPLAY_BREAK : CHAR_DISPLAY_NORMAL;
     activeNameBar.className = "active-name-bar " + startChar;
     activeNameBar.querySelector(".name").textContent = disp[startChar] || startChar;
-    activeNameBar.querySelector(".role").textContent = NIGHT_MODE ? "夜勤担当" : (CHAR_ROLES[startChar] || "");
+    activeNameBar.querySelector(".role").textContent = CHAR_ROLES[startChar] || "";
     // 立ち絵の初期画像を設定
     portrait.src = "assets/cs/" + startChar + ".webp";
     // 上限チェックを先に行う
@@ -575,7 +517,7 @@ function startCall() {
         const greetLine = getGreetingLine(startChar) || "はい…深海カスタマーサービスです。受付のンダです。…ご用件をどうぞ。";
         await addCharMsg(startChar, greetLine);
         setInputDisabled(false);
-        msgInput.placeholder = (CHAR_NAMES[startChar] || "ンダ") + "に話しかける...";
+        msgInput.placeholder = "どんなことをお探しですか？";
         msgInput.focus();
       }
     }, 400);
@@ -583,9 +525,11 @@ function startCall() {
 }
 
 // ===== テーマ+立ち絵切替 =====
+let switchToken = 0;
 function switchCharacter(character) {
   const safe = validateCharacter(character);
   if (safe === currentCharacter) return;
+  const token = ++switchToken;
 
   document.body.className = "theme-" + safe;
 
@@ -631,9 +575,12 @@ function switchCharacter(character) {
 
   // 0.25s: キャラ差替 + スキャン + 出現
   setTimeout(() => {
+    if (token !== switchToken) return;
     portrait.classList.remove("departing");
+    portrait.onload = null;
     portrait.src = "assets/cs/" + safe + ".webp";
     portrait.onload = () => {
+      if (token !== switchToken) return;
       // スキャンライン
       void scanLine.offsetWidth;
       scanLine.classList.add("active");
@@ -651,9 +598,9 @@ function switchCharacter(character) {
 
   // 名前バー更新
   activeNameBar.className = "active-name-bar " + safe;
-  const disp = NIGHT_MODE ? CHAR_DISPLAY_NIGHT : BREAK_MODE ? CHAR_DISPLAY_BREAK : CHAR_DISPLAY_NORMAL;
+  const disp = BREAK_MODE ? CHAR_DISPLAY_BREAK : CHAR_DISPLAY_NORMAL;
   activeNameBar.querySelector(".name").textContent = disp[safe] || safe;
-  activeNameBar.querySelector(".role").textContent = NIGHT_MODE ? "夜勤担当" : (CHAR_ROLES[safe] || "");
+  activeNameBar.querySelector(".role").textContent = CHAR_ROLES[safe] || "";
 
   currentCharacter = safe;
 }
@@ -689,6 +636,7 @@ function setInputDisabled(disabled, placeholder) {
   sendBtn.disabled = disabled; msgInput.disabled = disabled;
   if (placeholder) msgInput.placeholder = placeholder;
   for (const btn of btnMenu.querySelectorAll("button")) btn.disabled = disabled;
+  for (const btn of subMenu.querySelectorAll("button")) btn.disabled = disabled;
 }
 
 // ===== 引き継ぎ演出 =====
@@ -721,83 +669,69 @@ function addTransferMsg(text) {
 }
 
 // ===== ボタンメニュー =====
-const CATEGORY_LABELS = { faq: "ゲームについて聞きたい", billing: "お支払いについて", policy: "規約について", bug: "バグ報告", feedback: "ご意見・要望", survey: "アンケート" };
+const CATEGORY_LABELS = { ACCOUNT: "アカウント・データについて", BILLING: "お支払いについて", REPORT: "不具合・違反報告", BUG: "不具合報告", VIOLATION: "違反報告", FEEDBACK: "ご意見・要望", POLICY: "規約・プライバシーについて", ANNOUNCEMENT: "お知らせ・イベント" };
+const REPORT_PLACEHOLDERS = { BUG: "バグの内容を入力...", VIOLATION: "違反の内容を入力...", ACCOUNT: "アカウントの問題を入力...", FEEDBACK: "ご意見・要望を入力..." };
+const subMenu = document.getElementById("subMenu");
+
+function hideSubMenu() {
+  subMenu.style.display = "none";
+  btnMenu.style.display = "";
+  updateMenuButtons();
+}
+
 function onMenuBtn(category) {
   if (isSending) return;
   if (!checkSessionLimit()) return;
   reportMode = false;
+  hideSubMenu();
 
-  // 夜勤モード: 転送せず夜勤担当がそのまま対応
-  if (NIGHT_MODE && NIGHT_CHAR) {
-    addMsg(CATEGORY_LABELS[category] || category, "user");
-    isSending = true; setInputDisabled(true);
-    const prompt = { faq: "ゲームについて教えてください", billing: "課金について教えてください", policy: "利用規約について教えてください", bug: "バグを報告したい", feedback: "意見・要望がある", survey: "アンケートについて" };
-    (async () => {
-      try { await sendToWorker(prompt[category] || category, NIGHT_CHAR, "button"); } finally { unlockInput(); }
-    })();
+  // REPORTボタン → サブメニュー表示（BUG/VIOLATION選択）
+  if (category === "REPORT") {
+    addMsg("不具合・違反報告", "user");
+    btnMenu.style.display = "none";
+    subMenu.style.display = "";
     return;
   }
 
-  switch (category) {
-    case "faq":
-      addMsg("ゲームについて聞きたい", "user");
-      isSending = true; setInputDisabled(true);
-      showTransfer("ゲームのことですね。…向井に繋ぎます。", "mukai").then(async () => {
-        if (!appearedChars.has("mukai")) { appearedChars.add("mukai"); await addCharMsg("mukai", getGreetingLine("mukai")); }
-        else { await addCharMsg("mukai", "向井です。ゲームのことでしたら、お任せください。"); }
-        try { await sendToWorker("ゲームについて教えてください", "mukai", "button"); } finally { unlockInput(); }
-      });
-      break;
-    case "billing":
-      addMsg("お支払いについて", "user");
-      isSending = true; setInputDisabled(true);
-      showTransfer("お支払いですね。…デメニに繋ぎます。", "demeni").then(async () => {
-        if (!appearedChars.has("demeni")) { appearedChars.add("demeni"); await addCharMsg("demeni", getGreetingLine("demeni")); }
-        else { await addCharMsg("demeni", "デメニです。お支払い関連ですね。確認します。"); }
-        try { await sendToWorker("課金について教えてください", "demeni", "button"); } finally { unlockInput(); }
-      });
-      break;
-    case "policy":
-      addMsg("規約について", "user");
-      isSending = true; setInputDisabled(true);
-      showTransfer("規約ですね。…武者に繋ぎます。", "musha").then(async () => {
-        if (!appearedChars.has("musha")) { appearedChars.add("musha"); await addCharMsg("musha", getGreetingLine("musha")); }
-        else { await addCharMsg("musha", "…武者だ。規約関連なら対応できる。"); }
-        try { await sendToWorker("利用規約について教えてください", "musha", "button"); } finally { unlockInput(); }
-      });
-      break;
-    case "bug":
-      addMsg("バグ報告", "user");
-      showTransfer("バグ報告ですね。…トモリに繋ぎます。", "tomori").then(async () => {
-        if (!appearedChars.has("tomori")) { appearedChars.add("tomori"); await addCharMsg("tomori", getGreetingLine("tomori")); }
-        else { await addCharMsg("tomori", "…不具合ですね。状況を教えてください。\n下の入力欄に書いて送信してください。"); }
-        reportMode = "bug";
-        updateMenuButtons();
-        msgInput.placeholder = "バグの内容を入力...";
-        msgInput.focus();
-      });
-      break;
-    case "feedback":
-      addMsg("ご意見・要望", "user");
-      showTransfer("ご意見ですね。…辰宮に繋ぎます。", "ryuuguu").then(async () => {
-        if (!appearedChars.has("ryuuguu")) { appearedChars.add("ryuuguu"); await addCharMsg("ryuuguu", getGreetingLine("ryuuguu")); }
-        else { await addCharMsg("ryuuguu", "…お話、聞かせてください。\n下の入力欄にご意見やご要望を書いて送信してくださいね。"); }
-        reportMode = "feedback";
-        updateMenuButtons();
-        msgInput.placeholder = "ご意見・要望を入力...";
-        msgInput.focus();
-      });
-      break;
-    case "survey":
-      addMsg("アンケート", "user");
-      isSending = true; setInputDisabled(true);
-      showTransfer("アンケートですね。…ズッキーに繋ぎます。", "houzuki").then(async () => {
-        if (!appearedChars.has("houzuki")) { appearedChars.add("houzuki"); await addCharMsg("houzuki", getGreetingLine("houzuki")); }
-        await addCharMsg("houzuki", "あ、あの…すみません、今はイベント期間じゃないので、アンケートはないんです……。\nでも、お話でしたらお付き合いしますので…！");
-        try { await sendToWorker("アンケートについて", "houzuki", "button"); } finally { unlockInput(); }
-      });
-      break;
+  const targetChar = CATEGORY_TO_CHAR[category] || "menda";
+  const label = CATEGORY_LABELS[category] || category;
+  addMsg(label, "user");
+
+  // reportモード（ACCOUNT/BUG/VIOLATION/FEEDBACK）
+  const reportCategories = ["ACCOUNT", "BUG", "VIOLATION", "FEEDBACK"];
+  if (reportCategories.includes(category)) {
+    const reportGreetings = {
+      ACCOUNT: { mukai: "アカウントに関するお問い合わせですね。…状況を教えてください。\n下の入力欄に書いて送信してください。" },
+      BUG: { tomori: "…不具合ですね。状況を教えてください。\n下の入力欄に書いて送信してください。" },
+      VIOLATION: { mukai: "通報ですね。…状況を教えてください。\n下の入力欄に書いて送信してください。" },
+      FEEDBACK: { ryuuguu: "…お話、聞かせてください。\n下の入力欄にご意見やご要望を書いて送信してくださいね。" },
+    };
+    showTransfer(label, targetChar).then(async () => {
+      if (!appearedChars.has(targetChar)) { appearedChars.add(targetChar); const gl = getGreetingLine(targetChar); if (gl) await addCharMsg(targetChar, gl); }
+      const greeting = reportGreetings[category]?.[targetChar] || "状況を教えてください。";
+      await addCharMsg(targetChar, greeting);
+      reportMode = category;
+      updateMenuButtons();
+      msgInput.placeholder = REPORT_PLACEHOLDERS[category] || "内容を入力...";
+      msgInput.focus();
+    }).catch(() => { unlockInput(); });
+    return;
   }
+
+  // LLM/fixedモード（BILLING/POLICY/ANNOUNCEMENT）
+  isSending = true; setInputDisabled(true);
+  const prompts = { BILLING: "課金について教えてください", POLICY: "利用規約について教えてください", ANNOUNCEMENT: "お知らせ・イベントについて教えてください" };
+  const greetings = {
+    BILLING: { demeni: "デメニです。お支払い関連ですね。確認します。" },
+    POLICY: { musha: "…武者だ。規約関連なら対応できる。" },
+    ANNOUNCEMENT: { houzuki: "あ、あの…お知らせについてですね…！お任せください…！" },
+  };
+  showTransfer(label, targetChar).then(async () => {
+    if (!appearedChars.has(targetChar)) { appearedChars.add(targetChar); const gl = getGreetingLine(targetChar); if (gl) await addCharMsg(targetChar, gl); }
+    const g = greetings[category]?.[targetChar];
+    if (g) await addCharMsg(targetChar, g);
+    try { await sendToWorker(prompts[category] || category, targetChar, "button"); } finally { unlockInput(); }
+  }).catch(() => { unlockInput(); });
 }
 
 
@@ -806,12 +740,19 @@ function unlockInput() {
   if (!checkSessionLimit()) return;
   setInputDisabled(false);
   updateMenuButtons();
-  msgInput.placeholder = (CHAR_NAMES[currentCharacter] || "ンダ") + "に話しかける...";
+  hideSubMenu();
+  if (reportMode === "legal_info") {
+    msgInput.placeholder = "メールアドレスを入力...";
+  } else if (reportMode) {
+    msgInput.placeholder = REPORT_PLACEHOLDERS[reportMode] || "内容を入力...";
+  } else {
+    msgInput.placeholder = "どんなことをお探しですか？";
+  }
   msgInput.focus();
 }
 function updateMenuButtons() {
   for (const btn of btnMenu.querySelectorAll("button[data-cat]")) {
-    btn.disabled = NIGHT_MODE ? false : (CAT_TO_CHAR[btn.dataset.cat] === currentCharacter);
+    btn.disabled = (CATEGORY_TO_CHAR[btn.dataset.cat] === currentCharacter);
   }
 }
 
@@ -832,8 +773,11 @@ async function sendMsg() {
   try {
     if (reportMode) {
       const rt = reportMode;
-      reportMode = false;
-      await sendReport(text, rt);
+      if (rt === "legal_info" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(text)) {
+        await addCharMsg("musha", "…メールアドレスの形式が正しくないようだ。もう一度入力してくれ。");
+        return;
+      }
+      if (await sendReport(text, rt)) reportMode = false;
     } else {
       await sendToWorker(text, currentCharacter, "free");
     }
@@ -847,14 +791,15 @@ async function sendReport(text, reportType) {
   const loadingEl = showLoading();
   try {
     const res = await fetch(WORKER_URL, { method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: text, bugReport: true, reportType: reportType, sessionId: SESSION_ID, turn: turnCount, inputType: "free" }) });
+      body: JSON.stringify({ message: text, bugReport: true, categoryId: reportType, reportType: reportType, sessionId: SESSION_ID, turn: turnCount, inputType: "free" }) });
     const data = await res.json();
     removeLoading(loadingEl);
     const replyChar = validateCharacter(data.character);
     switchCharacter(replyChar);
     await addCharMsg(replyChar, data.reply || "…ありがとうございます。届けますね。");
     incrementSession();
-  } catch (e) { removeLoading(loadingEl); addMsg("通信エラー: サーバーに接続できません", "error"); }
+    return true;
+  } catch (e) { removeLoading(loadingEl); addMsg("通信エラー: サーバーに接続できません", "error"); return false; }
 }
 
 async function sendToWorker(text, character, inputType) {
@@ -862,18 +807,24 @@ async function sendToWorker(text, character, inputType) {
   const loadingEl = showLoading();
   try {
     const res = await fetch(WORKER_URL, { method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: text, history: conversationHistory, character: character, sessionId: SESSION_ID, turn: turnCount, inputType: inputType || "free", ...(NIGHT_MODE && { nightShift: true }), ...(pendingIntent && { pendingIntent }) }) });
+      body: JSON.stringify({ message: text, history: conversationHistory, character: character, sessionId: SESSION_ID, turn: turnCount, inputType: inputType || "free", ...(pendingIntent && { pendingIntent }) }) });
     const data = await res.json();
     removeLoading(loadingEl);
     if (data.reply) {
-      switchCharacter(character);
-      await addCharMsg(character, data.reply);
+      const replyChar = validateCharacter(data.character || character);
+      if (replyChar !== currentCharacter) await showTransfer(null, replyChar);
+      await addCharMsg(replyChar, data.reply);
       // pendingIntent状態更新
       pendingIntent = data.pendingIntent || null;
       // 会話履歴記録
       if (data.source === "llm") {
         conversationHistory.push({ role: "user", content: text });
         conversationHistory.push({ role: "assistant", content: data.reply });
+        if (conversationHistory.length > 10) conversationHistory = conversationHistory.slice(-10);
+      } else if (data.source === "legal_info_prompt") {
+        reportMode = "legal_info";
+        conversationHistory.push({ role: "user", content: text });
+        conversationHistory.push({ role: "assistant", content: "[事業者情報請求受付中]" });
         if (conversationHistory.length > 10) conversationHistory = conversationHistory.slice(-10);
       } else if (data.source === "faq" || data.source === "billing" || data.source === "policy" || data.source === "intent") {
         conversationHistory.push({ role: "user", content: text });
@@ -882,7 +833,7 @@ async function sendToWorker(text, character, inputType) {
       }
       incrementSession();
     } else { addMsg("エラー: " + (data.error || "応答なし"), "error"); }
-  } catch (e) { removeLoading(loadingEl); addMsg("通信エラー: サーバーに接続できません", "error"); }
+  } catch (e) { removeLoading(loadingEl); pendingIntent = null; addMsg("通信エラー: サーバーに接続できません", "error"); }
 }
 
 function validateCharacter(raw) {
@@ -902,7 +853,7 @@ function removeLoading(el) { if (el && el.parentNode) el.parentNode.removeChild(
 
 // ===== URLリンク化 =====
 const URL_REGEX = /https?:\/\/[^\s<>"')\]]+/g;
-const ALLOWED_URL_HOSTS = ["bftk-game.com", "support.apple.com", "support.google.com"];
+const ALLOWED_URL_HOSTS = ["bftk-game.com", "support.apple.com", "support.google.com", "help.steampowered.com"];
 function linkifyText(text, container) {
   let lastIndex = 0; let match; URL_REGEX.lastIndex = 0;
   while ((match = URL_REGEX.exec(text)) !== null) {
