@@ -22,6 +22,50 @@
       gtag('js', new Date());
       gtag('config', 'G-K0TT1CMBVT');
     </script>
+    <style>
+        /* プレイガイド 挿絵（4:3）— このページ限定。style.css は変更しない */
+        /* 矢印を消したので右paddingの名残を左と揃える
+           （game-deck-hub.html には矢印が4本残るので style.css では直さない） */
+        .hub-panel { padding-right: 1.6rem; }
+        .hub-panel .guide-figure {
+            margin: -1.6rem -1.6rem 0;
+            aspect-ratio: 4 / 3;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+        }
+        .hub-panel .guide-figure img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        /* 左端の金帯は使わない（挿絵を覆うため）
+           （game-deck-hub.html は文字のみなので常時表示のまま＝style.css は変更しない） */
+        .hub-panel::before { display: none; }
+        /* 見出しの黒帯をパネル幅いっぱいに広げ、hover で金色にする */
+        .hub-panel .hub-panel-title {
+            margin: 0 -1.6rem -1.6rem;
+            padding: 1.6rem;
+            letter-spacing: 0.03em;   /* .hub-hero-title と同値 */
+            text-align: center;       /* ★試験中: 気に入らなければこの1行を消す */
+            transition: background 0.3s, color 0.3s;
+        }
+        .hub-panel:hover .hub-panel-title {
+            background: #F9A825;
+            color: #0a0a0a;           /* 金地に白は読めないので文字を暗くする */
+        }
+        /* (1) ヒーローの上下を圧縮し、見出しとカードの距離を詰める */
+        .hub-hero { padding: clamp(2.8rem, 5.6vw, 4rem) 1.5rem 2rem; }
+        .hub-panels { padding-top: 1.5rem; }
+        @media (max-width: 600px) {
+            .hub-panel { padding-left: 1.5rem; padding-right: 1.5rem; }
+            .hub-panel .guide-figure { margin: -1.5rem -1.5rem 0; }
+            .hub-panel .hub-panel-title { margin: 0 -1.5rem -1.5rem; padding: 1.5rem; }
+            .hub-hero { padding: 3rem 1.2rem 1.6rem; }
+            .hub-panels { padding-top: 1.2rem; }
+        }
+    </style>
 </head>
 <body>
     <nav>
@@ -45,46 +89,16 @@
     <section class="hub-panels">
         <div class="hub-grid hub-grid-3">
         <a href="game-cards.html" class="hub-panel" data-reveal>
-            <div class="hub-panel-meta">
-                <span class="hub-panel-no">01</span>
-                <span class="hub-panel-tag">SYSTEM_CARDS</span>
-            </div>
+            <div class="guide-figure"><img src="assets/guide/cards.webp" alt="カードを掲げて喜ぶ2人のキャラクター" width="1000" height="750" loading="lazy"></div>
             <h2 class="hub-panel-title">カード入手</h2>
-            <p class="hub-panel-desc">カードの入手方法</p>
-            <ul class="hub-panel-points">
-                <li>COMING SOON</li>
-            </ul>
-            <span class="hub-panel-arrow" aria-hidden="true">&rarr;</span>
         </a>
         <a href="game-deck-hub.html" class="hub-panel" data-reveal>
-            <div class="hub-panel-meta">
-                <span class="hub-panel-no">02</span>
-                <span class="hub-panel-tag">SYSTEM_DECK</span>
-            </div>
+            <div class="guide-figure"><img src="assets/guide/deck.webp" alt="卓を囲んで作戦を語り合う4人のキャラクター" width="1000" height="750" loading="lazy"></div>
             <h2 class="hub-panel-title">デッキ構築</h2>
-            <p class="hub-panel-desc">デッキの組み方とカードの仕組み</p>
-            <ul class="hub-panel-points">
-                <li>コスト</li>
-                <li>タイプ</li>
-                <li>エース効果</li>
-                <li>スキル</li>
-            </ul>
-            <span class="hub-panel-arrow" aria-hidden="true">&rarr;</span>
         </a>
         <a href="game-battle.html" class="hub-panel" data-reveal>
-            <div class="hub-panel-meta">
-                <span class="hub-panel-no">03</span>
-                <span class="hub-panel-tag">SYSTEM_BATTLE</span>
-            </div>
+            <div class="guide-figure"><img src="assets/guide/battle.webp" alt="夕暮れの戦場で対峙する2人のキャラクター" width="1000" height="750" loading="lazy"></div>
             <h2 class="hub-panel-title">バトル</h2>
-            <p class="hub-panel-desc">出撃から決着まで</p>
-            <ul class="hub-panel-points">
-                <li>出撃</li>
-                <li>戦闘</li>
-                <li>侵攻</li>
-                <li>決着</li>
-            </ul>
-            <span class="hub-panel-arrow" aria-hidden="true">&rarr;</span>
         </a>
         </div>
     </section>
