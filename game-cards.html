@@ -8,6 +8,23 @@
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="stylesheet" href="style.css">
+    <style>
+    /* 前半・後半の区切り（左右に線を伸ばした帯） */
+    .card-group { display: flex; align-items: center; gap: 1.2rem; margin: 4.5rem 0 2.2rem; }
+    .card-group:first-of-type { margin-top: 0.5rem; }
+    .card-group::before, .card-group::after {
+        content: ""; flex: 1; height: 1px;
+        background: rgba(249,168,37,0.28);
+    }
+    .card-group span {
+        font-size: 0.95rem; font-weight: 700; color: #F9A825;
+        letter-spacing: 0.14em; white-space: nowrap;
+    }
+    @media (max-width: 600px) {
+        .card-group { gap: 0.8rem; margin: 3.5rem 0 1.8rem; }
+        .card-group span { font-size: 0.85rem; }
+    }
+    </style>
     <meta property="og:title" content="カード入手 - BFTK">
     <meta property="og:description" content="遊ぶだけでカードが手に入る。ガチャ、ログインボーナス、デイリー・ウィークリー報酬。">
     <meta property="og:url" content="https://bftk-game.com/game-cards.html">
@@ -39,6 +56,7 @@
             <p class="page-subtitle">CARDS</p>
         </div>
 
+        <div class="card-group"><span>カードの入手</span></div>
         <div class="game-section" data-reveal>
             <h2 class="section-title">START</h2>
             <p class="section-lead">はじめから、4つの勢力で戦える。</p>
@@ -74,6 +92,7 @@
             <p class="section-body">通常ガチャで幅広く、勢力ガチャで狙いを絞って。会いたいキャラクターを探そう。<br>提供割合は<a href="rates.html">提供割合</a>ページで公開している。</p>
         </div>
 
+        <div class="card-group"><span>同じカードが重なったら</span></div>
         <div class="game-section" data-reveal>
             <h2 class="section-title">AFFINITY</h2>
             <p class="section-lead">集めるほど、好感度は上がる。</p>
