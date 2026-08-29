@@ -10,19 +10,19 @@
     <link rel="stylesheet" href="style.css">
     <style>
     /* 前半・後半の区切り（左右に線を伸ばした帯） */
-    .card-group { display: flex; align-items: center; gap: 1.2rem; margin: 4.5rem 0 2.2rem; }
+    .card-group { display: flex; align-items: center; gap: 1.4rem; margin: 6.5rem 0 3rem; }
     .card-group:first-of-type { margin-top: 0.5rem; }
     .card-group::before, .card-group::after {
         content: ""; flex: 1; height: 1px;
-        background: rgba(249,168,37,0.28);
+        background: rgba(249,168,37,0.15);
     }
     .card-group span {
-        font-size: 0.95rem; font-weight: 700; color: #F9A825;
-        letter-spacing: 0.14em; white-space: nowrap;
+        font-size: 0.85rem; font-weight: 700; color: rgba(249,168,37,0.6);
+        letter-spacing: 0.2em; white-space: nowrap;
     }
     @media (max-width: 600px) {
-        .card-group { gap: 0.8rem; margin: 3.5rem 0 1.8rem; }
-        .card-group span { font-size: 0.85rem; }
+        .card-group { gap: 1rem; margin: 5rem 0 2.4rem; }
+        .card-group span { font-size: 0.8rem; letter-spacing: 0.16em; }
     }
     </style>
     <meta property="og:title" content="カード入手 - BFTK">
