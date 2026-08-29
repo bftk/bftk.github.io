@@ -8,7 +8,7 @@
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="stylesheet" href="style.css">
     <meta property="og:title" content="バトル - BFTK">
-    <meta property="og:description" content="1v1リアルタイム縄張りバトル。出撃、戦闘、侵攻。198秒の攻防。">
+    <meta property="og:description" content="1v1リアルタイム縄張りバトル。先陣争い、配置、侵攻。198秒の攻防。">
     <meta property="og:url" content="https://bftk-game.com/game-battle.html">
     <link rel="canonical" href="https://bftk-game.com/game-battle.html">
     <meta property="og:type" content="website">
@@ -42,7 +42,7 @@
         <div class="game-section" data-reveal>
             <h2 class="section-title">OVERVIEW</h2>
             <p class="section-lead">1v1リアルタイムの縄張り争い。</p>
-            <p class="section-body">手札のカードをフィールドに出撃させ、敵陣の縄張りへ侵攻する1v1バトル。制限時間は198秒。一瞬の判断が戦局を動かす。</p>
+            <p class="section-body">試合の前に自軍を戦場へ並べ、開始後はカードを動かして行き先を指示する。狙うのは敵陣の縄張り。制限時間は198秒。一瞬の判断が戦局を動かす。</p>
             <div class="num-row">
                 <div class="num-box">
                     <span class="num">198</span>
@@ -54,7 +54,7 @@
                 </div>
                 <div class="num-box">
                     <span class="num">8</span>
-                    <span class="num-label">枚デッキ</span>
+                    <span class="num-label">枚まで / デッキ</span>
                 </div>
             </div>
         </div>
@@ -64,24 +64,28 @@
             <p class="section-lead">戦いの流れ</p>
             <div class="flow-steps">
                 <div class="flow-step" data-step="1">
-                    <h3>作戦</h3>
-                    <p>バトル開始前に、エースに選んだキャラクターのタイプで相手と3本勝負。勝つほど敵陣の奥まで出撃できる。</p>
+                    <h3>先陣争い</h3>
+                    <p>試合前、エース効果に選んだキャラクターのタイプで、枠ごとに相性勝負。勝ち越すほど、自軍を敵陣寄りから始められる。</p>
                 </div>
                 <div class="flow-step" data-step="2">
-                    <h3>出撃</h3>
-                    <p>コストを消費し、手札からカードをフィールドに出す。コストは時間経過で回復する。いつ、どこに、誰を出すか。出撃のタイミングが戦局を左右する。</p>
+                    <h3>配置</h3>
+                    <p>開始前に自軍を戦場へ並べる。前に出して攻めるか、後ろで構えて守るか。最初の並びが試合の入りを決める。</p>
                 </div>
                 <div class="flow-step" data-step="3">
-                    <h3>戦闘</h3>
-                    <p>ユニットは自動で前進し、敵と交戦する。タイプ相性が戦闘結果を大きく左右する。有利な相手には大ダメージを与えられる。</p>
+                    <h3>移動と乱闘</h3>
+                    <p>カードを動かして、そのキャラクターに行き先を指示する。敵と重なれば乱闘。ダメージはATKとDEFの差で決まり、MND（精神力）の高い方が相手を押し出す。</p>
                 </div>
                 <div class="flow-step" data-step="4">
                     <h3>侵攻</h3>
-                    <p>敵陣の縄張りエリアに留まり、侵攻を仕掛ける。左右2つのレーンがあり、侵攻に成功するたび、そのレーンのゲートにダメージを与える。</p>
+                    <p>敵陣の縄張りエリアで足を止めると侵攻ゲージが溜まる。満タンになると、そのレーンの縄張りゲージを削る。乱闘中はゲージが止まる。</p>
                 </div>
                 <div class="flow-step" data-step="5">
+                    <h3>退却と再出撃</h3>
+                    <p>撃破されたキャラクターは巣穴へ退く。時間が経てば呼び戻せるが、抜けたぶんだけ戦線は薄くなる。誰から前に出すかで立て直しの速さが変わる。</p>
+                </div>
+                <div class="flow-step" data-step="6">
                     <h3>決着</h3>
-                    <p>両方のゲートを先に落とした方が勝利。タイムアップ時はゲージの残量合計が多い方が勝つ。</p>
+                    <p>左右どちらのゲートも落とせば勝利。198秒が過ぎたときは、縄張りゲージの残量合計が多い方が勝つ。</p>
                 </div>
             </div>
         </div>
@@ -89,14 +93,15 @@
         <div class="game-section" data-reveal>
             <h2 class="section-title">TERRITORY</h2>
             <p class="section-lead">縄張りと侵攻</p>
-            <p class="section-body">フィールドには左右2つの侵攻レーンがある。ユニットが敵の縄張りエリアに留まり続けると侵攻が進み、そのレーンのゲートにダメージを与える。中央からの侵攻ほど効果が大きく、端では効果が薄い。</p>
-            <p class="section-body">両方のゲートを落とせば決着。どちらのレーンを攻めるか、守るか。198秒の駆け引きが続く。</p>
+            <p class="section-body">戦場には左右2つのレーンがあり、それぞれにゲートと縄張りゲージを持つ。敵の縄張りエリアで足を止めると侵攻ゲージが溜まり、満タンになったところで、そのレーンの縄張りゲージを削る。溜まる速さはキャラクターのMNDで決まる。</p>
+            <p class="section-body">削れる量は立ち位置で変わる。ゲートの正面がもっとも大きく、レーンの端に寄るほど小さい。同じ時間を使っても、どこに立つかで進みが違う。</p>
+            <p class="section-body">縄張りゲージが尽きたレーンは、ゲートが壊れる。壊れたレーンからは味方を出撃させられない。片方を落とされるだけで、立て直しは一気に苦しくなる。</p>
         </div>
 
         <div class="game-section" data-reveal>
             <h2 class="section-title">VICTORY</h2>
             <p class="section-lead">勝利条件</p>
-            <p class="section-body">勝利条件は2つ。左右両方のゲートを撃破する「撃破勝利」と、198秒経過時にゲージの残量合計が多い方が勝つ「判定勝利」。片方に集中するか、両面で攻めるか。198秒間の戦略が問われる。</p>
+            <p class="section-body">勝利条件は2つ。左右両方のゲートを落とす「落城」と、198秒経過時に縄張りゲージの残量合計が多い方が勝つ「判定」。片方に集中して落城を狙うか、両面を削って判定に持ち込むか。198秒間の戦略が問われる。</p>
         </div>
 
         <div class="guide-bottom-nav">
