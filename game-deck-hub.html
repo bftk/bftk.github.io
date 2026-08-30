@@ -7,6 +7,26 @@
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="stylesheet" href="style.css">
+    <style>
+    /* パネルの挿絵（4:3）— このページ限定。style.css は変更しない */
+    .hub-panel { padding-right: 1.6rem; }
+    .hub-panel .guide-figure {
+        margin: -1.6rem -1.6rem 1.2rem;
+        aspect-ratio: 4 / 3;
+        overflow: hidden;
+        border-bottom: 1px solid rgba(255,255,255,0.07);
+        background: rgba(255,255,255,0.03);
+        display: flex; align-items: center; justify-content: center;
+        color: #555; font-size: 0.7rem; letter-spacing: 0.1em;
+    }
+    .hub-panel .guide-figure img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    /* 左端の金帯は挿絵を覆うので消す */
+    .hub-panel::before { display: none; }
+    @media (max-width: 600px) {
+        .hub-panel { padding-left: 1.25rem; padding-right: 1.5rem; }
+        .hub-panel .guide-figure { margin: -1.5rem -1.5rem 1.2rem -1.25rem; }
+    }
+    </style>
     <meta property="og:title" content="デッキ構築 - BFTK">
     <meta property="og:description" content="デッキの組み方とカードの仕組み。コスト、タイプ、エース効果、スキル。">
     <meta property="og:url" content="https://bftk-game.com/game-deck-hub.html">
@@ -45,6 +65,7 @@
     <section class="hub-panels">
         <div class="hub-grid">
         <a href="game-deck.html" class="hub-panel" data-reveal>
+            <div class="guide-figure">COMING SOON</div>
             <h2 class="hub-panel-title">デッキの組み方</h2>
             <p class="hub-panel-desc">何を8コストに収めるかが、そのまま戦略になる。</p>
             <ul class="hub-panel-points">
@@ -53,6 +74,7 @@
             </ul>
         </a>
         <a href="game-types.html" class="hub-panel" data-reveal>
+            <div class="guide-figure">COMING SOON</div>
             <h2 class="hub-panel-title">タイプ相性</h2>
             <p class="hub-panel-desc">戦い方の噛み合いで決まる、有利と不利。</p>
             <ul class="hub-panel-points">
@@ -62,6 +84,7 @@
             </ul>
         </a>
         <a href="game-ace.html" class="hub-panel" data-reveal>
+            <div class="guide-figure">COMING SOON</div>
             <h2 class="hub-panel-title">エース効果と特技</h2>
             <p class="hub-panel-desc">デッキの方針を決めるエース効果と、カード固有の特技。</p>
             <ul class="hub-panel-points">
@@ -70,6 +93,7 @@
             </ul>
         </a>
         <a href="game-skills.html" class="hub-panel" data-reveal>
+            <div class="guide-figure">COMING SOON</div>
             <h2 class="hub-panel-title">スキルと天牙</h2>
             <p class="hub-panel-desc">天牙ゲージを溜めて放つ、究極の切り札。</p>
             <ul class="hub-panel-points">
