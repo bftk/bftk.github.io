@@ -7,8 +7,27 @@
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="stylesheet" href="style.css">
+    <style>
+    /* カードの見方（絵＋項目） */
+    .card-anatomy { display: grid; grid-template-columns: 320px 1fr; gap: 2rem; align-items: start; margin-top: 1.5rem; }
+    .card-anatomy .video-placeholder { max-width: none; aspect-ratio: 3 / 4; margin: 0; }
+    .card-parts { list-style: none; }
+    .card-parts li {
+        padding: 0.9rem 0;
+        border-bottom: 1px solid rgba(255,255,255,0.07);
+        font-size: 0.95rem;
+        color: #ddd;
+    }
+    .card-parts li:last-child { border-bottom: none; }
+    .card-parts a { color: inherit; text-decoration: none; display: block; transition: color 0.3s; }
+    .card-parts a:hover { color: #F9A825; }
+    @media (max-width: 700px) {
+        .card-anatomy { grid-template-columns: 1fr; gap: 1.2rem; }
+        .card-anatomy .video-placeholder { max-width: 320px; }
+    }
+    </style>
     <meta property="og:title" content="カード内容 - BFTK">
-    <meta property="og:description" content="カード1枚に何が書いてあるか。タイプ、コスト、ATK・DEF・MND、スキル、エース効果、特技。">
+    <meta property="og:description" content="カード1枚に何が書いてあるか。コスト、タイプ、スキル、エース効果、ATK・DEF・MND。">
     <meta property="og:url" content="https://bftk-game.com/game-card-content.html">
     <link rel="canonical" href="https://bftk-game.com/game-card-content.html">
     <meta property="og:type" content="website">
@@ -41,181 +60,16 @@
         </div>
 
         <div class="game-section" data-reveal>
-            <h2 class="section-title">CARD</h2>
-            <p class="section-lead">カード1枚に、すべてが載っている。</p>
-            <div class="video-placeholder" style="max-width:420px; aspect-ratio:3/4; margin-top:1.5rem;">CARD / COMING SOON</div>
-        </div>
-
-        <div class="game-section" data-reveal>
-            <h2 class="section-title">TYPE MATCHUP</h2>
-            <p class="section-lead">相性が生む、有利と不利。</p>
-            <p class="section-body">3つのタイプがじゃんけんのように噛み合う三すくみ。ダメージに倍率はかからない。相手の戦い方を封じられるかどうかで、有利と不利が決まる。</p>
-            <div class="triangle-wrap">
-                <svg class="triangle-svg" viewBox="0 0 420 360" aria-hidden="true">
-                    <defs>
-                        <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
-                            <path d="M0 0 L10 5 L0 10 Z" fill="#F9A825"/>
-                        </marker>
-                    </defs>
-                    <!-- Power → Speed -->
-                    <path d="M182 112 Q114 168 88 254" stroke="#F9A825" stroke-width="3" stroke-linecap="round" fill="none" stroke-dasharray="7 6" marker-end="url(#arrow)"/>
-                    <!-- Speed → Technique -->
-                    <path d="M108 284 Q210 324 312 284" stroke="#F9A825" stroke-width="3" stroke-linecap="round" fill="none" stroke-dasharray="7 6" marker-end="url(#arrow)"/>
-                    <!-- Technique → Power -->
-                    <path d="M332 254 Q306 168 238 112" stroke="#F9A825" stroke-width="3" stroke-linecap="round" fill="none" stroke-dasharray="7 6" marker-end="url(#arrow)"/>
-                </svg>
-                <div class="tri-node tri-power">
-                    <span>パワー</span>
-                    <img src="assets/icons/type-power.webp" alt="パワー">
-                </div>
-                <div class="tri-node tri-speed">
-                    <span>スピード</span>
-                    <img src="assets/icons/type-speed.webp" alt="スピード">
-                </div>
-                <div class="tri-node tri-technique">
-                    <span>テクニック</span>
-                    <img src="assets/icons/type-technique.webp" alt="テクニック">
-                </div>
+            <div class="card-anatomy">
+                <div class="video-placeholder">CARD / COMING SOON</div>
+                <ul class="card-parts">
+                    <li><a href="game-status.html">コスト</a></li>
+                    <li><a href="game-types.html">タイプ</a></li>
+                    <li><a href="game-skills.html">スキル</a></li>
+                    <li><a href="game-ace.html">エース効果</a></li>
+                    <li><a href="game-status.html">ATK / DEF / MND</a></li>
+                </ul>
             </div>
-            <div class="neutral-box">
-                <img src="assets/icons/type-neutral.webp" alt="ニュートラル">
-                <div class="neutral-content">
-                    <div class="neutral-title">ニュートラル</div>
-                    <div class="neutral-text">三すくみの外。有利も不利もない。</div>
-                </div>
-            </div>
-            <div class="type-cards">
-                <article class="type-card power">
-                    <div class="type-icon-bg"><img src="assets/icons/type-power.webp" alt=""></div>
-                    <div class="type-head">
-                        <div class="type-icon"><img src="assets/icons/type-power.webp" alt="パワー"></div>
-                        <div class="type-heading">
-                            <h3>パワー</h3>
-                            <div class="type-meta">POWER — 近接の破壊者</div>
-                        </div>
-                    </div>
-                    <p>正面からの殴り合いを担う近接タイプ。前に張った爪オーラに速い敵が触れると、牙撃が出て突進を止める。踏み込んでくるスピードを封じるが、距離を取るテクニックには手が届かない。</p>
-                </article>
-                <article class="type-card speed">
-                    <div class="type-icon-bg"><img src="assets/icons/type-speed.webp" alt=""></div>
-                    <div class="type-head">
-                        <div class="type-icon"><img src="assets/icons/type-speed.webp" alt="スピード"></div>
-                        <div class="type-heading">
-                            <h3>スピード</h3>
-                            <div class="type-meta">SPEED — 高速の切り込み役</div>
-                        </div>
-                    </div>
-                    <p>移動速度に優れた機動タイプ。猛突で一気に距離を詰め、乱闘に持ち込む。テクニックを射程の外から懐へ捉えるが、パワーの爪オーラに触れると突進を止められる。</p>
-                </article>
-                <article class="type-card technique">
-                    <div class="type-icon-bg"><img src="assets/icons/type-technique.webp" alt=""></div>
-                    <div class="type-head">
-                        <div class="type-icon"><img src="assets/icons/type-technique.webp" alt="テクニック"></div>
-                        <div class="type-heading">
-                            <h3>テクニック</h3>
-                            <div class="type-meta">TECHNIQUE — 遠距離の狙撃手</div>
-                        </div>
-                    </div>
-                    <p>投石と獣玉で戦う遠距離タイプ。距離を保ち、近づく前に削り切る。足の遅いパワーを寄せ付けない射程が武器だが、乱闘に持ち込まれると投石が撃てず、スピードには押し切られる。</p>
-                </article>
-                <article class="type-card neutral">
-                    <div class="type-icon-bg"><img src="assets/icons/type-neutral.webp" alt=""></div>
-                    <div class="type-head">
-                        <div class="type-icon"><img src="assets/icons/type-neutral.webp" alt="ニュートラル"></div>
-                        <div class="type-heading">
-                            <h3>ニュートラル</h3>
-                            <div class="type-meta">NEUTRAL — 異端の戦術家</div>
-                        </div>
-                    </div>
-                    <p>三すくみの外に立つ特殊タイプ。猛突も獣玉も牙撃も持たず、動きも最も遅い。その代わりスキルで戦況を動かす。全体強化、回復、妨害。何をしてくるか読めないのが最大の強み。</p>
-                </article>
-            </div>
-        </div>
-
-        <div class="game-section" data-reveal>
-            <h2 class="section-title">STATUS</h2>
-            <p class="section-lead">コストと、3つの数値。</p>
-            <p class="section-body">コストはデッキ構築に使う。8枚のカードで合計8以内。<br>ATK・DEF・MNDは乱闘で効く。ダメージはATKとDEFの差で決まり、MND（精神力）の高い方が相手を押し出す。</p>
-        </div>
-
-        <div class="game-section" data-reveal>
-            <h2 class="section-title">SKILL</h2>
-            <p class="section-lead">戦場を変える、固有の力。</p>
-            <p class="section-body">各キャラクターは固有のスキルを持つ。攻撃強化、回復、妨害など効果はさまざま。キャラクターアイコンから直接発動でき、使いどころが鍵になる。<br>各キャラクターのアイコンを囲むリングゲージ。戦闘中に蓄積され、充填中はシアンに、発動可能になると金色に光る。<br>連携スキルを持つキャラクターは、味方と協力してコンボスキルを発動できる。参加メンバーは手動で選択可能。誰を巻き込むかで、戦況が変わる。</p>
-        </div>
-
-        <div class="game-section" data-reveal>
-            <h2 class="section-title">ACE EFFECT</h2>
-            <p class="section-lead">エースが、デッキの方針を決める。</p>
-            <p class="section-body">攻撃特化か、スキル強化か、戦場支配か。<br>70種類以上のエース効果が、デッキの方針を決める。<br>1枚のカードが選べる候補はレアリティによって変わり、高いほど候補が広がる。<br>同じキャラクターでも、選ぶエースで戦い方は一変する。</p>
-            <div class="ace-grid">
-                <div class="ace-card">
-                    <span class="ace-label">STATUS BOOST</span>
-                    <h3 class="ace-name">ステータス強化</h3>
-                    <p class="ace-desc">攻撃力や防御力をシンプルに上げる</p>
-                </div>
-                <div class="ace-card">
-                    <span class="ace-label">SKILL BUFF - SOLO</span>
-                    <h3 class="ace-name">スキルバフ・単体</h3>
-                    <p class="ace-desc">必殺技を使ったとき、自分が一時的にパワーアップ</p>
-                </div>
-                <div class="ace-card">
-                    <span class="ace-label">SKILL BUFF - ALL</span>
-                    <h3 class="ace-name">スキルバフ・全体強化</h3>
-                    <p class="ace-desc">必殺技を使ったとき、味方全員をまとめて強化</p>
-                </div>
-                <div class="ace-card">
-                    <span class="ace-label">SKILL ENHANCE</span>
-                    <h3 class="ace-name">スキル強化</h3>
-                    <p class="ace-desc">必殺技の範囲を広げたり、再使用を早くする</p>
-                </div>
-                <div class="ace-card">
-                    <span class="ace-label">TRAIT GRANT</span>
-                    <h3 class="ace-name">特技付与</h3>
-                    <p class="ace-desc">本来持っていない特殊能力を追加する</p>
-                </div>
-                <div class="ace-card">
-                    <span class="ace-label">TRAIT BOOST</span>
-                    <h3 class="ace-name">特技強化</h3>
-                    <p class="ace-desc">元から持ってる特殊能力をさらに強くする</p>
-                </div>
-                <div class="ace-card">
-                    <span class="ace-label">BATTLE FIELD</span>
-                    <h3 class="ace-name">戦場効果・戦闘</h3>
-                    <p class="ace-desc">突進のダメージUPや被ダメ軽減など、戦い方そのものを変える</p>
-                </div>
-                <div class="ace-card">
-                    <span class="ace-label">TACTICAL FIELD</span>
-                    <h3 class="ace-name">戦場効果・フィールド</h3>
-                    <p class="ace-desc">罠や施設を戦場に設置して有利な地形を作る</p>
-                </div>
-                <div class="ace-card">
-                    <span class="ace-label">SPECIAL</span>
-                    <h3 class="ace-name">特殊</h3>
-                    <p class="ace-desc">カードのタイプや所属勢力を別のものに変える</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="game-section" data-reveal>
-            <h2 class="section-title">TRAITS</h2>
-            <p class="section-lead">特技。カードに宿る個性。</p>
-            <p class="section-body">一部のキャラクターが持つパッシブ能力。常時発動し、戦闘に特別な効果をもたらす。</p>
-            <div class="tenga-showcase">
-                <div class="tenga-item">
-                    <div class="tenga-info"><span class="tenga-name">奇襲</span><span class="tenga-desc">姿を隠して接近する</span></div>
-                </div>
-                <div class="tenga-item">
-                    <div class="tenga-info"><span class="tenga-name">巨体</span><span class="tenga-desc">体が1.5倍。乱闘されても侵攻が止まらない</span></div>
-                </div>
-                <div class="tenga-item">
-                    <div class="tenga-info"><span class="tenga-name">石割</span><span class="tenga-desc">侵攻が速く強くなる代わりに、動きが鈍る</span></div>
-                </div>
-                <div class="tenga-item">
-                    <div class="tenga-info"><span class="tenga-name">修理</span><span class="tenga-desc">ゲートを修理する</span></div>
-                </div>
-            </div>
-            <p class="section-body" style="margin-top:1.2rem; color:#999; font-size:0.85rem;">他にも多くの特技が存在する。</p>
         </div>
 
         <div class="guide-bottom-nav">
