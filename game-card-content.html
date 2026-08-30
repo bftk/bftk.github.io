@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>カード内容 - BFTK</title>
+    <title>カード説明 - BFTK</title>
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="stylesheet" href="style.css">
@@ -19,6 +19,7 @@
         color: #ddd;
     }
     .card-parts li:last-child { border-bottom: none; }
+    .card-more { margin-top: 2.5rem; border-top: 1px solid rgba(249,168,37,0.2); }
     .card-parts a { color: inherit; text-decoration: none; display: block; transition: color 0.3s; }
     .card-parts a:hover { color: #F9A825; }
     @media (max-width: 700px) {
@@ -26,7 +27,7 @@
         .card-anatomy .video-placeholder { max-width: 320px; }
     }
     </style>
-    <meta property="og:title" content="カード内容 - BFTK">
+    <meta property="og:title" content="カード説明 - BFTK">
     <meta property="og:description" content="カード1枚に何が書いてあるか。コスト、タイプ、スキル、エース効果、ATK・DEF・MND。">
     <meta property="og:url" content="https://bftk-game.com/game-card-content.html">
     <link rel="canonical" href="https://bftk-game.com/game-card-content.html">
@@ -55,8 +56,8 @@
 
     <div class="game-content">
         <div class="guide-header">
-            <h1 class="page-title" style="margin-bottom:0.5rem;">カード内容</h1>
-            <p class="page-subtitle">CARD CONTENT</p>
+            <h1 class="page-title" style="margin-bottom:0.5rem;">カード説明</h1>
+            <p class="page-subtitle">CARDS</p>
         </div>
 
         <div class="game-section" data-reveal>
@@ -70,20 +71,24 @@
                     <li><a href="game-status.html">ATK / DEF / MND</a></li>
                 </ul>
             </div>
+            <ul class="card-parts card-more">
+                <li><a href="game-obtain.html">入手方法</a></li>
+                <li><a href="game-unlock.html">解放とスキン</a></li>
+            </ul>
         </div>
 
         <div class="guide-bottom-nav">
-            <a href="game-cards.html">
-                <div class="guide-nav-label">CARDS</div>
-                <div class="guide-nav-title">カード説明</div>
+            <a href="game.html">
+                <div class="guide-nav-label">PLAY GUIDE</div>
+                <div class="guide-nav-title">プレイガイド</div>
             </a>
-            <a href="game-obtain.html">
-                <div class="guide-nav-label">OBTAIN</div>
-                <div class="guide-nav-title">入手方法</div>
+            <a href="game-deck-hub.html">
+                <div class="guide-nav-label">DECK BUILDING</div>
+                <div class="guide-nav-title">デッキ構築</div>
             </a>
-            <a href="game-unlock.html">
-                <div class="guide-nav-label">UNLOCK</div>
-                <div class="guide-nav-title">解放とスキン</div>
+            <a href="game-battle.html">
+                <div class="guide-nav-label">BATTLE</div>
+                <div class="guide-nav-title">バトル</div>
             </a>
         </div>
     </div>
