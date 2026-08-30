@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>天牙 - BFTK</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="stylesheet" href="style.css">
+    <meta property="og:title" content="天牙 - BFTK">
+    <meta property="og:description" content="天牙ゲージを溜めて放つ切り札。デッキ構築で星の天牙を2つ設定する。">
+    <meta property="og:url" content="https://bftk-game.com/game-tenga.html">
+    <link rel="canonical" href="https://bftk-game.com/game-tenga.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="BFTK">
+    <meta property="og:locale" content="ja_JP">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-K0TT1CMBVT"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-K0TT1CMBVT');
+    </script>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="nav-logo">BFTK</a>
+        <div class="nav-links">
+            <a href="world.html">世界観</a>
+            <a href="game.html" class="active">遊び方</a>
+            <a href="characters.html">勢力</a>
+            <a href="faq.html">FAQ</a>
+        </div>
+    </nav>
+    <div class="game-content">
+        <div class="guide-header">
+            <h1 class="page-title" style="margin-bottom:0.5rem;">天牙</h1>
+            <p class="page-subtitle">ULTIMATE</p>
+        </div>
+
+        <div class="game-section" data-reveal>
+            <h2 class="section-title">ULTIMATE</h2>
+            <p class="section-lead">天牙。究極の切り札。</p>
+            <p class="section-body">天牙ゲージを溜めて発動する切り札。ゲージが溜まるほど強力になる。<br>デッキ構築で異なる星の天牙を2つ設定し、試合中にそれぞれ1回ずつ発動できる。</p>
+            <div class="tenga-showcase">
+                <div class="tenga-item">
+                    <div class="tenga-info"><span class="tenga-planet">地球</span><span class="tenga-name">復活再起</span><span class="tenga-desc">味方全体のHPを回復し、復帰を早める</span></div>
+                </div>
+                <div class="tenga-item">
+                    <div class="tenga-info"><span class="tenga-planet">火星</span><span class="tenga-name">全軍猛突</span><span class="tenga-desc">味方全員の攻撃力を強化する</span></div>
+                </div>
+                <div class="tenga-item">
+                    <div class="tenga-info"><span class="tenga-planet">海王星</span><span class="tenga-name">精神統一</span><span class="tenga-desc">味方全員の精神力を高める</span></div>
+                </div>
+                <div class="tenga-item">
+                    <div class="tenga-info"><span class="tenga-planet">木星</span><span class="tenga-name">幸福回転</span><span class="tenga-desc">戦場を広げ、縄張りを立て直す</span></div>
+                </div>
+            </div>
+            <p class="section-body" style="margin-top:1.2rem; color:#999; font-size:0.85rem;">金星、水星、土星――他にも多くの星の天牙が存在する。</p>
+        </div>
+
+        <div class="guide-bottom-nav">
+            <a href="game-deck-hub.html">
+                <div class="guide-nav-label">DECK BUILDING</div>
+                <div class="guide-nav-title">デッキ構築</div>
+            </a>
+            <a href="game-deck.html">
+                <div class="guide-nav-label">DECK</div>
+                <div class="guide-nav-title">デッキの組み方</div>
+            </a>
+        </div>
+    </div>
+    <a href="chat.html" class="chat-fab" aria-label="キャラと話す"><img src="chat-icon.webp" alt="キャラと話す"></a>
+    <footer>
+        <a href="privacy.html">プライバシーポリシー</a>｜<a href="terms.html">利用規約</a>｜<a href="rates.html">提供割合</a>｜<a href="company.html">運営者情報</a>
+        <p style="margin-top: 0.5rem;">&copy; HIAS</p>
+    </footer>
+    <script>
+    document.addEventListener('DOMContentLoaded',()=>{const o=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('is-visible');o.unobserve(x.target)}})},{threshold:0.12});document.querySelectorAll('[data-reveal]').forEach(el=>o.observe(el))});
+    </script>
+</body>
+</html>
