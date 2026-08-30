@@ -8,10 +8,11 @@
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="stylesheet" href="style.css">
     <style>
-    /* パネルの挿絵（4:3）— このページ限定。style.css は変更しない */
+    /* プレイガイド（game.html）と同じ作り。style.css は変更しない */
+    .hub-grid-4 { grid-template-columns: repeat(4, 1fr); }
     .hub-panel { padding-right: 1.6rem; }
     .hub-panel .guide-figure {
-        margin: -1.6rem -1.6rem 1.2rem;
+        margin: -1.6rem -1.6rem 0;
         aspect-ratio: 4 / 3;
         overflow: hidden;
         border-bottom: 1px solid rgba(255,255,255,0.07);
@@ -20,11 +21,21 @@
         color: #555; font-size: 0.7rem; letter-spacing: 0.1em;
     }
     .hub-panel .guide-figure img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    /* 左端の金帯は挿絵を覆うので消す */
     .hub-panel::before { display: none; }
+    .hub-panel .hub-panel-title {
+        margin: 0 -1.6rem -1.6rem;
+        padding: 1.6rem;
+        letter-spacing: 0.03em;
+        text-align: center;
+        transition: background 0.3s, color 0.3s;
+    }
+    .hub-panel:hover .hub-panel-title { background: #F9A825; color: #0a0a0a; }
+    @media (max-width: 900px) { .hub-grid-4 { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 600px) {
-        .hub-panel { padding-left: 1.25rem; padding-right: 1.5rem; }
-        .hub-panel .guide-figure { margin: -1.5rem -1.5rem 1.2rem -1.25rem; }
+        .hub-grid-4 { grid-template-columns: 1fr; }
+        .hub-panel { padding-left: 1.5rem; padding-right: 1.5rem; }
+        .hub-panel .guide-figure { margin: -1.5rem -1.5rem 0; }
+        .hub-panel .hub-panel-title { margin: 0 -1.5rem -1.5rem; padding: 1.5rem; }
     }
     </style>
     <meta property="og:title" content="デッキ構築 - BFTK">
@@ -63,44 +74,22 @@
     </section>
 
     <section class="hub-panels">
-        <div class="hub-grid">
+        <div class="hub-grid hub-grid-4">
         <a href="game-deck.html" class="hub-panel" data-reveal>
             <div class="guide-figure">COMING SOON</div>
             <h2 class="hub-panel-title">デッキの組み方</h2>
-            <p class="hub-panel-desc">何を8コストに収めるかが、そのまま戦略になる。</p>
-            <ul class="hub-panel-points">
-                <li>コスト上限8</li>
-                <li>4勢力＋混色・無所属</li>
-            </ul>
         </a>
         <a href="game-types.html" class="hub-panel" data-reveal>
             <div class="guide-figure">COMING SOON</div>
             <h2 class="hub-panel-title">タイプ相性</h2>
-            <p class="hub-panel-desc">戦い方の噛み合いで決まる、有利と不利。</p>
-            <ul class="hub-panel-points">
-                <li>三すくみ</li>
-                <li>パワー / スピード / テクニック</li>
-                <li>ニュートラル</li>
-            </ul>
         </a>
         <a href="game-ace.html" class="hub-panel" data-reveal>
             <div class="guide-figure">COMING SOON</div>
             <h2 class="hub-panel-title">エース効果と特技</h2>
-            <p class="hub-panel-desc">デッキの方針を決めるエース効果と、カード固有の特技。</p>
-            <ul class="hub-panel-points">
-                <li>エース効果 9カテゴリ</li>
-                <li>常時発動の特技</li>
-            </ul>
         </a>
         <a href="game-skills.html" class="hub-panel" data-reveal>
             <div class="guide-figure">COMING SOON</div>
             <h2 class="hub-panel-title">スキルと天牙</h2>
-            <p class="hub-panel-desc">天牙ゲージを溜めて放つ、究極の切り札。</p>
-            <ul class="hub-panel-points">
-                <li>固有スキル</li>
-                <li>BGゲージ</li>
-                <li>天牙</li>
-            </ul>
         </a>
         </div>
         <p style="text-align:center; margin-top:2rem;"><a href="game.html" style="color:#F9A825; text-decoration:none;">プレイガイドに戻る</a></p>
