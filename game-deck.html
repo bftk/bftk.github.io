@@ -7,6 +7,17 @@
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="stylesheet" href="style.css">
+    <style>
+    /* 節の左に挿絵を置く（画像は準備中） */
+    .figure-row { display: grid; grid-template-columns: 320px 1fr; gap: 2rem; align-items: start; }
+    .figure-row .video-placeholder { max-width: none; aspect-ratio: 4 / 3; margin: 0; }
+    .figure-row .section-lead { margin-top: 0; }
+    .figure-row .section-body:last-child { margin-bottom: 0; }
+    @media (max-width: 700px) {
+        .figure-row { grid-template-columns: 1fr; gap: 1.2rem; }
+        .figure-row .video-placeholder { max-width: 320px; }
+    }
+    </style>
     <meta property="og:title" content="デッキ構築 - BFTK">
     <meta property="og:description" content="8枚のカードが、戦略のすべてを決める。4つの勢力と70種類以上のエース効果。">
     <meta property="og:url" content="https://bftk-game.com/game-deck.html">
@@ -41,14 +52,19 @@
 
         <div class="game-section" data-reveal>
             <h2 class="section-title">DECK BUILDING</h2>
-            <p class="section-lead">8枚が、戦略のすべて。</p>
-            <p class="section-body">8枚のカードで1つのデッキを構築する。各カードにはコストがあり、合計コストは8以内。<br>各カードにはATK・DEF・MNDがある。乱闘のダメージはATKとDEFの差で決まり、MND（精神力）の高い方が相手を押し出す。<br>高コストのカードは強力だが、そのぶん枚数を減らすことになる。<br>低コストの物量か、1枚のエースに賭けるか。構築の方針が、そのまま戦略になる。</p>
+            <div class="figure-row">
+                <div class="video-placeholder">COMING SOON</div>
+                <div>
+                    <p class="section-lead">8枚が、戦略のすべて。</p>
+                    <p class="section-body">1つのデッキを構築する場合、最大8枚のカードを登録することができる。<br>各カードにはコストがあり、合計コストは8以内でデッキを作成する。</p>
+                </div>
+            </div>
         </div>
 
         <div class="game-section" data-reveal>
             <h2 class="section-title">FACTIONS</h2>
             <p class="section-lead">4つの勢力</p>
-            <p class="section-body">キャラクターはそれぞれ勢力に属する。勢力ごとに異なる戦い方の特色を持つ。さらに複数の勢力にまたがる混色や、どの勢力にも属さない無所属も存在する。</p>
+            <p class="section-body">キャラクターはそれぞれ勢力に属する。<br>勢力ごとに異なる戦い方の特色を持つ。<br>さらに複数の勢力にまたがる混色や、どの勢力にも属さない無所属も存在する。<br>デッキに登録する勢力が少ないほど、天牙ゲージを溜まった状態で始められる。</p>
             <div class="faction-cards">
                 <div class="faction-card forest">
                     <h3>森林</h3>
@@ -73,14 +89,39 @@
             <p class="section-body">各キャラクターの詳細は<a href="characters.html" style="color:#F9A825; text-decoration:underline;">キャラクターページ</a>へ。</p>
         </div>
 
+        <div class="game-section" data-reveal>
+            <h2 class="section-title">ULTIMATE</h2>
+            <p class="section-lead">天牙。究極の切り札。</p>
+            <p class="section-body">天牙ゲージを溜めて発動する切り札。ゲージが溜まるほど強力になる。<br>デッキ構築で異なる星の天牙を2つ設定し、試合中にそれぞれ1回ずつ発動できる。</p>
+            <div class="tenga-showcase">
+                <div class="tenga-item">
+                    <div class="tenga-info"><span class="tenga-planet">地球</span><span class="tenga-name">復活再起</span><span class="tenga-desc">味方全体のHPを回復し、復帰を早める</span></div>
+                </div>
+                <div class="tenga-item">
+                    <div class="tenga-info"><span class="tenga-planet">火星</span><span class="tenga-name">全軍猛突</span><span class="tenga-desc">味方全員の攻撃力を強化する</span></div>
+                </div>
+                <div class="tenga-item">
+                    <div class="tenga-info"><span class="tenga-planet">海王星</span><span class="tenga-name">精神統一</span><span class="tenga-desc">味方全員の精神力を高める</span></div>
+                </div>
+                <div class="tenga-item">
+                    <div class="tenga-info"><span class="tenga-planet">木星</span><span class="tenga-name">幸福回転</span><span class="tenga-desc">戦場を広げ、縄張りを立て直す</span></div>
+                </div>
+            </div>
+            <p class="section-body" style="margin-top:1.2rem; color:#999; font-size:0.85rem;">金星、水星、土星――他にも多くの星の天牙が存在する。</p>
+        </div>
+
         <div class="guide-bottom-nav">
-            <a href="game-deck-hub.html">
-                <div class="guide-nav-label">DECK BUILDING</div>
-                <div class="guide-nav-title">デッキ構築</div>
+            <a href="game.html">
+                <div class="guide-nav-label">PLAY GUIDE</div>
+                <div class="guide-nav-title">プレイガイド</div>
             </a>
-            <a href="game-tenga.html">
-                <div class="guide-nav-label">ULTIMATE</div>
-                <div class="guide-nav-title">天牙</div>
+            <a href="game-card-content.html">
+                <div class="guide-nav-label">CARDS</div>
+                <div class="guide-nav-title">カード説明</div>
+            </a>
+            <a href="game-battle.html">
+                <div class="guide-nav-label">BATTLE</div>
+                <div class="guide-nav-title">バトル</div>
             </a>
         </div>
     </div>
