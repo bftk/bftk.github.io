@@ -49,22 +49,27 @@
         .rar-item__name { font-size: 1.1rem; }
     }
 
-    /* ★三すくみの図（左）と 4タイプの説明（右）を左右に並べる（2026-09-01 user指示）。
-       ★左4 : 右6。右は説明文が長いので広く取る。
-       ⚠ 1010px 未満は縦積み（左→右の順）。 */
-    .type-split {
-        display: grid; grid-template-columns: 4fr 6fr; gap: 2.5rem;
-        align-items: start; margin-top: 2rem;
-        width: min(1400px, calc(100vw - 2.4rem));
+    /* ★左右分割をやめ、上下（図 → TYPE DETAILS → 4タイプ）にした（2026-09-01 user指示）。
+       ⚠理由: 左が図だけで短く、右が説明4枚で長い＝高さが構造的に揃わなかった。
+       ★図は「相性とは何か」の視覚化、下の4枚は「各タイプの戦い方」。役割が違うので縦に並べる。 */
+    .type-matchup-fig { margin-top: 2rem; }
+    .type-matchup-fig .triangle-wrap { margin-top: 0; }
+
+    /* ★「TYPE DETAILS」の小見出し。図と4枚の切れ目を作る */
+    .type-details-head {
+        margin: 3rem 0 1.2rem; text-align: center;
+        font-family: 'Cinzel', serif; font-size: 0.95rem; font-weight: 500;
+        letter-spacing: 0.14em; color: #F9A825;
+    }
+
+    /* ★4タイプは PC 2×2 / スマホ 1列。共通CSSの .type-cards も2列だが、幅だけ広げる */
+    .type-details {
+        width: min(1100px, calc(100vw - 2.4rem));
         margin-left: 50%; transform: translateX(-50%);
     }
     @media (max-width: 1010px) {
-        .type-split { grid-template-columns: 1fr; gap: 2rem; width: min(760px, calc(100vw - 2.4rem)); }
+        .type-details { width: min(760px, calc(100vw - 2.4rem)); }
     }
-    /* ⚠右の4枚は共通CSSで 2列。ここでは縦に1列へ */
-    .type-split .type-cards { grid-template-columns: 1fr; margin-top: 0; }
-    .type-split .triangle-wrap { margin-top: 0; }
-    .type-split h3.split-head { font-size: 0.95rem; letter-spacing: 0.06em; color: #F9A825; margin: 0 0 0.8rem; font-weight: 500; }
 
     /* ★※の行。※の幅ぶん字下げし、折り返しても揃う（2026-09-01） */
     .rar-note { margin-top: 1.5rem; }
@@ -76,13 +81,13 @@
     }
 
     /* ★4タイプのカードをコンパクトに（2026-09-01） */
-    .type-split .type-cards { gap: 0.9rem; }
-    .type-split .type-card { padding: 1rem 1.1rem; }
-    .type-split .type-head { gap: 0.7rem; margin-bottom: 0.7rem; }
-    .type-split .type-icon { width: 42px; height: 42px; border-radius: 11px; }
-    .type-split .type-icon img { width: 34px; height: 34px; }
-    .type-split .type-heading h3 { margin-bottom: 0.15rem; }
-    .type-split .type-icon-bg img { width: 92px; height: 92px; }
+    .type-details .type-cards { gap: 0.9rem; }
+    .type-details .type-card { padding: 1rem 1.1rem; }
+    .type-details .type-head { gap: 0.7rem; margin-bottom: 0.7rem; }
+    .type-details .type-icon { width: 42px; height: 42px; border-radius: 11px; }
+    .type-details .type-icon img { width: 34px; height: 34px; }
+    .type-details .type-heading h3 { margin-bottom: 0.15rem; }
+    .type-details .type-icon-bg img { width: 92px; height: 92px; }
     /* ★行頭に「・」を置き、折り返した2行目も字下げして揃える */
     .type-acts {
         position: relative; z-index: 2;
@@ -91,6 +96,115 @@
     }
     .type-acts li { padding-left: 1em; text-indent: -1em; }
     .type-acts li + li { margin-top: 0.45rem; }
+    /* ★ニュートラルは三すくみに参加しないので、矢印につながず図の右上に置く。
+       ★見た目は3ノードと同じ丸（2026-09-01 user指示。四角い点線の枠は廃止）。
+       ⚠区別は「大きさ」と「線でつながっていないこと」だけで付ける。 */
+    .tri-aside {
+        position: absolute; top: 0; right: 0; z-index: 3;
+        display: flex; flex-direction: column; align-items: center; gap: 0.45rem;
+    }
+    .tri-aside img {
+        width: 46px; height: 46px; object-fit: contain;
+        border-radius: 50%;
+        border: 1px solid rgba(249,168,37,0.18);
+        background: radial-gradient(circle at center, rgba(249,168,37,0.12), rgba(249,168,37,0.03));
+        box-shadow: 0 0 0 1px rgba(249,168,37,0.06), 0 10px 24px rgba(0,0,0,0.45);
+    }
+    .tri-aside span {
+        color: #F9A825; font-size: 0.66rem; font-weight: 700; letter-spacing: 0.06em;
+        white-space: nowrap;
+    }
+    @media (max-width: 480px) {
+        .tri-aside img { width: 38px; height: 38px; }
+        .tri-aside span { font-size: 0.6rem; }
+    }
+    /* ★特技は7つを輪に並べる（2026-09-01 user指示。ただの一覧より目を引くため）。
+       ⚠7個は奇数なので左右対称にはならない。輪なので等間隔（360/7 = 51.43度）で問題ない。
+       ⚠説明文は輪の中に入らない → 選んだものを中央に出す。
+       ⚠幅760px未満では中央が狭すぎるので、中央は「TRAITS」固定で説明は輪の下に出す。 */
+    .trait-ring-wrap { margin-top: 2.5rem; }
+    .trait-ring {
+        position: relative;
+        width: min(560px, calc(100vw - 3rem));
+        aspect-ratio: 1 / 1;
+        margin: 0 auto;
+    }
+    .trait-node {
+        position: absolute;
+        display: block; line-height: 0;
+        padding: 0; border: 0; background: none; cursor: pointer;
+        transform: translate(-50%, -50%);
+        -webkit-tap-highlight-color: transparent;
+    }
+    .trait-node img {
+        width: 74px; height: 74px; object-fit: contain;
+        opacity: 0.55;
+        transition: opacity 0.18s ease, transform 0.18s ease;
+    }
+    .trait-node[aria-pressed="true"] img { opacity: 1; transform: scale(1.14); }
+    .trait-node:hover img { opacity: 0.9; }
+    .trait-node:focus-visible { outline: 2px solid #F9A825; outline-offset: 4px; border-radius: 8px; }
+
+    /* ★中央。選んだ特技の名前と説明を出す */
+    .trait-center {
+        position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        width: 40%; text-align: center; pointer-events: none;
+    }
+    .trait-center__name {
+        color: #F9A825; font-size: 1.05rem; font-weight: 700;
+        letter-spacing: 0.06em; margin-bottom: 0.5rem;
+    }
+    .trait-center__desc { color: #a0a0a0; font-size: 0.78rem; line-height: 1.75; }
+
+    /* ★輪の下に出す説明（狭い画面用）。広い画面では中央に出すので隠す */
+    .trait-detail {
+        display: none; margin: 1.2rem auto 0; max-width: 26em; text-align: center;
+        color: #a0a0a0; font-size: 0.84rem; line-height: 1.8;
+    }
+    .trait-detail strong { color: #F9A825; font-weight: 700; margin-right: 0.5em; }
+
+    @media (max-width: 760px) {
+        .trait-node img { width: 52px; height: 52px; }
+        .trait-center__name, .trait-center__desc { display: none; }
+        .trait-detail { display: block; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .trait-node img { transition: none; }
+    }
+    /* ★コストの5段階。1 / 1.5 / 2 / 2.5 / 3（CardDatabase の実データと一致）。
+       ⚠段が増えるほど濃く・大きくして「重さ」を出す。 */
+    .cost-steps {
+        display: flex; align-items: center;
+        gap: 0.9rem; margin: 2.2rem 0 0; padding: 0; list-style: none;
+    }
+    .cost-steps li {
+        display: grid; place-items: center;
+        border-radius: 12px;
+        border: 1px solid rgba(249,168,37,0.18);
+        background: linear-gradient(180deg, rgba(249,168,37,0.10), rgba(249,168,37,0.02));
+        color: #F9A825; font-weight: 700; letter-spacing: 0.04em;
+    }
+    .cost-steps li:nth-child(1) { width: 52px; height: 52px; font-size: 0.9rem;  opacity: 0.55; }
+    .cost-steps li:nth-child(2) { width: 60px; height: 60px; font-size: 0.95rem; opacity: 0.68; }
+    .cost-steps li:nth-child(3) { width: 68px; height: 68px; font-size: 1.05rem; opacity: 0.80; }
+    .cost-steps li:nth-child(4) { width: 76px; height: 76px; font-size: 1.1rem;  opacity: 0.90; }
+    .cost-steps li:nth-child(5) { width: 84px; height: 84px; font-size: 1.2rem;  opacity: 1; }
+
+    .cost-notes { margin: 2.2rem 0 0; }
+    .cost-notes p {
+        margin: 0 0 0.9rem;
+        color: #a0a0a0; font-size: 0.86rem; line-height: 1.8;
+    }
+    .cost-notes p:last-child { margin-bottom: 0; }
+
+    @media (max-width: 560px) {
+        .cost-steps { gap: 0.5rem; }
+        .cost-steps li:nth-child(1) { width: 40px; height: 40px; font-size: 0.78rem; }
+        .cost-steps li:nth-child(2) { width: 46px; height: 46px; font-size: 0.8rem; }
+        .cost-steps li:nth-child(3) { width: 52px; height: 52px; font-size: 0.86rem; }
+        .cost-steps li:nth-child(4) { width: 58px; height: 58px; font-size: 0.9rem; }
+        .cost-steps li:nth-child(5) { width: 64px; height: 64px; font-size: 0.95rem; }
+    }
     </style>
     <meta property="og:title" content="レアリティ - BFTK">
     <meta property="og:description" content="C、UC、R、SR。レアリティが高いほどエース効果の候補が増える。">
@@ -142,8 +256,7 @@
             <h2 class="section-title">TYPE MATCHUP &amp; TYPE DETAILS</h2>
             <p class="section-lead">相性が生む、有利と不利。</p>
             <p class="section-body">3つのタイプがじゃんけんのように噛み合う三すくみ。ダメージに倍率はかからない。相手の戦い方を封じられるかどうかで、有利と不利が決まる。</p>
-            <div class="type-split">
-                <div>
+            <div class="type-matchup-fig">
             <div class="triangle-wrap">
                 <svg class="triangle-svg" viewBox="0 0 420 360" aria-hidden="true">
                     <defs>
@@ -170,17 +283,14 @@
                     <span>テクニック</span>
                     <img src="assets/icons/type-technique.webp" alt="テクニック">
                 </div>
-            </div>
-            <div class="neutral-box">
-                <img src="assets/icons/type-neutral.webp" alt="ニュートラル">
-                <div class="neutral-content">
-                    <div class="neutral-title">ニュートラル</div>
-                    <div class="neutral-text">三すくみの外。有利も不利もない。</div>
+                <div class="tri-aside">
+                    <span>ニュートラル</span>
+                    <img src="assets/icons/type-neutral.webp" alt="ニュートラル">
                 </div>
             </div>
-                </div>
-                <div>
-            <div class="type-cards">
+            </div>
+            <h3 class="type-details-head">TYPE DETAILS</h3>
+            <div class="type-cards type-details">
                 <article class="type-card power">
                     <div class="type-icon-bg"><img src="assets/icons/type-power.webp" alt=""></div>
                     <div class="type-head">
@@ -190,7 +300,7 @@
                             <div class="type-meta">POWER</div>
                         </div>
                     </div>
-                    <ul class="type-acts"><li>爪オーラが敵に当たるとダメージをあたえ、一定速度の敵に正面から当てると牙撃が発動し、ダメージを与えスタンさせる。</li><li>旋刃は、アクションボタンを長押しして発動。爪オーラがキャラの周りを一周する。</li></ul>
+                    <ul class="type-acts"><li>爪オーラが触れた敵に継続ダメージを与える。</li><li>速い敵に当てると牙撃が発動し、スタン＋大ダメージをあたえる。</li><li>旋刃は長押しで発動。爪オーラが周囲を一周する。</li></ul>
                 </article>
                 <article class="type-card speed">
                     <div class="type-icon-bg"><img src="assets/icons/type-speed.webp" alt=""></div>
@@ -201,7 +311,7 @@
                             <div class="type-meta">SPEED</div>
                         </div>
                     </div>
-                    <ul class="type-acts"><li>一定距離を走り続けると猛突状態になり、最初の乱闘で与えるダメージが上がる。</li><li>剛突は、猛突状態でアクションボタンを長押しして発動。前方へ突進する。</li></ul>
+                    <ul class="type-acts"><li>走り続けると猛突状態になり、最初の乱闘で与えるダメージが上がる。</li><li>剛突は猛突状態で長押しして発動。前方へ突進する。</li></ul>
                 </article>
                 <article class="type-card technique">
                     <div class="type-icon-bg"><img src="assets/icons/type-technique.webp" alt=""></div>
@@ -212,7 +322,7 @@
                             <div class="type-meta">TECHNIQUE</div>
                         </div>
                     </div>
-                    <ul class="type-acts"><li>静止しているとき、射程内の敵へ自動で投石する。</li><li>獣玉は、アクションボタンを押し続けて溜め、離すと発射。着弾地点の範囲にダメージを与える。</li></ul>
+                    <ul class="type-acts"><li>静止しているとき、射程内の敵へ自動で投石する。</li><li>獣玉は押して溜め、離すと発射。着弾地点の範囲にダメージを与える。</li></ul>
                 </article>
                 <article class="type-card neutral">
                     <div class="type-icon-bg"><img src="assets/icons/type-neutral.webp" alt=""></div>
@@ -223,10 +333,62 @@
                             <div class="type-meta">NEUTRAL</div>
                         </div>
                     </div>
-                    <ul class="type-acts"><li>固有のアクションを持たない。スキルで戦う。</li></ul>
+                    <ul class="type-acts"><li>固有のアクションはないが、侵攻力が他のタイプよりも高い。</li></ul>
                 </article>
             </div>
+        </div>
+
+        <div class="game-section" data-reveal>
+            <h2 class="section-title">COST</h2>
+            <p class="section-lead">出せる数と、一体の強さ。</p>
+            <p class="section-body">デッキに登録できるキャラは最大8枚、合計コスト8以内。</p>
+            <ol class="cost-steps">
+                    <li><span class="cost-step__n">1</span></li>
+                    <li><span class="cost-step__n">1.5</span></li>
+                    <li><span class="cost-step__n">2</span></li>
+                    <li><span class="cost-step__n">2.5</span></li>
+                    <li><span class="cost-step__n">3</span></li>
+            </ol>
+            <div class="cost-notes">
+                <p>コストが高いほどATK・DEF・MNDが高く、タイプごとのアクションも強くなる。</p>
+                <p>敵を退却させると、そのコストのぶんだけ味方のBGが溜まる。</p>
+                <p>味方が退却すると、そのコストのぶんだけ味方の天牙ゲージが溜まる。</p>
+            </div>
+        </div>
+
+        <div class="game-section" data-reveal>
+            <h2 class="section-title">TRAITS</h2>
+            <p class="section-lead">特技。一部のキャラだけが持つ。</p>
+            <p class="section-body">タイプとは別に、そのキャラだけに備わった力。常にはたらき、戦い方そのものを変える。</p>
+            <div class="trait-ring-wrap">
+                <div class="trait-ring" id="traitRing">
+                    <button type="button" class="trait-node" aria-label="奇襲" data-i="0" aria-pressed="true">
+                        <img alt="奇襲" src="assets/icons/trait-ambush.webp">
+                    </button>
+                    <button type="button" class="trait-node" aria-label="王気" data-i="1" aria-pressed="false">
+                        <img alt="王気" src="assets/icons/trait-royal.webp">
+                    </button>
+                    <button type="button" class="trait-node" aria-label="石割" data-i="2" aria-pressed="false">
+                        <img alt="石割" src="assets/icons/trait-stone.webp">
+                    </button>
+                    <button type="button" class="trait-node" aria-label="巨体" data-i="3" aria-pressed="false">
+                        <img alt="巨体" src="assets/icons/trait-giant.webp">
+                    </button>
+                    <button type="button" class="trait-node" aria-label="修理" data-i="4" aria-pressed="false">
+                        <img alt="修理" src="assets/icons/trait-repair.webp">
+                    </button>
+                    <button type="button" class="trait-node" aria-label="休眠" data-i="5" aria-pressed="false">
+                        <img alt="休眠" src="assets/icons/trait-sleep.webp">
+                    </button>
+                    <button type="button" class="trait-node" aria-label="星読" data-i="6" aria-pressed="false">
+                        <img alt="星読" src="assets/icons/trait-star.webp">
+                    </button>
+                    <div class="trait-center" aria-hidden="true">
+                        <div class="trait-center__name"></div>
+                        <div class="trait-center__desc"></div>
+                    </div>
                 </div>
+                <p class="trait-detail" role="status"></p>
             </div>
         </div>
 
@@ -454,5 +616,59 @@
     if (reduce) { for (var j = 0; j < cards.length; j++) { cards[j].tx = 0; cards[j].ty = 0; } }
     })();
     </script>
+<script>
+(function () {
+    var ring = document.getElementById('traitRing');
+    if (!ring) return;
+    /* ⚠説明文はここが唯一の置き場。HTML側には持たせない（2箇所に書くとズレるため） */
+    var DESC = [
+        '姿を隠して進む。見つからなければ、そのまま懐まで入れる。',
+        '出撃した時点で、すでにBGゲージが溜まっている。',
+        '縄張りを速く、深く削る。代わりに足が遅い。',
+        '体が大きい。乱闘に巻き込まれても縄張りを削り続ける。',
+        '壊れた門の前に立つと、門が直る。',
+        '巣穴での回復が速い。',
+        '自分が倒れたとき、天牙ゲージが多く溜まる。'
+    ];
+    var NAMES = ['奇襲', '王気', '石割', '巨体', '修理', '休眠', '星読'];
+    var nodes = [].slice.call(ring.querySelectorAll('.trait-node'));
+    var cName = ring.querySelector('.trait-center__name');
+    var cDesc = ring.querySelector('.trait-center__desc');
+    var detail = document.querySelector('.trait-detail');
+
+    /* ★真上から時計回りに等間隔。7個なので 360/7 = 51.43度ずつ */
+    var R = 38;
+    for (var i = 0; i < nodes.length; i++) {
+        var a = (-90 + i * 360 / nodes.length) * Math.PI / 180;
+        nodes[i].style.left = (50 + R * Math.cos(a)) + '%';
+        nodes[i].style.top  = (50 + R * Math.sin(a)) + '%';
+    }
+
+    function select(i) {
+        for (var k = 0; k < nodes.length; k++) {
+            nodes[k].setAttribute('aria-pressed', k === i ? 'true' : 'false');
+        }
+        var name = NAMES[i];
+        cName.textContent = name;
+        cDesc.textContent = DESC[i];
+        detail.innerHTML = '';
+        var st = document.createElement('strong');
+        st.textContent = name;
+        detail.appendChild(st);
+        detail.appendChild(document.createTextNode(DESC[i]));
+    }
+
+    for (var n = 0; n < nodes.length; n++) {
+        (function (idx) {
+            nodes[idx].addEventListener('click', function () { select(idx); });
+            /* ⚠マウスの時だけ hover で切り替える。指では click だけにする */
+            nodes[idx].addEventListener('pointerenter', function (e) {
+                if (e.pointerType === 'mouse') select(idx);
+            });
+        })(n);
+    }
+    select(0);
+})();
+</script>
 </body>
 </html>
