@@ -49,6 +49,23 @@
         .rar-item__name { font-size: 1.1rem; }
     }
 
+    /* ★三すくみの図（左）と 4タイプの説明（右）を左右に並べる（2026-09-01 user指示）。
+       ★左4 : 右6。右は説明文が長いので広く取る。
+       ⚠ 1010px 未満は縦積み（左→右の順）。 */
+    .type-split {
+        display: grid; grid-template-columns: 4fr 6fr; gap: 2.5rem;
+        align-items: start; margin-top: 2rem;
+        width: min(1400px, calc(100vw - 2.4rem));
+        margin-left: 50%; transform: translateX(-50%);
+    }
+    @media (max-width: 1010px) {
+        .type-split { grid-template-columns: 1fr; gap: 2rem; width: min(760px, calc(100vw - 2.4rem)); }
+    }
+    /* ⚠右の4枚は共通CSSで 2列。ここでは縦に1列へ */
+    .type-split .type-cards { grid-template-columns: 1fr; margin-top: 0; }
+    .type-split .triangle-wrap { margin-top: 0; }
+    .type-split h3.split-head { font-size: 0.95rem; letter-spacing: 0.06em; color: #F9A825; margin: 0 0 0.8rem; font-weight: 500; }
+
     /* ★※の行。※の幅ぶん字下げし、折り返しても揃う（2026-09-01） */
     .rar-note { margin-top: 1.5rem; }
     .rar-note p { padding-left: 1.2em; text-indent: -1.2em; margin: 0 0 0.4rem; }
@@ -101,6 +118,98 @@
             <div class="section-body rar-note">
                 <p>※バトルで使用できるエース効果は3つまでとしているため、試合毎に適切な選択を行う必要がある。</p>
                 <p>※詳しくは<a href="game-battle.html">バトル</a>のページにて記載</p>
+            </div>
+        </div>
+
+        <div class="game-section" data-reveal>
+            <h2 class="section-title">TYPE MATCHUP &amp; TYPE DETAILS</h2>
+            <p class="section-lead">相性が生む、有利と不利。</p>
+            <p class="section-body">3つのタイプがじゃんけんのように噛み合う三すくみ。ダメージに倍率はかからない。相手の戦い方を封じられるかどうかで、有利と不利が決まる。</p>
+            <div class="type-split">
+                <div>
+            <div class="triangle-wrap">
+                <svg class="triangle-svg" viewBox="0 0 420 360" aria-hidden="true">
+                    <defs>
+                        <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+                            <path d="M0 0 L10 5 L0 10 Z" fill="#F9A825"/>
+                        </marker>
+                    </defs>
+                    <!-- Power → Speed -->
+                    <path d="M182 112 Q114 168 88 254" stroke="#F9A825" stroke-width="3" stroke-linecap="round" fill="none" stroke-dasharray="7 6" marker-end="url(#arrow)"/>
+                    <!-- Speed → Technique -->
+                    <path d="M108 284 Q210 324 312 284" stroke="#F9A825" stroke-width="3" stroke-linecap="round" fill="none" stroke-dasharray="7 6" marker-end="url(#arrow)"/>
+                    <!-- Technique → Power -->
+                    <path d="M332 254 Q306 168 238 112" stroke="#F9A825" stroke-width="3" stroke-linecap="round" fill="none" stroke-dasharray="7 6" marker-end="url(#arrow)"/>
+                </svg>
+                <div class="tri-node tri-power">
+                    <span>パワー</span>
+                    <img src="assets/icons/type-power.webp" alt="パワー">
+                </div>
+                <div class="tri-node tri-speed">
+                    <span>スピード</span>
+                    <img src="assets/icons/type-speed.webp" alt="スピード">
+                </div>
+                <div class="tri-node tri-technique">
+                    <span>テクニック</span>
+                    <img src="assets/icons/type-technique.webp" alt="テクニック">
+                </div>
+            </div>
+            <div class="neutral-box">
+                <img src="assets/icons/type-neutral.webp" alt="ニュートラル">
+                <div class="neutral-content">
+                    <div class="neutral-title">ニュートラル</div>
+                    <div class="neutral-text">三すくみの外。有利も不利もない。</div>
+                </div>
+            </div>
+                </div>
+                <div>
+            <div class="type-cards">
+                <article class="type-card power">
+                    <div class="type-icon-bg"><img src="assets/icons/type-power.webp" alt=""></div>
+                    <div class="type-head">
+                        <div class="type-icon"><img src="assets/icons/type-power.webp" alt="パワー"></div>
+                        <div class="type-heading">
+                            <h3>パワー</h3>
+                            <div class="type-meta">POWER — 近接の破壊者</div>
+                        </div>
+                    </div>
+                    <p>正面からの殴り合いを担う近接タイプ。前に張った爪オーラに速い敵が触れると、牙撃が出て突進を止める。踏み込んでくるスピードを封じるが、距離を取るテクニックには手が届かない。</p>
+                </article>
+                <article class="type-card speed">
+                    <div class="type-icon-bg"><img src="assets/icons/type-speed.webp" alt=""></div>
+                    <div class="type-head">
+                        <div class="type-icon"><img src="assets/icons/type-speed.webp" alt="スピード"></div>
+                        <div class="type-heading">
+                            <h3>スピード</h3>
+                            <div class="type-meta">SPEED — 高速の切り込み役</div>
+                        </div>
+                    </div>
+                    <p>移動速度に優れた機動タイプ。猛突で一気に距離を詰め、乱闘に持ち込む。テクニックを射程の外から懐へ捉えるが、パワーの爪オーラに触れると突進を止められる。</p>
+                </article>
+                <article class="type-card technique">
+                    <div class="type-icon-bg"><img src="assets/icons/type-technique.webp" alt=""></div>
+                    <div class="type-head">
+                        <div class="type-icon"><img src="assets/icons/type-technique.webp" alt="テクニック"></div>
+                        <div class="type-heading">
+                            <h3>テクニック</h3>
+                            <div class="type-meta">TECHNIQUE — 遠距離の狙撃手</div>
+                        </div>
+                    </div>
+                    <p>投石と獣玉で戦う遠距離タイプ。距離を保ち、近づく前に削り切る。足の遅いパワーを寄せ付けない射程が武器だが、乱闘に持ち込まれると投石が撃てず、スピードには押し切られる。</p>
+                </article>
+                <article class="type-card neutral">
+                    <div class="type-icon-bg"><img src="assets/icons/type-neutral.webp" alt=""></div>
+                    <div class="type-head">
+                        <div class="type-icon"><img src="assets/icons/type-neutral.webp" alt="ニュートラル"></div>
+                        <div class="type-heading">
+                            <h3>ニュートラル</h3>
+                            <div class="type-meta">NEUTRAL — 異端の戦術家</div>
+                        </div>
+                    </div>
+                    <p>三すくみの外に立つ特殊タイプ。猛突も獣玉も牙撃も持たず、動きも最も遅い。その代わりスキルで戦況を動かす。全体強化、回復、妨害。何をしてくるか読めないのが最大の強み。</p>
+                </article>
+            </div>
+                </div>
             </div>
         </div>
 
