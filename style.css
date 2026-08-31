@@ -1559,18 +1559,6 @@ footer a:hover {
     -webkit-user-drag: none; user-drag: none;   /* ⚠PCで画像ドラッグに操作を奪われるのを防ぐ */
 }
 
-/* ★箔。カード絵とまったく同じ枠に重ねる（object-fit / position を一致させる）。
-   ⚠ mask と opacity は JS が毎フレーム書くので、ここでは初期値だけ。 */
-.unit-face .unit-foil {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    object-fit: contain;
-    object-position: center top;
-    mix-blend-mode: screen;
-    opacity: 0;
-    pointer-events: none;
-}
 @media (prefers-reduced-motion: reduce) {
     .unit-face.tiltable { transition: none; }
 }
