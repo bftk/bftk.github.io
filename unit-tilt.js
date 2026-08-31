@@ -41,7 +41,7 @@
         if (!unit) return 'c';
         var tag = unit.querySelector('.unit-tag[class*="rar-"]');
         if (!tag) return 'c';
-        var m = tag.className.match(/rar-(sr|r|uc|c)/);
+        var m = tag.className.match(/rar-(sr|r|uc|c)/);
         return m ? m[1] : 'c';
     }
 
