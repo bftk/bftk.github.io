@@ -1536,3 +1536,41 @@ footer a:hover {
 
 /* テキストが長いカードで画像の下だけが空くのを防ぐ（上下中央に置く） */
 .unit .unit-face { align-self: center; }
+
+/* ★キャラのカード絵を傾ける（2026-09-01 user指示）。JS は unit-tilt.js。
+   ⚠ transform は JS が毎フレーム書くので、ここでは指定しない。
+   ⚠ 裏面画像が無いので「めくり」は無い。傾きだけ。 */
+.unit-face.tiltable {
+    transform-style: preserve-3d;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease;
+    will-change: transform;
+    cursor: pointer;
+    -webkit-touch-callout: none;   /* ⚠長押しの保存メニューで操作が切れるのを防ぐ */
+    -webkit-user-select: none; user-select: none;
+}
+.unit-face.tiltable.is-live {
+    transition: transform 0.08s linear, box-shadow 0.25s ease;
+    box-shadow: 0 18px 40px rgba(0,0,0,0.5);
+}
+.unit-face.tiltable { position: relative; }
+.unit-face.tiltable img {
+    pointer-events: none;
+    -webkit-touch-callout: none;
+    -webkit-user-drag: none; user-drag: none;   /* ⚠PCで画像ドラッグに操作を奪われるのを防ぐ */
+}
+
+/* ★箔。カード絵とまったく同じ枠に重ねる（object-fit / position を一致させる）。
+   ⚠ mask と opacity は JS が毎フレーム書くので、ここでは初期値だけ。 */
+.unit-face .unit-foil {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: contain;
+    object-position: center top;
+    mix-blend-mode: screen;
+    opacity: 0;
+    pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) {
+    .unit-face.tiltable { transition: none; }
+}

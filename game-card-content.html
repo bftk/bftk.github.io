@@ -37,6 +37,18 @@
         will-change: transform; cursor: grab;
     }
     .rar-card__stage.is-live { transition: transform 0.08s linear; cursor: grabbing; }
+    /* ★カードは「タップでめくる／ドラッグで傾ける」UI。ブラウザ標準の
+       長押しメニューと画像ドラッグがその操作を奪うので、カードの中だけ止める。
+       ⚠これは画像の保護ではない（保護目的なら右クリック禁止になるが、それはやらない）。
+       ⚠ページの文章・リンク・右クリックには一切触れない。 */
+    .rar-card__stage {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none; user-select: none;
+    }
+    .rar-card__stage > img {
+        -webkit-touch-callout: none;
+        -webkit-user-drag: none; user-drag: none;
+    }
     .rar-card__stage > img {
         position: absolute; inset: 0; width: 100%; height: 100%;
         display: block; object-fit: cover; pointer-events: none;
