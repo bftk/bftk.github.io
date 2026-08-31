@@ -49,18 +49,6 @@
         .rar-item__name { font-size: 1.1rem; }
     }
 
-    /* 4段階の一覧表 */
-    .rar-table { width: 100%; border-collapse: collapse; margin-top: 1.5rem; }
-    .rar-table th, .rar-table td {
-        padding: 0.7rem 0.8rem; text-align: left;
-        border-bottom: 1px solid rgba(249,168,37,0.15); font-size: 0.86rem;
-    }
-    .rar-table th { color: #F9A825; font-size: 0.74rem; letter-spacing: 0.08em; font-weight: 500; }
-    .rar-table td:first-child { font-weight: 600; letter-spacing: 0.05em; width: 4.5rem; }
-    .rar-table td:last-child { white-space: nowrap; }
-    @media (max-width: 520px) {
-        .rar-table th, .rar-table td { padding: 0.6rem 0.4rem; font-size: 0.8rem; }
-    }
     /* ★動きを減らす設定の人には傾けも箔も動かさない */
     @media (prefers-reduced-motion: reduce) {
         .rar-card__stage { transition: none; }
@@ -110,15 +98,9 @@
         <div class="game-section" data-reveal>
             <h2 class="section-title">ACE CANDIDATES</h2>
             <p class="section-lead">高いほど、選べる幅が広がる。</p>
-            <p class="section-body">エース効果は、キャラクターごとに用意された候補から選んで解放する。<br>レアリティが高いカードほど、その候補が多い。</p>
-            <table class="rar-table">
-                <tr><th>レアリティ</th><th>箔</th><th>エース効果</th></tr>
-                <!-- ★上のカードの並び（SR→C）に揃える。2026-08-31 -->
-                <tr><td>SR</td><td>黄金。6層</td><td>4候補</td></tr>
-                <tr><td>R</td><td>白銀。枠とイラスト</td><td>3候補</td></tr>
-                <tr><td>UC</td><td>白銀。枠</td><td>2候補</td></tr>
-                <tr><td>C</td><td>なし</td><td>1候補</td></tr>
-            </table>
+            <p class="section-body">レアリティが高いほど、エース効果の候補が増える。<br>
+            ※ただし、バトルで使用できるエース効果は3つまでとしているため、試合毎に適切な選択を行う必要がある。<br>
+            ※詳しくは<a href="game-battle.html">バトル</a>のページにて記載</p>
             <p class="section-body" style="margin-top:1.5rem;">エース効果そのものについては<a href="game-ace.html">エース効果と特技</a>へ。</p>
         </div>
 
