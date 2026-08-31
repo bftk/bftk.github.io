@@ -74,6 +74,23 @@
     @media (prefers-reduced-motion: reduce) {
         .rar-card__stage { transition: none; }
     }
+
+    /* ★4タイプのカードをコンパクトに（2026-09-01） */
+    .type-split .type-cards { gap: 0.9rem; }
+    .type-split .type-card { padding: 1rem 1.1rem; }
+    .type-split .type-head { gap: 0.7rem; margin-bottom: 0.7rem; }
+    .type-split .type-icon { width: 42px; height: 42px; border-radius: 11px; }
+    .type-split .type-icon img { width: 34px; height: 34px; }
+    .type-split .type-heading h3 { margin-bottom: 0.15rem; }
+    .type-split .type-icon-bg img { width: 92px; height: 92px; }
+    /* ★行頭に「・」を置き、折り返した2行目も字下げして揃える */
+    .type-acts {
+        position: relative; z-index: 2;
+        margin: 0; padding: 0; list-style: none;
+        color: #a0a0a0; font-size: 0.86rem; line-height: 1.75;
+    }
+    .type-acts li { padding-left: 1em; text-indent: -1em; }
+    .type-acts li + li { margin-top: 0.45rem; }
     </style>
     <meta property="og:title" content="レアリティ - BFTK">
     <meta property="og:description" content="C、UC、R、SR。レアリティが高いほどエース効果の候補が増える。">
@@ -170,10 +187,10 @@
                         <div class="type-icon"><img src="assets/icons/type-power.webp" alt="パワー"></div>
                         <div class="type-heading">
                             <h3>パワー</h3>
-                            <div class="type-meta">POWER — 近接の破壊者</div>
+                            <div class="type-meta">POWER</div>
                         </div>
                     </div>
-                    <p>正面からの殴り合いを担う近接タイプ。前に張った爪オーラに速い敵が触れると、牙撃が出て突進を止める。踏み込んでくるスピードを封じるが、距離を取るテクニックには手が届かない。</p>
+                    <ul class="type-acts"><li>爪オーラが敵に当たるとダメージをあたえ、一定速度の敵に正面から当てると牙撃が発動し、ダメージを与えスタンさせる。</li><li>旋刃は、アクションボタンを長押しして発動。爪オーラがキャラの周りを一周する。</li></ul>
                 </article>
                 <article class="type-card speed">
                     <div class="type-icon-bg"><img src="assets/icons/type-speed.webp" alt=""></div>
@@ -181,10 +198,10 @@
                         <div class="type-icon"><img src="assets/icons/type-speed.webp" alt="スピード"></div>
                         <div class="type-heading">
                             <h3>スピード</h3>
-                            <div class="type-meta">SPEED — 高速の切り込み役</div>
+                            <div class="type-meta">SPEED</div>
                         </div>
                     </div>
-                    <p>移動速度に優れた機動タイプ。猛突で一気に距離を詰め、乱闘に持ち込む。テクニックを射程の外から懐へ捉えるが、パワーの爪オーラに触れると突進を止められる。</p>
+                    <ul class="type-acts"><li>一定距離を走り続けると猛突状態になり、最初の乱闘で与えるダメージが上がる。</li><li>剛突は、猛突状態でアクションボタンを長押しして発動。前方へ突進する。</li></ul>
                 </article>
                 <article class="type-card technique">
                     <div class="type-icon-bg"><img src="assets/icons/type-technique.webp" alt=""></div>
@@ -192,10 +209,10 @@
                         <div class="type-icon"><img src="assets/icons/type-technique.webp" alt="テクニック"></div>
                         <div class="type-heading">
                             <h3>テクニック</h3>
-                            <div class="type-meta">TECHNIQUE — 遠距離の狙撃手</div>
+                            <div class="type-meta">TECHNIQUE</div>
                         </div>
                     </div>
-                    <p>投石と獣玉で戦う遠距離タイプ。距離を保ち、近づく前に削り切る。足の遅いパワーを寄せ付けない射程が武器だが、乱闘に持ち込まれると投石が撃てず、スピードには押し切られる。</p>
+                    <ul class="type-acts"><li>静止しているとき、射程内の敵へ自動で投石する。</li><li>獣玉は、アクションボタンを押し続けて溜め、離すと発射。着弾地点の範囲にダメージを与える。</li></ul>
                 </article>
                 <article class="type-card neutral">
                     <div class="type-icon-bg"><img src="assets/icons/type-neutral.webp" alt=""></div>
@@ -203,10 +220,10 @@
                         <div class="type-icon"><img src="assets/icons/type-neutral.webp" alt="ニュートラル"></div>
                         <div class="type-heading">
                             <h3>ニュートラル</h3>
-                            <div class="type-meta">NEUTRAL — 異端の戦術家</div>
+                            <div class="type-meta">NEUTRAL</div>
                         </div>
                     </div>
-                    <p>三すくみの外に立つ特殊タイプ。猛突も獣玉も牙撃も持たず、動きも最も遅い。その代わりスキルで戦況を動かす。全体強化、回復、妨害。何をしてくるか読めないのが最大の強み。</p>
+                    <ul class="type-acts"><li>固有のアクションを持たない。スキルで戦う。</li></ul>
                 </article>
             </div>
                 </div>
