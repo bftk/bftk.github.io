@@ -101,13 +101,9 @@
                     </div>
                     <button type="button" class="card-sr__flip" id="srFlip">裏返す</button>
                 </div>
-                <ul class="card-parts">
-                    <li><a href="game-status.html">コスト</a></li>
-                    <li><a href="game-types.html">タイプ</a></li>
-                    <li><a href="game-skills.html">スキル</a></li>
-                    <li><a href="game-ace.html">エース効果</a></li>
-                    <li><a href="game-status.html">ATK / DEF / MND</a></li>
-                </ul>
+                <!-- ★面（表／裏1／裏2）ごとに JS が差し替える。
+                     表＝レアリティ・勢力（絵と枠と箔だけなのでこの2つ）。 -->
+                <ul class="card-parts" id="srParts"></ul>
             </div>
             <ul class="card-parts card-more">
                 <li><a href="game-obtain.html">入手方法</a></li>
@@ -123,6 +119,10 @@
             <a href="game-battle.html">
                 <div class="guide-nav-label">BATTLE</div>
                 <div class="guide-nav-title">バトル</div>
+            </a>
+            <a href="game-rarity.html">
+                <div class="guide-nav-label">RARITY</div>
+                <div class="guide-nav-title">レアリティ</div>
             </a>
         </div>
     </div>
@@ -262,13 +262,39 @@
     }
 
     /* ---- めくり。★表(箔あり) → 裏1 → 裏2 → 表 の3面を回す ---- */
+    /* ★面ごとに右の項目を変える（2026-08-31 user指示）。
+       表は絵・枠・箔だけなのでレアリティと勢力の2つだけ。
+       ⚠「勢力」の行き先は game-deck.html（「4つの勢力」の節がある）。 */
     var FACES = [
-        { src: 'card-anubi.webp',    alt: 'カードの見本（アヌビ）',   foil: true  },
-        { src: 'card-anubi-b1.webp', alt: 'カード裏1（素性）',      foil: false },
-        { src: 'card-anubi-b2.webp', alt: 'カード裏2（スキル）',     foil: false }
+        { src: 'card-anubi.webp',    alt: 'カードの見本（アヌビ）',   foil: true,  parts: [
+            ['レアリティ',        'game-rarity.html'],
+            ['勢力',            'game-deck.html']
+        ] },
+        { src: 'card-anubi-b1.webp', alt: 'カード裏1（素性）',      foil: false, parts: [
+            ['勢力',            'game-deck.html'],
+            ['タイプ',          'game-types.html'],
+            ['コスト',          'game-status.html'],
+            ['特技',            'game-ace.html'],
+            ['エース効果',      'game-ace.html'],
+            ['ATK / DEF / MND', 'game-status.html']
+        ] },
+        { src: 'card-anubi-b2.webp', alt: 'カード裏2（スキル）',     foil: false, parts: [
+            ['スキル説明',        'game-skills.html']
+        ] }
     ];
+    var partsEl = document.getElementById('srParts');
+    function renderParts(i) {
+        if (!partsEl) return;
+        var ps = FACES[i].parts || [];
+        var h = '';
+        for (var k = 0; k < ps.length; k++) {
+            h += '<li><a href="' + ps[k][1] + '">' + ps[k][0] + '</a></li>';
+        }
+        partsEl.innerHTML = h;
+    }
     var face = document.getElementById('srFace');
     var idx = 0, flipping = false;
+    renderParts(idx);                 /* ★初期表示（表＝空） */
 
     function flip() {
         if (flipping) return;
@@ -288,6 +314,7 @@
                         foils[i].style.display = FACES[idx].foil ? '' : 'none';
                     }
                     dust.style.display = FACES[idx].foil ? '' : 'none';
+                    renderParts(idx);
                 }
                 requestAnimationFrame(step);
                 return;

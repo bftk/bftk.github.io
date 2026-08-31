@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>レアリティ - BFTK</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="stylesheet" href="style.css">
+    <style>
+    /* ★4枚を横に並べる。それぞれ独立して傾けられる。
+       ⚠スマホで4列にすると1枚85pxまで縮むので、520px以下は2列×2段にする。
+       ★箔の仕組みは game-card-content.html と同じ。傾けた結果として光が動く。 */
+    /* ★ 4列横並び。列幅は画面いっぱい（上限 1600px）。2026-08-31
+       ⚠ 1枚の大きさの実測:
+         1920px → 394px / 1536px → 371px / 1366px → 328px / 1010px → 240px
+       ★ 240px を切ると読めないので、その手前（1010px）で 2×2 に折り返す。 */
+    .rar-row {
+        display: grid; grid-template-columns: repeat(4, 1fr);
+        gap: 1.1rem; margin-top: 1.8rem;
+        width: min(1600px, calc(100vw - 2.4rem));
+        margin-left: 50%; transform: translateX(-50%);
+    }
+    @media (max-width: 1010px) {
+        .rar-row { grid-template-columns: repeat(2, 1fr); width: min(760px, calc(100vw - 2.4rem)); gap: 1.2rem; }
+    }
+    @media (max-width: 520px) { .rar-row { gap: 0.9rem; } }
+
+    .rar-item { text-align: center; }
+    .rar-card { width: 100%; perspective: 900px; }
+    .rar-card__stage {
+        position: relative; width: 100%;
+        aspect-ratio: 832 / 1216;
+        border-radius: 10px; overflow: hidden;
+        transform-style: preserve-3d;
+        transition: transform 0.5s cubic-bezier(.22,.61,.36,1);
+        will-change: transform; cursor: grab;
+    }
+    .rar-card__stage.is-live { transition: transform 0.08s linear; cursor: grabbing; }
+    .rar-card__stage > img {
+        position: absolute; inset: 0; width: 100%; height: 100%;
+        display: block; object-fit: cover; pointer-events: none;
+    }
+    /* 箔は加算。ブラウザでは screen（黒が透明）で近似する */
+    .rar-card__foil { mix-blend-mode: screen; opacity: 0; will-change: opacity, -webkit-mask-position; }
+
+    .rar-item__name  { font-size: 1.3rem; letter-spacing: 0.06em; margin: 0.8rem 0 0; color: #F9A825; }
+    @media (max-width: 520px) {
+        .rar-item__name { font-size: 1.1rem; }
+    }
+
+    /* 4段階の一覧表 */
+    .rar-table { width: 100%; border-collapse: collapse; margin-top: 1.5rem; }
+    .rar-table th, .rar-table td {
+        padding: 0.7rem 0.8rem; text-align: left;
+        border-bottom: 1px solid rgba(249,168,37,0.15); font-size: 0.86rem;
+    }
+    .rar-table th { color: #F9A825; font-size: 0.74rem; letter-spacing: 0.08em; font-weight: 500; }
+    .rar-table td:first-child { font-weight: 600; letter-spacing: 0.05em; width: 4.5rem; }
+    .rar-table td:last-child { white-space: nowrap; }
+    @media (max-width: 520px) {
+        .rar-table th, .rar-table td { padding: 0.6rem 0.4rem; font-size: 0.8rem; }
+    }
+    /* ★動きを減らす設定の人には傾けも箔も動かさない */
+    @media (prefers-reduced-motion: reduce) {
+        .rar-card__stage { transition: none; }
+    }
+    </style>
+    <meta property="og:title" content="レアリティ - BFTK">
+    <meta property="og:description" content="C、UC、R、SR。レアリティが高いほどエース効果の候補が増える。">
+    <meta property="og:url" content="https://bftk-game.com/game-rarity.html">
+    <link rel="canonical" href="https://bftk-game.com/game-rarity.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="BFTK">
+    <meta property="og:locale" content="ja_JP">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-K0TT1CMBVT"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-K0TT1CMBVT');
+    </script>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="nav-logo">BFTK</a>
+        <div class="nav-links">
+            <a href="world.html">世界観</a>
+            <a href="game.html" class="active">遊び方</a>
+            <a href="characters.html">勢力</a>
+            <a href="faq.html">FAQ</a>
+        </div>
+    </nav>
+    <div class="game-content">
+        <div class="guide-header">
+            <h1 class="page-title" style="margin-bottom:0.5rem;">レアリティ</h1>
+            <p class="page-subtitle">RARITY</p>
+        </div>
+
+        <div class="game-section" data-reveal>
+            <h2 class="section-title">RARITY</h2>
+            <p class="section-lead">レアリティについて</p>
+
+            <div class="rar-row" id="rarRow"></div>
+
+            <p class="section-body" style="margin-top:2rem;">枠の色は<a href="game-deck.html">勢力</a>を表す。</p>
+        </div>
+
+        <div class="game-section" data-reveal>
+            <h2 class="section-title">ACE CANDIDATES</h2>
+            <p class="section-lead">高いほど、選べる幅が広がる。</p>
+            <p class="section-body">エース効果は、キャラクターごとに用意された候補から選んで解放する。<br>レアリティが高いカードほど、その候補が多い。</p>
+            <table class="rar-table">
+                <tr><th>レアリティ</th><th>箔</th><th>エース効果</th></tr>
+                <!-- ★上のカードの並び（SR→C）に揃える。2026-08-31 -->
+                <tr><td>SR</td><td>黄金。6層</td><td>4候補</td></tr>
+                <tr><td>R</td><td>白銀。枠とイラスト</td><td>3候補</td></tr>
+                <tr><td>UC</td><td>白銀。枠</td><td>2候補</td></tr>
+                <tr><td>C</td><td>なし</td><td>1候補</td></tr>
+            </table>
+            <p class="section-body" style="margin-top:1.5rem;">エース効果そのものについては<a href="game-ace.html">エース効果と特技</a>へ。</p>
+        </div>
+
+        <div class="guide-bottom-nav">
+            <a href="game-card-content.html">
+                <div class="guide-nav-label">CARDS</div>
+                <div class="guide-nav-title">カード説明</div>
+            </a>
+            <a href="game-status.html">
+                <div class="guide-nav-label">STATUS</div>
+                <div class="guide-nav-title">ステータス</div>
+            </a>
+            <a href="game-ace.html">
+                <div class="guide-nav-label">ABILITIES</div>
+                <div class="guide-nav-title">エース効果と特技</div>
+            </a>
+            <a href="rates.html">
+                <div class="guide-nav-label">RATES</div>
+                <div class="guide-nav-title">提供割合</div>
+            </a>
+        </div>
+    </div>
+    <a href="chat.html" class="chat-fab" aria-label="キャラと話す"><img src="chat-icon.webp" alt="キャラと話す"></a>
+    <footer>
+        <a href="privacy.html">プライバシーポリシー</a>｜<a href="terms.html">利用規約</a>｜<a href="rates.html">提供割合</a>｜<a href="company.html">運営者情報</a>
+        <p style="margin-top: 0.5rem;">&copy; HIAS</p>
+    </footer>
+    <script>
+    document.addEventListener('DOMContentLoaded',()=>{const o=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('is-visible');o.unobserve(x.target)}})},{threshold:0.12});document.querySelectorAll('[data-reveal]').forEach(el=>o.observe(el))});
+    </script>
+    <script>
+    (function () {
+    var row = document.getElementById('rarRow');
+    if (!row) return;
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* ★層の値は game-card-content.html と同じ（ゲームの確定値）。
+       ⚠uc / r は1層だけ。SRの6層と比べると地味だが、それが仕様どおり。
+       ★サイト用に誇張しない（実物とのギャップを作らない）。 */
+    var LAYERS = {
+        uc:    { power: 0.50, width: 0.22,  core: 0 },
+        r:     { power: 0.45, width: 0.22,  core: 0 },
+        gold:  { power: 0.45, width: 0.22,  core: 0 },
+        base:  { power: 0.55, width: 0.35,  core: 0 },
+        flake: { power: 0.29, width: 0.53,  core: 0 },
+        shine: { power: 1.00, width: 0.16,  core: 1 },
+        glint: { power: 0.85, width: 0.045, core: 0 }
+    };
+    var ANGLE = 62;
+
+    /* ★4段階。使う箔の層をレアリティごとに変える。
+       ⚠見本は勢力もバラバラ＝「枠の色＝勢力」を同時に見せるため。 */
+    /* ★並びは SR → C（2026-08-31 user指示）。一番見せたい SR を左端に。
+       ⚠下の一覧表は C→SR のまま（数が増える順のほうが読みやすい）。
+       ⚠見本は勢力もバラバラ＝「枠の色＝勢力」を同時に見せるため。 */
+    var RARITIES = [
+        { name: 'SR', label: 'SUPER RARE',
+          faces: ['rarity-sr.webp', 'rarity-sr-b1.webp', 'rarity-sr-b2.webp'],
+          src: 'rarity-sr.webp', alt: 'SRのカード（草原）', fac: '草原',
+          use: ['gold', 'base', 'flake', 'shine', 'glint'],
+          text: '黄金の箔を6層。傾けると光が流れる。' },
+        { name: 'R',  label: 'RARE',
+          faces: ['rarity-r.webp', 'rarity-r-b1.webp', 'rarity-r-b2.webp'],
+          src: 'rarity-r.webp',  alt: 'Rのカード（廃墟）', fac: '廃墟',
+          use: ['r'], text: '白銀の箔。枠とイラストに入る。' },
+        { name: 'UC', label: 'UNCOMMON',
+          faces: ['rarity-uc.webp', 'rarity-uc-b1.webp', 'rarity-uc-b2.webp'],
+          src: 'rarity-uc.webp', alt: 'UCのカード（山岳）', fac: '山岳',
+          use: ['uc'], text: '白銀の箔。枠に入る。' },
+        { name: 'C',  label: 'COMMON',
+          faces: ['rarity-c.webp', 'rarity-c-b1.webp', 'rarity-c-b2.webp'],
+          src: 'rarity-c.webp',  alt: 'Cのカード（森林）', fac: '森林',
+          use: [], text: '箔はない。' }
+    ];
+
+    /* 帯 = 角度62度の線形グラデーションのマスク。中心を tilt で動かす */
+    function maskFor(width, center, core) {
+        var w = Math.max(2, width * 100);
+        var c = center * 100;
+        var stops = [
+            'transparent ' + (c - w) + '%',
+            'rgba(0,0,0,0.35) ' + (c - w * 0.45) + '%',
+            'rgba(0,0,0,1) ' + c + '%',
+            'rgba(0,0,0,0.35) ' + (c + w * 0.45) + '%',
+            'transparent ' + (c + w) + '%'
+        ];
+        if (core) { stops.splice(3, 0, 'rgba(0,0,0,0.9) ' + (c + w * 0.12) + '%'); }
+        return 'linear-gradient(' + ANGLE + 'deg, ' + stops.join(', ') + ')';
+    }
+
+    var cards = [];
+
+    for (var i = 0; i < RARITIES.length; i++) {
+        var R = RARITIES[i];
+        var item = document.createElement('div');
+        item.className = 'rar-item';
+        var foilHtml = '';
+        for (var k = 0; k < R.use.length; k++) {
+            foilHtml += '<img class="rar-card__foil" data-foil="' + R.use[k] +
+                        '" src="foil-' + R.use[k] + '.webp" alt="" aria-hidden="true">';
+        }
+        item.innerHTML =
+            '<div class="rar-card"><div class="rar-card__stage">' +
+            '<img src="' + R.src + '" alt="' + R.alt + '" width="640" height="935">' +
+            foilHtml +
+            '</div></div>' +
+            '<div class="rar-item__name">' + R.name + '</div>';
+            /* ⚠箔の説明・勢力名は出さない（2026-08-31 user判断）。下の一覧表と重複するため */
+        row.appendChild(item);
+
+        var stage = item.querySelector('.rar-card__stage');
+        cards.push({
+            stage: stage,
+            img: stage.querySelector('img'),
+            foils: [].slice.call(stage.querySelectorAll('.rar-card__foil')),
+            faces: R.faces, alt: R.alt, name: R.name,
+            fi: 0, flipDeg: 0, flipping: false, dx: 0, dy: 0, moved: 0,
+            tx: 0, ty: 0, cx: 0, cy: 0, hold: 0, rest: 0
+        });
+    }
+
+    /* ★カードごとに独立して傾ける */
+    function apply(c) {
+        var deg = 22;
+        c.stage.style.transform = 'rotateX(' + (c.cy * deg) + 'deg) rotateY(' + (c.cx * deg + c.flipDeg) + 'deg)';
+        var center = 0.5 + (c.cx * 0.75) - (c.cy * 0.55);
+        var lean = Math.min(1, Math.sqrt(c.cx * c.cx + c.cy * c.cy));
+        for (var i = 0; i < c.foils.length; i++) {
+            var el = c.foils[i], L = LAYERS[el.getAttribute('data-foil')];
+            if (!L) continue;
+            var m = maskFor(L.width, center, L.core);
+            el.style.webkitMaskImage = m;
+            el.style.maskImage = m;
+            el.style.opacity = (L.power * (0.55 + 0.45 * lean)).toFixed(3);
+        }
+    }
+
+    /* ★スマホ対応（2026-08-31）。
+       ⚠pointermove だけだとタップではほぼ発火せず、pointerleave で即 0 に戻って
+       いた＝「タップしても光らない」。
+       ★pointerdown でもその位置を取り、離してからは少し保ってから戻す。
+       ⚠ジャイロ（端末の傾き）は使わない（方針＝指ドラッグ）。 */
+    /* ★めくり。表（箔あり）→ 裏1 → 裏2 → 表 の3面を回す。
+       ⚠ 90度で面を差し替える（180度まで回すと中身が鏡像になる）。
+       ★裏面には箔を出さない。 */
+    function flip(c) {
+        if (c.flipping) return;
+        c.flipping = true;
+        var t0 = performance.now(), DUR = 190, half = false;
+        (function step(now) {
+            var e = Math.min(1, (now - t0) / DUR);
+            if (!half) {
+                c.flipDeg = 90 * e;
+                if (e >= 1) {
+                    half = true; t0 = now; c.flipDeg = -90;
+                    c.fi = (c.fi + 1) % c.faces.length;
+                    c.img.src = c.faces[c.fi];
+                    c.img.alt = c.fi === 0 ? c.alt
+                              : (c.name + 'のカード裏' + c.fi);
+                    for (var i = 0; i < c.foils.length; i++) {
+                        c.foils[i].style.display = c.fi === 0 ? '' : 'none';
+                    }
+                }
+                requestAnimationFrame(step);
+                return;
+            }
+            c.flipDeg = -90 * (1 - e);
+            if (e >= 1) { c.flipDeg = 0; c.flipping = false; return; }
+            requestAnimationFrame(step);
+        })(t0);
+    }
+
+    function pick(c, e) {
+        var r = c.stage.getBoundingClientRect();
+        c.tx = Math.max(-1, Math.min(1, ((e.clientX - r.left) / r.width - 0.5) * 2));
+        c.ty = Math.max(-1, Math.min(1, ((e.clientY - r.top) / r.height - 0.5) * 2));
+        c.stage.classList.add('is-live');
+    }
+
+    for (var n = 0; n < cards.length; n++) {
+        (function (c) {
+            c.hold = 0;
+            c.stage.addEventListener('pointerdown', function (e) {
+                c.stage.setPointerCapture(e.pointerId);
+                pick(c, e);
+                c.hold = 1;                       /* ★指を離すまで保つ */
+                c.dx = e.clientX; c.dy = e.clientY; c.moved = 0;
+            });
+            c.stage.addEventListener('pointermove', function (e) {
+                if (e.pointerType === 'mouse' || c.hold) pick(c, e);
+                /* ★指を動かしたなら「傾けた」とみなし、めくらない */
+                if (c.hold && Math.abs(e.clientX - c.dx) + Math.abs(e.clientY - c.dy) > 10) c.moved = 1;
+            });
+            c.stage.addEventListener('pointerup', function () {
+                c.hold = 0;
+                c.rest = 40;                      /* ★離してから約40フレーム（約0.7秒）保つ */
+                if (!c.moved) flip(c);            /* ★動かさずに離した＝タップ。めくる */
+            });
+            c.stage.addEventListener('pointercancel', function () { c.hold = 0; c.rest = 40; });
+            c.stage.addEventListener('pointerleave', function (e) {
+                if (e.pointerType === 'mouse') { c.tx = 0; c.ty = 0; c.stage.classList.remove('is-live'); }
+            });
+        })(cards[n]);
+    }
+
+    (function loop() {
+        for (var i = 0; i < cards.length; i++) {
+            var c = cards[i];
+            /* ★離したあとの余韻。rest が尽きたら正面へ戻す */
+            if (c.rest > 0) { c.rest--; if (c.rest === 0) { c.tx = 0; c.ty = 0; c.stage.classList.remove('is-live'); } }
+            c.cx += (c.tx - c.cx) * 0.16;
+            c.cy += (c.ty - c.cy) * 0.16;
+            apply(c);
+        }
+        requestAnimationFrame(loop);
+    })();
+
+    if (reduce) { for (var j = 0; j < cards.length; j++) { cards[j].tx = 0; cards[j].ty = 0; } }
+    })();
+    </script>
+</body>
+</html>
