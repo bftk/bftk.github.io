@@ -17,7 +17,7 @@
        ★ 240px を切ると読めないので、その手前（1010px）で 2×2 に折り返す。 */
     .rar-row {
         display: grid; grid-template-columns: repeat(4, 1fr);
-        gap: 1.1rem; margin-top: 1.8rem;
+        gap: 1.1rem; margin-top: 0;
         width: min(1600px, calc(100vw - 2.4rem));
         margin-left: 50%; transform: translateX(-50%);
     }
@@ -48,6 +48,10 @@
     @media (max-width: 520px) {
         .rar-item__name { font-size: 1.1rem; }
     }
+
+    /* ★※の行。※の幅ぶん字下げし、折り返しても揃う（2026-09-01） */
+    .rar-note { margin-top: 1.5rem; }
+    .rar-note p { padding-left: 1.2em; text-indent: -1.2em; margin: 0 0 0.4rem; }
 
     /* ★動きを減らす設定の人には傾けも箔も動かさない */
     @media (prefers-reduced-motion: reduce) {
@@ -87,16 +91,17 @@
         </div>
 
         <div class="game-section" data-reveal>
-            <h2 class="section-title">RARITY &amp; ACE CANDIDATES</h2>
-            <p class="section-lead">レアリティについて</p>
-            <p class="section-body">高いほど、選べる幅が広がる。</p>
-
+            <!-- ★見出しとリードはカードの下（2026-09-01 user指示）。先に実物を見せる。 -->
             <div class="rar-row" id="rarRow"></div>
 
-            <p class="section-body" style="margin-top:2rem;">枠の色は<a href="game-deck.html">勢力</a>を表す。</p>
-            <p class="section-body" style="margin-top:1.5rem;">レアリティが高いほど、エース効果の候補が増える。<br>
-            ※ただし、バトルで使用できるエース効果は3つまでとしているため、試合毎に適切な選択を行う必要がある。<br>
-            ※詳しくは<a href="game-battle.html">バトル</a>のページにて記載</p>
+            <h2 class="section-title" style="margin-top:2.5rem;">RARITY &amp; ACE CANDIDATES</h2>
+            <p class="section-lead">レアリティについて</p>
+            <p class="section-body">レアリティが高いほど、エース効果の候補が増える。<br>
+            また、枠の色は<a href="game-deck.html">勢力</a>を表す。</p>
+            <div class="section-body rar-note">
+                <p>※バトルで使用できるエース効果は3つまでとしているため、試合毎に適切な選択を行う必要がある。</p>
+                <p>※詳しくは<a href="game-battle.html">バトル</a>のページにて記載</p>
+            </div>
             <p class="section-body" style="margin-top:1.5rem;">エース効果そのものについては<a href="game-ace.html">エース効果と特技</a>へ。</p>
         </div>
 
