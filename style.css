@@ -1553,6 +1553,20 @@ footer a:hover {
     box-shadow: 0 18px 40px rgba(0,0,0,0.5);
 }
 .unit-face.tiltable { position: relative; }
+
+/* ★箔。表のカードとまったく同じ枠に重ねる（object-fit / position を一致させる）。
+   ⚠ mask と opacity は JS が毎フレーム書くので、ここでは初期値だけ。
+   ⚠ 裏面に出ると文字が読めなくなるので、JS が裏では display:none にする。 */
+.unit-face .unit-foil {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: contain;
+    object-position: center top;
+    mix-blend-mode: screen;
+    opacity: 0;
+    pointer-events: none;
+}
 .unit-face.tiltable img {
     pointer-events: none;
     -webkit-touch-callout: none;
