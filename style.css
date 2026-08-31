@@ -430,8 +430,8 @@ footer a:hover {
     position: fixed;
     bottom: 0;
     right: 0;
-    width: 208px;
-    height: 208px;
+    width: 150px;
+    height: 150px;
     background: transparent;
     border-radius: 0;
     display: flex;
@@ -449,6 +449,12 @@ footer a:hover {
 }
 .chat-fab:hover {
     transform: scale(1.1);
+}
+
+/* ★スマホでは画面を食うので小さくする（2026-09-01 user指摘: でかすぎる）。
+   ⚠ 208px は幅375pxの端末で画面の55%を占めていた。 */
+@media (max-width: 640px) {
+    .chat-fab { width: 104px; height: 104px; }
 }
 
 /* ======= 遊び方ガイド ======= */
