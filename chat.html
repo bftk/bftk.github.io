@@ -371,7 +371,7 @@ body.theme-houzuki .bg-glow { opacity: 1; background: radial-gradient(circle at 
       <button data-cat="BILLING" onclick="onMenuBtn('BILLING')">お支払い</button>
       <button data-cat="REPORT" onclick="onMenuBtn('REPORT')">不具合・違反報告</button>
       <button data-cat="FEEDBACK" onclick="onMenuBtn('FEEDBACK')">ご意見・要望</button>
-      <button data-cat="POLICY" onclick="onMenuBtn('POLICY')">規約・プライバシー</button>
+      <button data-cat="POLICY" onclick="onMenuBtn('POLICY')">規約・事業者情報</button>
     </div>
     <div class="btn-menu" id="subMenu" role="toolbar" aria-label="サブメニュー" style="display:none;">
       <button data-cat="BUG" onclick="onMenuBtn('BUG')">不具合報告</button>
@@ -674,7 +674,7 @@ function addTransferMsg(text) {
 }
 
 // ===== ボタンメニュー =====
-const CATEGORY_LABELS = { ACCOUNT: "アカウント・データについて", BILLING: "お支払いについて", REPORT: "不具合・違反報告", BUG: "不具合報告", VIOLATION: "違反報告", FEEDBACK: "ご意見・要望", POLICY: "規約・プライバシーについて", ANNOUNCEMENT: "お知らせ・イベント" };
+const CATEGORY_LABELS = { ACCOUNT: "アカウント・データについて", BILLING: "お支払いについて", REPORT: "不具合・違反報告", BUG: "不具合報告", VIOLATION: "違反報告", FEEDBACK: "ご意見・要望", POLICY: "規約・事業者情報について", ANNOUNCEMENT: "お知らせ・イベント" };
 const REPORT_PLACEHOLDERS = { BUG: "バグの内容を入力...", VIOLATION: "違反の内容を入力...", ACCOUNT: "アカウントの問題を入力...", FEEDBACK: "ご意見・要望を入力..." };
 const subMenu = document.getElementById("subMenu");
 
@@ -735,7 +735,13 @@ function onMenuBtn(category) {
     if (!appearedChars.has(targetChar)) { appearedChars.add(targetChar); const gl = getGreetingLine(targetChar); if (gl) await addCharMsg(targetChar, gl); }
     const g = greetings[category]?.[targetChar];
     if (g) await addCharMsg(targetChar, g);
-    try { await sendToWorker(prompts[category] || category, targetChar, "button"); } finally { unlockInput(); }
+    try {
+      await sendToWorker(prompts[category] || category, targetChar, "button");
+      // 事業者情報の請求は「事業者情報」等の入力語でしか起動しないため、規約の回答に続けて入力語を案内する
+      if (category === "POLICY") {
+        await addCharMsg("musha", "事業者情報の請求もここで受け付けている。「事業者情報」と入力してくれ。");
+      }
+    } finally { unlockInput(); }
   }).catch(() => { unlockInput(); });
 }
 
