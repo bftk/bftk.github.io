@@ -47,6 +47,27 @@
         .faction-emblem img { width: 64px; height: 64px; }
         .faction-emblem span { font-size: 0.8rem; }
     }
+    /* ★天牙の紹介に惑星の絵を添える（2026-09-01 user指示）。
+       素材はゲーム本体のカットインと同じ Resources/CutIn/Planets を webp 化したもの。 */
+    .tenga-planet-img { width: 72px; height: 72px; object-fit: contain; flex-shrink: 0; }
+    .tenga-item { display: flex; align-items: center; gap: 1.1rem; }
+
+    /* ★残りの星。名前だけだった行を絵つきにした */
+    .tenga-rest {
+        display: flex; justify-content: center; flex-wrap: wrap;
+        gap: 1.6rem; margin-top: 2rem;
+    }
+    .tenga-rest-item {
+        display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    }
+    .tenga-rest-item img { width: 56px; height: 56px; object-fit: contain; opacity: 0.85; }
+    .tenga-rest-item span { color: #999; font-size: 0.78rem; letter-spacing: 0.06em; }
+    @media (max-width: 560px) {
+        .tenga-planet-img { width: 56px; height: 56px; }
+        .tenga-rest { gap: 1.1rem; }
+        .tenga-rest-item img { width: 44px; height: 44px; }
+        .tenga-rest-item span { font-size: 0.7rem; }
+    }
     </style>
     <meta property="og:title" content="デッキ構築 - BFTK">
     <meta property="og:description" content="8枚のカードが、戦略のすべてを決める。4つの勢力と50種類以上のエース効果。">
@@ -125,19 +146,45 @@
             <p class="section-body">天牙ゲージを溜めて発動する切り札。<br>各天牙にはLVが設定されており、ゲージが溜まるほど強力になる。<br>デッキ構築で異なる天牙を2つ設定することができ、試合中にそれぞれ1回ずつ発動できる。</p>
             <div class="tenga-showcase">
                 <div class="tenga-item">
+                    <img class="tenga-planet-img" src="assets/planet/earth.webp" alt="" width="256" height="256" loading="lazy">
                     <div class="tenga-info"><span class="tenga-planet">地球</span><span class="tenga-desc">味方全体のHPを回復し、退却時間を短縮できる効果がある</span></div>
                 </div>
                 <div class="tenga-item">
+                    <img class="tenga-planet-img" src="assets/planet/mars.webp" alt="" width="256" height="256" loading="lazy">
                     <div class="tenga-info"><span class="tenga-planet">火星</span><span class="tenga-desc">味方全員の攻撃力を強化する</span></div>
                 </div>
                 <div class="tenga-item">
+                    <img class="tenga-planet-img" src="assets/planet/jupiter.webp" alt="" width="256" height="256" loading="lazy">
                     <div class="tenga-info"><span class="tenga-planet">木星</span><span class="tenga-desc">戦場が拡張されることや相手の縄張りゲージを1％にする効果がある</span></div>
                 </div>
                 <div class="tenga-item">
+                    <img class="tenga-planet-img" src="assets/planet/uranus.webp" alt="" width="256" height="256" loading="lazy">
                     <div class="tenga-info"><span class="tenga-planet">天王星</span><span class="tenga-desc">敵チームの巣穴に影響を与える効果がある</span></div>
                 </div>
             </div>
-            <p class="section-body" style="margin-top:1.2rem; color:#999; font-size:0.85rem;">金星、水星、土星、冥王星――他にも多くの星の天牙が存在する。</p>
+            <div class="tenga-rest">
+                <div class="tenga-rest-item">
+                    <img src="assets/planet/venus.webp" alt="" width="256" height="256" loading="lazy">
+                    <span>金星</span>
+                </div>
+                <div class="tenga-rest-item">
+                    <img src="assets/planet/mercury.webp" alt="" width="256" height="256" loading="lazy">
+                    <span>水星</span>
+                </div>
+                <div class="tenga-rest-item">
+                    <img src="assets/planet/saturn.webp" alt="" width="256" height="256" loading="lazy">
+                    <span>土星</span>
+                </div>
+                <div class="tenga-rest-item">
+                    <img src="assets/planet/pluto.webp" alt="" width="256" height="256" loading="lazy">
+                    <span>冥王星</span>
+                </div>
+                <div class="tenga-rest-item">
+                    <img src="assets/planet/neptune.webp" alt="" width="256" height="256" loading="lazy">
+                    <span>海王星</span>
+                </div>
+            </div>
+            <p class="section-body" style="margin-top:1rem; color:#999; font-size:0.85rem;">他にも多くの星の天牙が存在する。</p>
 
             <h3 class="section-lead" style="margin-top:2.5rem;">天牙ボーナスについて</h3>
             <p class="section-body" style="margin-bottom:0.5rem;">デッキに登録する勢力の種類が少ないほど、試合開始時に天牙ゲージの量が多い。</p>
