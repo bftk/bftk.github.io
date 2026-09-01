@@ -225,7 +225,7 @@
         gap: 0.9rem; margin-top: 2rem;
     }
     .stat-item {
-        display: flex; align-items: flex-start; gap: 0.9rem;
+        display: flex; align-items: center; gap: 0.9rem;   /* ★MNDは2行なので上揃えだと略号が浮く（2026-09-01 user指摘） */
         padding: 1.1rem 1.2rem;
         background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.015));
         border: 1px solid rgba(255,255,255,0.06);
@@ -445,7 +445,7 @@
 
         <div class="game-section" data-reveal>
             <h2 class="section-title">STATUS</h2>
-            <p class="section-lead">ステータスについて</p>
+            <p class="section-lead">ATK・DEF・MNDについて</p>
             <div class="stat-list">
                 <article class="stat-item atk">
                     <div class="stat-key">ATK</div>
