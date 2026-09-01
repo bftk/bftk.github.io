@@ -8,15 +8,6 @@
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="stylesheet" href="style.css">
     <style>
-    /* 節の左に挿絵を置く（画像は準備中） */
-    .figure-row { display: grid; grid-template-columns: 320px 1fr; gap: 2rem; align-items: start; }
-    .figure-row .video-placeholder { max-width: none; aspect-ratio: 4 / 3; margin: 0; }
-    .figure-row .section-lead { margin-top: 0; }
-    .figure-row .section-body:last-child { margin-bottom: 0; }
-    @media (max-width: 700px) {
-        .figure-row { grid-template-columns: 1fr; gap: 1.2rem; }
-        .figure-row .video-placeholder { max-width: 320px; }
-    }
     /* ★※の行。※の幅ぶん字下げし、折り返しても揃う（2026-09-01） */
     .rar-note { margin-top: 1.5rem; }
     .rar-note p { padding-left: 1.2em; text-indent: -1.2em; margin: 0 0 0.4rem; }
@@ -82,13 +73,8 @@
 
         <div class="game-section" data-reveal>
             <h2 class="section-title">DECK BUILDING</h2>
-            <div class="figure-row">
-                <div class="video-placeholder">COMING SOON</div>
-                <div>
-                    <p class="section-lead">デッキ構築について</p>
-                    <p class="section-body">1つのデッキを構築する場合、最大8枚のカードを登録することができる。<br>各カードにはコストがあり、合計コストは8以内でデッキを作成する。</p>
-                </div>
-            </div>
+            <p class="section-lead">デッキ構築について</p>
+            <p class="section-body">1つのデッキを構築する場合、最大8枚のカードを登録することができる。<br>各カードにはコストがあり、合計コストは8以内でデッキを作成する。</p>
         </div>
 
         <div class="game-section" data-reveal>
