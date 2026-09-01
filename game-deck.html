@@ -20,6 +20,33 @@
     /* ★※の行。※の幅ぶん字下げし、折り返しても揃う（2026-09-01） */
     .rar-note { margin-top: 1.5rem; }
     .rar-note p { padding-left: 1.2em; text-indent: -1.2em; margin: 0 0 0.4rem; }
+    /* ★勢力は説明を勢力ページへ移したので、ここはエンブレムだけ（2026-09-01 user指示）。
+       ⚠混色・無所属は専用エンブレムが無いので出さない。 */
+    .faction-emblems {
+        display: flex; justify-content: center; flex-wrap: wrap;
+        gap: 2.2rem; margin-top: 2rem;
+    }
+    .faction-emblem {
+        display: flex; flex-direction: column; align-items: center; gap: 0.7rem;
+        text-decoration: none;
+        transition: transform 0.2s ease;
+    }
+    .faction-emblem img {
+        width: 84px; height: 84px; object-fit: contain;
+        opacity: 0.9; transition: opacity 0.2s ease;
+    }
+    .faction-emblem span {
+        color: #bbb; font-size: 0.9rem; font-weight: 700; letter-spacing: 0.08em;
+        transition: color 0.2s ease;
+    }
+    .faction-emblem:hover { transform: translateY(-3px); }
+    .faction-emblem:hover img { opacity: 1; }
+    .faction-emblem:hover span { color: #F9A825; }
+    @media (max-width: 560px) {
+        .faction-emblems { gap: 1.4rem; }
+        .faction-emblem img { width: 64px; height: 64px; }
+        .faction-emblem span { font-size: 0.8rem; }
+    }
     </style>
     <meta property="og:title" content="デッキ構築 - BFTK">
     <meta property="og:description" content="8枚のカードが、戦略のすべてを決める。4つの勢力と50種類以上のエース効果。">
@@ -68,23 +95,23 @@
             <h2 class="section-title">FACTIONS</h2>
             <p class="section-lead">各勢力について</p>
             <p class="section-body">キャラはそれぞれの勢力に属する。<br>勢力ごとに異なる戦い方の特徴を持つ。<br>さらに複数の勢力を併せ持つ混色や、どの勢力にも属さない無所属も存在する。</p>
-            <div class="faction-cards">
-                <div class="faction-card plains">
-                    <h3>草原</h3>
-                    <p>全体強化・強化に関するスキルを使うキャラが多い。<br>また、タイプにはスピードが多く、臨機応変な戦い方が得意な勢力。</p>
-                </div>
-                <div class="faction-card forest">
-                    <h3>森林</h3>
-                    <p>回復や妨害などのスキルを使うキャラが多い。<br>また、奇襲を持つキャラが多く、器用に戦う勢力。</p>
-                </div>
-                <div class="faction-card mountain">
-                    <h3>山岳</h3>
-                    <p>爆発力のあるスキルが多いが、クセがあるキャラが多い。<br>一瞬で戦局を変える力をもつ勢力。</p>
-                </div>
-                <div class="faction-card ruins">
-                    <h3>廃墟</h3>
-                    <p>型破りで個性的なスキルを持つキャラが多い。<br>正面からの戦いを基本的に避け、構築物や罠で場を支配する勢力。</p>
-                </div>
+            <div class="faction-emblems">
+                <a class="faction-emblem" href="characters-grassland.html">
+                    <img src="assets/faction/emblem-grassland.webp" alt="" width="128" height="128" loading="lazy">
+                    <span>草原</span>
+                </a>
+                <a class="faction-emblem" href="characters-forest.html">
+                    <img src="assets/faction/emblem-forest.webp" alt="" width="128" height="128" loading="lazy">
+                    <span>森林</span>
+                </a>
+                <a class="faction-emblem" href="characters-mountain.html">
+                    <img src="assets/faction/emblem-mountain.webp" alt="" width="128" height="128" loading="lazy">
+                    <span>山岳</span>
+                </a>
+                <a class="faction-emblem" href="characters-ruins.html">
+                    <img src="assets/faction/emblem-ruins.webp" alt="" width="128" height="128" loading="lazy">
+                    <span>廃墟</span>
+                </a>
             </div>
         </div>
 
