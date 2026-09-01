@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>スキル - BFTK</title>
+    <title>試合中の操作 - BFTK</title>
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="stylesheet" href="style.css">
-    <meta property="og:title" content="スキル - BFTK">
-    <meta property="og:description" content="固有のスキル、BGゲージ、連携。戦況を変える一手。">
+    <meta property="og:title" content="試合中の操作 - BFTK">
+    <meta property="og:description" content="アクション、スキル、連携、天牙。試合中の操作をまとめて。">
     <meta property="og:url" content="https://bftk-game.com/game-skills.html">
     <link rel="canonical" href="https://bftk-game.com/game-skills.html">
     <meta property="og:type" content="website">
@@ -22,6 +22,16 @@
       gtag('js', new Date());
       gtag('config', 'G-K0TT1CMBVT');
     </script>
+    <style>
+    /* ★操作の箇条書き。行頭に「・」を置き、折り返した2行目も字下げして揃える */
+    .ctrl-list {
+        margin: 0.6rem 0 0; padding: 0; list-style: none;
+        color: #a0a0a0; font-size: 0.88rem; line-height: 1.9;
+    }
+    .ctrl-list li { padding-left: 1em; text-indent: -1em; }
+    .ctrl-list li::before { content: "・"; }
+    .section-body strong { color: #f3f3f3; font-weight: 700; }
+    </style>
 </head>
 <body>
     <nav>
@@ -35,26 +45,59 @@
     </nav>
     <div class="game-content">
         <div class="guide-header">
-            <h1 class="page-title" style="margin-bottom:0.5rem;">スキル</h1>
-            <p class="page-subtitle">SKILLS</p>
+            <h1 class="page-title" style="margin-bottom:0.5rem;">試合中の操作</h1>
+            <p class="page-subtitle">CONTROLS</p>
+        </div>
+
+        <div class="game-section" data-reveal>
+            <h2 class="section-title">ACTION</h2>
+            <p class="section-lead">アクションについて</p>
+            <p class="section-body">タイプごとに固有のアクションを持つ。<br>普段は<strong>キャラのアイコンを長押し</strong>すると、そのタイプのアクションが出る。</p>
+            <ul class="ctrl-list">
+                <li>パワー … 長押しで旋刃。爪オーラが周囲を一周する。</li>
+                <li>スピード … 猛突状態で長押しすると剛突。前方へ突進する。</li>
+                <li>テクニック … 押して溜め、離すと獣玉を発射する。</li>
+                <li>ニュートラル … 固有のアクションを持たない。</li>
+            </ul>
         </div>
 
         <div class="game-section" data-reveal>
             <h2 class="section-title">SKILL</h2>
-            <p class="section-lead">戦場を変える、固有の力。</p>
-            <p class="section-body">各キャラは固有のスキルを持つ。攻撃強化、回復、妨害など効果はさまざま。キャラアイコンから直接発動でき、使いどころが鍵になる。</p>
+            <p class="section-lead">スキルについて</p>
+            <p class="section-body">キャラごとに固有の力を持つ。<br><strong>中央の丸いボタンをタップ</strong>するとスキルモードになり、撃ちたいキャラのアイコンをタップして発動する。</p>
+            <ul class="ctrl-list">
+                <li>BGゲージが満タンのキャラだけ発動できる。</li>
+                <li>使うとしばらく撃てなくなる。</li>
+            </ul>
         </div>
 
         <div class="game-section" data-reveal>
             <h2 class="section-title">BG GAUGE</h2>
-            <p class="section-lead">BGゲージ</p>
-            <p class="section-body">各キャラのアイコンを囲むリングゲージ。戦闘中に蓄積され、充填中はシアンに、発動可能になると金色に光る。</p>
+            <p class="section-lead">BGゲージについて</p>
+            <p class="section-body">キャラのアイコンを囲むリング。<br>時間とともに溜まり、<strong>溜まっている間はシアン、満タンで金色</strong>に光る。</p>
+            <ul class="ctrl-list">
+                <li>敵を退却させると、そのコストのぶんだけ溜まる。</li>
+            </ul>
         </div>
 
         <div class="game-section" data-reveal>
             <h2 class="section-title">COMBO</h2>
-            <p class="section-lead">仲間を選び、連携で畳みかけろ。</p>
-            <p class="section-body">連携スキルを持つキャラは、味方と協力してコンボスキルを発動できる。参加メンバーは手動で選択可能。誰を巻き込むかで、戦況が変わる。</p>
+            <p class="section-lead">連携について</p>
+            <p class="section-body">連携スキルを持つキャラは、味方と一緒に撃てる。<br><strong>中央の丸いボタンを長押し</strong>すると連携モードになり、もう一度ボタンを押して発動する。</p>
+            <ul class="ctrl-list">
+                <li>撃てる味方は、はじめから全員が参加している。</li>
+                <li>外したい味方のアイコンを押すと、その味方は参加しない。</li>
+            </ul>
+        </div>
+
+        <div class="game-section" data-reveal>
+            <h2 class="section-title">ULTIMATE</h2>
+            <p class="section-lead">天牙について</p>
+            <p class="section-body">試合を動かす切り札。<br>画面の<strong>左右にある円弧をタップ</strong>すると窓が開き、発動ボタンから撃つ。</p>
+            <ul class="ctrl-list">
+                <li>デッキ構築で2つ設定し、試合中にそれぞれ1回ずつ使える。</li>
+                <li>ゲージが溜まるほどLVが上がり、効果が強くなる。</li>
+            </ul>
         </div>
 
         <div class="guide-bottom-nav">
