@@ -17,6 +17,9 @@
         .figure-row { grid-template-columns: 1fr; gap: 1.2rem; }
         .figure-row .video-placeholder { max-width: 320px; }
     }
+    /* ★※の行。※の幅ぶん字下げし、折り返しても揃う（2026-09-01） */
+    .rar-note { margin-top: 1.5rem; }
+    .rar-note p { padding-left: 1.2em; text-indent: -1.2em; margin: 0 0 0.4rem; }
     </style>
     <meta property="og:title" content="デッキ構築 - BFTK">
     <meta property="og:description" content="8枚のカードが、戦略のすべてを決める。4つの勢力と50種類以上のエース効果。">
@@ -55,7 +58,7 @@
             <div class="figure-row">
                 <div class="video-placeholder">COMING SOON</div>
                 <div>
-                    <p class="section-lead">8枚が、戦略のすべて。</p>
+                    <p class="section-lead">デッキ構築について</p>
                     <p class="section-body">1つのデッキを構築する場合、最大8枚のカードを登録することができる。<br>各カードにはコストがあり、合計コストは8以内でデッキを作成する。</p>
                 </div>
             </div>
@@ -63,24 +66,24 @@
 
         <div class="game-section" data-reveal>
             <h2 class="section-title">FACTIONS</h2>
-            <p class="section-lead">4つの勢力</p>
-            <p class="section-body">キャラクターはそれぞれ勢力に属する。<br>勢力ごとに異なる戦い方の特色を持つ。<br>さらに複数の勢力にまたがる混色や、どの勢力にも属さない無所属も存在する。<br>デッキに登録する勢力が少ないほど、天牙ゲージを溜まった状態で始められる。</p>
+            <p class="section-lead">各勢力について</p>
+            <p class="section-body">キャラクターはそれぞれの勢力に属する。<br>勢力ごとに異なる戦い方の特徴を持つ。<br>さらに複数の勢力にまたがる混色や、どの勢力にも属さない無所属も存在する。</p>
             <div class="faction-cards">
-                <div class="faction-card forest">
-                    <h3>森林</h3>
-                    <p>搦め手型。回復と妨害、そして奇襲。正面からの殴り合いを避け、じわじわ削って長期戦に持ち込む。</p>
-                </div>
                 <div class="faction-card plains">
                     <h3>草原</h3>
-                    <p>速攻型。スピードと味方全員の強化で一気に押し切る。長引くほど分が悪くなる、前のめりの勢力。</p>
+                    <p>全体強化・強化に関するスキルを使うキャラが多い。<br>また、タイプにはスピードが多く、臨機応変な戦い方が得意な勢力。</p>
+                </div>
+                <div class="faction-card forest">
+                    <h3>森林</h3>
+                    <p>回復や妨害などのスキルを使うキャラが多い。<br>また、奇襲を持つキャラが多く、器用に戦う勢力。</p>
                 </div>
                 <div class="faction-card mountain">
                     <h3>山岳</h3>
-                    <p>重厚型。重いカードとスキル強化で、個の力を押し上げる。動かざること山の如し。</p>
+                    <p>爆発力のあるスキルが多いが、クセがあるキャラが多い。<br>一瞬で戦局を変える力をもつ勢力。</p>
                 </div>
                 <div class="faction-card ruins">
                     <h3>廃墟</h3>
-                    <p>地形拠点型。施設、罠、毒床で戦場をコントロールする異端の戦い方。</p>
+                    <p>型破りで個性的なスキルを持つキャラが多い。<br>正面からの戦いを基本的に避け、構築物や罠で場を支配する勢力。</p>
                 </div>
             </div>
         </div>
@@ -91,23 +94,29 @@
 
         <div class="game-section" data-reveal>
             <h2 class="section-title">ULTIMATE</h2>
-            <p class="section-lead">天牙。究極の切り札。</p>
-            <p class="section-body">天牙ゲージを溜めて発動する切り札。ゲージが溜まるほど強力になる。<br>デッキ構築で異なる星の天牙を2つ設定し、試合中にそれぞれ1回ずつ発動できる。</p>
+            <p class="section-lead">天牙について</p>
+            <p class="section-body">天牙ゲージを溜めて発動する切り札。<br>各天牙にはLVが設定されており、ゲージが溜まるほど強力になる。<br>デッキ構築で異なる天牙を2つ設定することができ、試合中にそれぞれ1回ずつ発動できる。</p>
             <div class="tenga-showcase">
                 <div class="tenga-item">
-                    <div class="tenga-info"><span class="tenga-planet">地球</span><span class="tenga-name">復活再起</span><span class="tenga-desc">味方全体のHPを回復し、復帰を早める</span></div>
+                    <div class="tenga-info"><span class="tenga-planet">地球</span><span class="tenga-name">復活再起</span><span class="tenga-desc">味方全体のHPを回復し、退却時間を短縮できる効果がある</span></div>
                 </div>
                 <div class="tenga-item">
                     <div class="tenga-info"><span class="tenga-planet">火星</span><span class="tenga-name">全軍猛突</span><span class="tenga-desc">味方全員の攻撃力を強化する</span></div>
                 </div>
                 <div class="tenga-item">
-                    <div class="tenga-info"><span class="tenga-planet">海王星</span><span class="tenga-name">精神統一</span><span class="tenga-desc">味方全員の精神力を高める</span></div>
+                    <div class="tenga-info"><span class="tenga-planet">木星</span><span class="tenga-name">幸福回転</span><span class="tenga-desc">戦場が拡張されることや相手の縄張りゲージを1％にする効果がある</span></div>
                 </div>
                 <div class="tenga-item">
-                    <div class="tenga-info"><span class="tenga-planet">木星</span><span class="tenga-name">幸福回転</span><span class="tenga-desc">戦場を広げ、縄張りを立て直す</span></div>
+                    <div class="tenga-info"><span class="tenga-planet">天王星</span><span class="tenga-name">巣穴異常</span><span class="tenga-desc">敵チームの巣穴に影響を与える効果がある</span></div>
                 </div>
             </div>
-            <p class="section-body" style="margin-top:1.2rem; color:#999; font-size:0.85rem;">金星、水星、土星――他にも多くの星の天牙が存在する。</p>
+            <p class="section-body" style="margin-top:1.2rem; color:#999; font-size:0.85rem;">金星、水星、土星、冥王星――他にも多くの星の天牙が存在する。</p>
+
+            <h3 class="section-lead" style="margin-top:2.5rem;">天牙ボーナスについて</h3>
+            <p class="section-body">デッキに登録する勢力の種類が少ないほど、試合開始時に天牙ゲージの量が多い。</p>
+            <div class="section-body rar-note">
+                <p>※無所属は種類に含まれない。</p>
+            </div>
         </div>
 
         <div class="guide-bottom-nav">
