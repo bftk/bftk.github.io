@@ -48,7 +48,7 @@ body.theme-houzuki .bg-glow { opacity: 1; background: radial-gradient(circle at 
 .portrait-img.hidden { opacity: 0; transform: translateX(-50%) scale(.95); filter: brightness(1); }
 .portrait-img.visible { opacity: 1; transform: translateX(-50%) scale(1); filter: brightness(1); }
 /* アニメ切替用の重ね絵。下の立ち絵の上に重ねて 0.16秒でフェードし、コマの段差を隠す */
-.portrait-img.portrait-fx { opacity: 0; z-index: 2; transition: opacity .16s linear; }
+.portrait-img.portrait-fx { opacity: 0; z-index: 2; transition: opacity .28s linear; }
 
 /* ===== UIオーバーレイ切替エフェクト（ABYSSNET） ===== */
 
@@ -409,7 +409,7 @@ const CHAR_ROLES = { menda: "案内役", musha: "規約・プライバシー", d
 // あいさつモーションを持つキャラと、その再生時間(ms)。登場時に <char>_greet.webp を1回再生してから待機へ戻す
 // 立ち絵アニメを持つキャラ。greet=登場時のあいさつ(1回) / talk=発話中の口パク(ループ)
 const GREET_ANIM = { tomori: 4905 };
-const TALK_ANIM  = { tomori: 1395 };   // 発話中。前に出て話す動きを1回だけ
+const TALK_ANIM  = { tomori: 1485 };   // 発話中の口パク（寄りの絵）。1回だけ
 const BOW_ANIM   = { tomori: 1575 };   // 他の担当へ回すとき。下げきって止まる
 let pendingGreet = null;      // 登場後、最初のセリフが出た時点であいさつを再生する
 let pendingBow = null;        // 他の担当へ回すときの、お別れのお辞儀
