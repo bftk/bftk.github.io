@@ -47,6 +47,8 @@ body.theme-houzuki .bg-glow { opacity: 1; background: radial-gradient(circle at 
 }
 .portrait-img.hidden { opacity: 0; transform: translateX(-50%) scale(.95); filter: brightness(1); }
 .portrait-img.visible { opacity: 1; transform: translateX(-50%) scale(1); filter: brightness(1); }
+/* アニメ切替用の重ね絵。下の立ち絵の上に重ねて 0.16秒でフェードし、コマの段差を隠す */
+.portrait-img.portrait-fx { opacity: 0; z-index: 2; transition: opacity .16s linear; }
 
 /* ===== UIオーバーレイ切替エフェクト（ABYSSNET） ===== */
 
@@ -355,6 +357,7 @@ body.theme-houzuki .bg-glow { opacity: 1; background: radial-gradient(circle at 
     <div class="scan-line" id="scanLine"></div>
     <div class="portrait-flash" id="portraitFlash"></div>
     <img class="portrait-img pre-call" id="portrait" src="assets/cs/menda.webp" alt="キャラ立ち絵">
+    <img class="portrait-img portrait-fx" id="portraitFx" alt="" aria-hidden="true">
     <div class="active-name-bar menda pre-call" id="activeNameBar">
       <div class="indicator"></div>
       <div class="name">ンダちゃん</div>
@@ -403,6 +406,57 @@ const CHAR_NAMES = { menda: "ンダ", musha: "武者", demeni: "デメニ", muka
 const CHAR_DISPLAY_NORMAL = { menda: "ンダちゃん", musha: "武者", demeni: "デメニ", mukai: "向井くん", ryuuguu: "辰宮", houzuki: "ズッキー", tomori: "トモリ" };
 const CHAR_DISPLAY_BREAK = { menda: "ンダちゃん @休憩中", musha: "武者 @休憩中", demeni: "デメニ @休憩中", mukai: "向井くん @休憩中", ryuuguu: "辰宮 @休憩中", houzuki: "ズッキー @休憩中", tomori: "トモリ @休憩中" };
 const CHAR_ROLES = { menda: "案内役", musha: "規約・プライバシー", demeni: "お支払い", mukai: "問題解決", ryuuguu: "ご意見・要望", houzuki: "お知らせ・イベント", tomori: "バグ報告" };
+// あいさつモーションを持つキャラと、その再生時間(ms)。登場時に <char>_greet.webp を1回再生してから待機へ戻す
+// 立ち絵アニメを持つキャラ。greet=登場時のあいさつ(1回) / talk=発話中の口パク(ループ)
+const GREET_ANIM = { tomori: 4905 };
+const TALK_ANIM  = { tomori: true };
+const BOW_ANIM   = { tomori: 1575 };   // 他の担当へ回すとき。下げきって止まる
+let pendingGreet = null;      // 登場後、最初のセリフが出た時点であいさつを再生する
+let pendingBow = null;        // 他の担当へ回すときの、お別れのお辞儀
+let portraitTimer = null;
+const portraitFx = document.getElementById("portraitFx");
+const preloaded = new Set();
+function preloadPortrait(char) {
+  // 立ち絵アニメは重いので、切替が始まった時点で先に読み込ませる（登場やお辞儀が遅れないように）
+  for (const suffix of ["", "_greet", "_talk", "_bow"]) {
+    if (suffix === "_greet" && !GREET_ANIM[char]) continue;
+    if (suffix === "_talk" && !TALK_ANIM[char]) continue;
+    if (suffix === "_bow" && !BOW_ANIM[char]) continue;
+    const src = "assets/cs/" + char + suffix + ".webp";
+    if (preloaded.has(src)) continue;
+    preloaded.add(src);
+    new Image().src = src;
+  }
+}
+function revealPortrait(tk) {
+  if (tk !== switchToken) return;
+  const sl = document.getElementById("scanLine");
+  const fl = document.getElementById("portraitFlash");
+  void sl.offsetWidth; sl.classList.add("active");
+  void fl.offsetWidth; fl.classList.add("glow");
+  portrait.classList.remove("hidden");
+  portrait.classList.add("appearing");
+  portrait.addEventListener("animationend", () => {
+    portrait.classList.remove("appearing");
+    portrait.classList.add("visible");
+  }, { once: true });
+}
+function playPortraitAnim(char, kind, ms) {
+  const tk = switchToken;
+  if (portraitTimer) clearTimeout(portraitTimer);
+  portraitFx.onload = () => {
+    if (tk !== switchToken) return;
+    portraitFx.style.opacity = "1";
+    // 再生時間は「表示が始まってから」数える（読み込み待ちで途中で切れないように）
+    if (portraitTimer) clearTimeout(portraitTimer);
+    portraitTimer = setTimeout(() => { portraitTimer = null; portraitFx.style.opacity = "0"; }, ms);
+  };
+  portraitFx.src = "assets/cs/" + char + "_" + kind + ".webp";
+  portraitTimer = setTimeout(() => {
+    portraitTimer = null;
+    portraitFx.style.opacity = "0";   // 下で回っている待機へ、ふわっと戻す
+  }, ms);
+}
 const CATEGORY_TO_CHAR = { ACCOUNT: "mukai", BILLING: "demeni", POLICY: "musha", BUG: "tomori", VIOLATION: "mukai", FEEDBACK: "ryuuguu", ANNOUNCEMENT: "houzuki", FREEFORM: "menda" };
 
 // 休憩中セリフ（各キャラ初回登場時にランダムで1つ）
@@ -535,6 +589,10 @@ function switchCharacter(character) {
   const safe = validateCharacter(character);
   if (safe === currentCharacter) return;
   const token = ++switchToken;
+  preloadPortrait(safe);
+  // 口パク中に切替が起きると重ね絵が唐突に消えてブレる。切替開始と同時にフェードアウトさせる
+  // 重ね絵（お辞儀など）はここで消さない。先に消すと下の待機が一瞬見えて「起き上がる」
+  const fxWasShown = portraitFx.style.opacity === "1";
 
   document.body.className = "theme-" + safe;
 
@@ -557,6 +615,7 @@ function switchCharacter(character) {
   setTimeout(() => {
     portrait.classList.remove("micro-glitch");
     portrait.classList.add("departing");
+      if (fxWasShown) portraitFx.classList.add("departing");
   }, 50);
 
   // 0.05s: オーバーレイ暗転+グリッド
@@ -584,20 +643,14 @@ function switchCharacter(character) {
     portrait.classList.remove("departing");
     portrait.onload = null;
     portrait.src = "assets/cs/" + safe + ".webp";
+    portraitFx.classList.remove("departing"); portraitFx.style.opacity = "0"; portraitFx.removeAttribute("src");
+    pendingGreet = GREET_ANIM[safe] ? safe : null;
+    // あいさつを持つキャラは、最初のセリフが表示されるまで立ち絵を出さない
+    if (pendingGreet) portrait.classList.add("hidden");
     portrait.onload = () => {
       if (token !== switchToken) return;
-      // スキャンライン
-      void scanLine.offsetWidth;
-      scanLine.classList.add("active");
-      // グロー
-      void flash.offsetWidth;
-      flash.classList.add("glow");
-      // キャラ出現
-      portrait.classList.add("appearing");
-      portrait.addEventListener("animationend", () => {
-        portrait.classList.remove("appearing");
-        portrait.classList.add("visible");
-      }, { once: true });
+      if (pendingGreet === safe) return;   // 登場はセリフのタイミングで
+      revealPortrait(token);
     };
   }, 250);
 
@@ -660,9 +713,11 @@ async function showTransfer(fromLine, toChar) {
   // 現在のキャラの口調で転送セリフを生成
   const transferFn = TRANSFER_LINES[currentCharacter];
   const line = transferFn ? transferFn(toChar) : fromLine;
+  const bowMs = BOW_ANIM[currentCharacter];
+  if (bowMs) pendingBow = currentCharacter;   // セリフと同時にお辞儀
   await addCharMsg(currentCharacter, line);
   addTransferMsg("── " + (CHAR_NAMES[toChar] || toChar) + " に接続中 ──");
-  await new Promise(r => setTimeout(r, 800));
+  await new Promise(r => setTimeout(r, bowMs ? bowMs : 1800));
   switchCharacter(toChar);
 }
 function addTransferMsg(text) {
@@ -692,7 +747,7 @@ function onMenuBtn(category) {
 
   // REPORTボタン → サブメニュー表示（BUG/VIOLATION選択）
   if (category === "REPORT") {
-    addMsg("不具合・違反報告", "user");
+    // 仕分けのボタンなので発言として残さない（誰も応答しないため不自然になる）
     btnMenu.style.display = "none";
     subMenu.style.display = "";
     return;
@@ -905,6 +960,17 @@ function addCharMsg(character, text) {
       body.style.cssText = "color: #e0e0e0; -webkit-text-fill-color: #e0e0e0;";
       linkifyText(text, body); div.appendChild(body);
       chatLog.scrollTop = chatLog.scrollHeight;
+        if (pendingGreet === safeChar) {
+          pendingGreet = null;
+          revealPortrait(switchToken);   // 立ち絵の登場もこのタイミング
+          playPortraitAnim(safeChar, "greet", GREET_ANIM[safeChar]);
+        } else if (pendingBow === safeChar) {
+          pendingBow = null;
+          playPortraitAnim(safeChar, "bow", BOW_ANIM[safeChar] + 900);   // 下げたまま切替を待つ
+        } else if (TALK_ANIM[safeChar] && safeChar === currentCharacter) {
+          // 話している長さに合わせて口パク
+          playPortraitAnim(safeChar, "talk", Math.min(1300 + text.length * 55, 4500));
+        }
       resolve();
     }, delay);
   });
