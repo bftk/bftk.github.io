@@ -465,6 +465,8 @@ function playPortraitAnim(char, kind, ms) {
   }, ms);
 }
 const CATEGORY_TO_CHAR = { ACCOUNT: "mukai", BILLING: "demeni", POLICY: "musha", BUG: "tomori", VIOLATION: "mukai", FEEDBACK: "ryuuguu", ANNOUNCEMENT: "houzuki", FREEFORM: "menda" };
+// 「お知らせ」はメニューにボタンが無いため、入力語からホウズキへ取り次ぐ
+const ANNOUNCE_KEYWORDS = ["お知らせ", "おしらせ", "ニュース", "イベント", "最新情報", "アップデート", "告知", "更新情報"];
 
 // 休憩中セリフ（各キャラ初回登場時にランダムで1つ）
 const BREAK_LINES = {
@@ -858,7 +860,15 @@ async function sendMsg() {
       }
       if (await sendReport(text, rt)) reportMode = false;
     } else {
-      await sendToWorker(text, currentCharacter, "free");
+      const toHouzuki = currentCharacter !== "houzuki" && ANNOUNCE_KEYWORDS.some(k => text.includes(k));
+      if (toHouzuki) {
+        await showTransfer(null, "houzuki");
+        if (!appearedChars.has("houzuki")) appearedChars.add("houzuki");
+        await addCharMsg("houzuki", "あ、あの…お知らせについてですね…！お任せください…！");
+        await sendToWorker(text, "houzuki", "free");
+      } else {
+        await sendToWorker(text, currentCharacter, "free");
+      }
     }
   } finally {
     unlockInput();
