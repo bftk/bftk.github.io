@@ -479,11 +479,11 @@ const BREAK_LINES = {
     "……静かだったのだがな。……何の用だ。",
   ],
   demeni: [
-    "承知しました。……休憩ログは中断しておきます。わたくしで対応いたしましょう。",
-    "はい、戻ります。……資料整理は後ほど続けますので。ご用件を確認します。",
-    "ちょうど糖分補給中でした。……ええ、対応に支障はありません。お話をどうぞ。",
-    "お呼びですね。……読書は区切りが良いところでしたので問題ありません。ご相談内容を伺います。",
-    "了解しました。……休憩タイマーを停止します。対応を開始しますね。",
+    "はいはーい、デメニです！ 休憩は切り上げますね、まかせてください！",
+    "お、呼ばれましたね！ 資料整理はあとで大丈夫です。どうぞどうぞ！",
+    "ちょうどおやつ休憩中でした！ ぜんぜん平気ですよ、なんでも聞いてください！",
+    "はーい、読んでた本は区切りがいいところでした！ ご相談どうぞ！",
+    "了解です！ 休憩タイマー止めますね。さ、始めましょう！",
   ],
   mukai: [
     "向井、戻りました。ご用件をお伺いします！",
@@ -645,7 +645,6 @@ function switchCharacter(character) {
     if (token !== switchToken) return;
     portrait.classList.remove("departing");
     portrait.onload = null;
-    portrait.src = "assets/cs/" + safe + ".webp";
     portraitFx.classList.remove("departing"); portraitFx.style.opacity = "0"; portraitFx.removeAttribute("src");
     pendingGreet = GREET_ANIM[safe] ? safe : null;
     // あいさつを持つキャラは、最初のセリフが表示されるまで立ち絵を出さない
@@ -655,6 +654,10 @@ function switchCharacter(character) {
       if (pendingGreet === safe) return;   // 登場はセリフのタイミングで
       revealPortrait(token);
     };
+    // ★トモリの教訓: src を先に入れると、キャッシュ済みの画像では onload が発火しない。
+    //   必ず onload を付けてから、いったん外して入れ直す
+    portrait.removeAttribute("src");
+    portrait.src = "assets/cs/" + safe + ".webp";
   }, 250);
 
   // 名前バー更新
@@ -705,7 +708,7 @@ function setInputDisabled(disabled, placeholder) {
 const TRANSFER_LINES = {
   menda: (to) => CHAR_NAMES[to] + "に繋ぎますね。",
   musha: (to) => "……" + CHAR_NAMES[to] + "の担当だ。回す。",
-  demeni: (to) => CHAR_NAMES[to] + "に転送いたします。",
+  demeni: (to) => CHAR_NAMES[to] + "さんにおつなぎしますね！",
   mukai: (to) => CHAR_NAMES[to] + "に繋ぎますね。少々お待ちください。",
   ryuuguu: (to) => "……" + CHAR_NAMES[to] + "にお繋ぎしますね。",
   houzuki: (to) => "あ、あの……" + CHAR_NAMES[to] + "に繋ぎます……！",
@@ -785,7 +788,7 @@ function onMenuBtn(category) {
   isSending = true; setInputDisabled(true);
   const prompts = { BILLING: "課金について教えてください", POLICY: "利用規約について教えてください", ANNOUNCEMENT: "お知らせ・イベントについて教えてください" };
   const greetings = {
-    BILLING: { demeni: "デメニです。お支払い関連ですね。確認します。" },
+    BILLING: { demeni: "デメニです！ お支払いのことですね、あたしにまかせてください！" },
     POLICY: { musha: "…武者だ。規約関連なら対応できる。" },
     ANNOUNCEMENT: { houzuki: "あ、あの…お知らせについてですね…！お任せください…！" },
   };
