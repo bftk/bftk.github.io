@@ -408,11 +408,11 @@ const CHAR_DISPLAY_BREAK = { menda: "ンダちゃん @休憩中", musha: "武者
 const CHAR_ROLES = { menda: "案内役", musha: "規約・プライバシー", demeni: "お支払い", mukai: "問題解決", ryuuguu: "ご意見・要望", houzuki: "お知らせ・イベント", tomori: "バグ報告" };
 // あいさつモーションを持つキャラと、その再生時間(ms)。登場時に <char>_greet.webp を1回再生してから待機へ戻す
 // 立ち絵アニメを持つキャラ。greet=登場時のあいさつ(1回) / talk=発話中の口パク(ループ)
-const GREET_ANIM = { tomori: 4905, demeni: 5445 };
-const TALK_ANIM  = { tomori: 4770, demeni: 1080 };   // 発話中の口パク。1回だけ
-const BOW_ANIM   = { tomori: 1575, demeni: 1080 };   // 他の担当へ回すとき
+const GREET_ANIM = { tomori: 4905, demeni: 5445, menda: 4005 };
+const TALK_ANIM  = { tomori: 4770, demeni: 1080, menda: 1620 };   // 発話中の口パク。1回だけ
+const BOW_ANIM   = { tomori: 1575, demeni: 1080, menda: 1530 };   // 他の担当へ回すとき
 let pendingGreet = null;      // 登場後、最初のセリフが出た時点であいさつを再生する
-let pendingBow = null;        // 他の担当へ回すときの、お別れのお辞儀
+let pendingBow = null;        // { char, kind, ms }: セリフ表示と同時に再生する（登場演出なし）
 let portraitTimer = null;
 let portraitLockUntil = 0;   // あいさつ・お辞儀の再生中は口パクで割り込まない
 const portraitFx = document.getElementById("portraitFx");
@@ -580,7 +580,10 @@ function startCall() {
         portrait.classList.add("visible");
         activeNameBar.classList.remove("pre-call");
         appearedChars.add(startChar);
+        preloadPortrait(startChar);   // 最初のコールは switchCharacter を通らないので、ここで先読み
         const greetLine = getGreetingLine(startChar) || "はい…深海カスタマーサービスです。受付のンダです。…ご用件をどうぞ。";
+        // 最初のコールは switchCharacter を通らないため、ここであいさつを予約する
+        if (GREET_ANIM[startChar]) pendingBow = { char: startChar, kind: "greet", ms: GREET_ANIM[startChar] };
         await addCharMsg(startChar, greetLine);
         setInputDisabled(false);
         msgInput.placeholder = "どんなことをお探しですか？";
@@ -724,7 +727,7 @@ async function showTransfer(fromLine, toChar) {
   const transferFn = TRANSFER_LINES[currentCharacter];
   const line = transferFn ? transferFn(toChar) : fromLine;
   const bowMs = BOW_ANIM[currentCharacter];
-  if (bowMs) pendingBow = currentCharacter;   // セリフと同時にお辞儀
+  if (bowMs) pendingBow = { char: currentCharacter, kind: "bow", ms: bowMs + 900 };
   await addCharMsg(currentCharacter, line);
   addTransferMsg("── " + (CHAR_NAMES[toChar] || toChar) + " に接続中 ──");
   await new Promise(r => setTimeout(r, bowMs ? bowMs : 1800));
@@ -974,9 +977,9 @@ function addCharMsg(character, text) {
           pendingGreet = null;
           revealPortrait(switchToken);   // 立ち絵の登場もこのタイミング
           playPortraitAnim(safeChar, "greet", GREET_ANIM[safeChar]);
-        } else if (pendingBow === safeChar) {
-          pendingBow = null;
-          playPortraitAnim(safeChar, "bow", BOW_ANIM[safeChar] + 900);   // 下げたまま切替を待つ
+        } else if (pendingBow && pendingBow.char === safeChar) {
+          const pb = pendingBow; pendingBow = null;
+          playPortraitAnim(pb.char, pb.kind, pb.ms);   // 登場演出は無し
         } else if (TALK_ANIM[safeChar] && safeChar === currentCharacter) {
           playPortraitAnim(safeChar, "talk", TALK_ANIM[safeChar]);   // 正再生＋逆再生で1周だけ
         }
