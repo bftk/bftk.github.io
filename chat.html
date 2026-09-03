@@ -414,6 +414,7 @@ const BOW_ANIM   = { tomori: 1575, demeni: 1080 };   // 他の担当へ回すと
 let pendingGreet = null;      // 登場後、最初のセリフが出た時点であいさつを再生する
 let pendingBow = null;        // 他の担当へ回すときの、お別れのお辞儀
 let portraitTimer = null;
+let portraitLockUntil = 0;   // あいさつ・お辞儀の再生中は口パクで割り込まない
 const portraitFx = document.getElementById("portraitFx");
 const preloaded = new Set();
 function preloadPortrait(char) {
@@ -442,6 +443,9 @@ function revealPortrait(tk) {
   }, { once: true });
 }
 function playPortraitAnim(char, kind, ms) {
+  // ★あいさつ／お辞儀の途中で口パクが割り込むと、最後まで再生されない
+  if (kind === "talk" && Date.now() < portraitLockUntil) return;
+  if (kind !== "talk") portraitLockUntil = Date.now() + ms;
   const tk = switchToken;
   if (portraitTimer) clearTimeout(portraitTimer);
   portraitFx.onload = () => {
