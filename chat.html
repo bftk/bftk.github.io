@@ -409,7 +409,7 @@ const CHAR_ROLES = { menda: "案内役", musha: "規約・プライバシー", d
 // あいさつモーションを持つキャラと、その再生時間(ms)。登場時に <char>_greet.webp を1回再生してから待機へ戻す
 // 立ち絵アニメを持つキャラ。greet=登場時のあいさつ(1回) / talk=発話中の口パク(ループ)
 const GREET_ANIM = { tomori: 4905, demeni: 5445, menda: 4005, ryuuguu: 5940, mukai: 2115, musha: 4195, houzuki: 3179 };
-const TALK_ANIM  = { tomori: 4770, demeni: 1080, menda: 1620, ryuuguu: 1620, mukai: 1530, musha: 1550, houzuki: 1337 };   // 発話中の口パク。1回だけ（★武者はタイピング）
+const TALK_ANIM  = { tomori: 4770, demeni: 1080, menda: 1620, ryuuguu: 1620, mukai: 1530, musha: 3308, houzuki: 1337 };   // 発話中の口パク。1回だけ（★武者はタイピング）
 const BOW_ANIM   = { tomori: 1575, demeni: 1080, menda: 1530, ryuuguu: 1800, mukai: 1170, musha: 2014, houzuki: 1506 };   // 他の担当へ回すとき
 let pendingGreet = null;      // 登場後、最初のセリフが出た時点であいさつを再生する
 let pendingBow = null;        // { char, kind, ms }: セリフ表示と同時に再生する（登場演出なし）
