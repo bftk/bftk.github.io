@@ -97,7 +97,21 @@
             <h2 class="hub-panel-title">デッキ構築</h2>
         </a>
         <a href="game-battle.html" class="hub-panel" data-reveal>
-            <div class="guide-figure"><img src="assets/guide/battle.webp" alt="夕暮れの戦場で対峙する2人のキャラ" width="1000" height="750" loading="lazy"></div>
+            <div class="guide-figure"><img id="guide-battle" src="assets/guide/battle.webp" alt="夕暮れの戦場で対峙する2人のキャラ" width="1000" height="750" loading="lazy"></div>
+            <script>
+            /* バトルの挿絵は開くたびにランダム（2026-09-17）。JSオフなら上の src がそのまま出る。
+               ⚠ 追加するときは assets/guide/ に 1000×750 の webp を置いて、この配列に足すだけ */
+            (function(){
+                var list = [
+                    ['battle.webp',  '夕暮れの戦場で対峙する2人のキャラ'],
+                    ['battle2.webp', '拳を突き合わせて睨み合う2人のキャラ']
+                ];
+                var pick = list[Math.floor(Math.random() * list.length)];
+                var img = document.getElementById('guide-battle');
+                img.src = 'assets/guide/' + pick[0];
+                img.alt = pick[1];
+            })();
+            </script>
             <h2 class="hub-panel-title">バトル</h2>
         </a>
         </div>
