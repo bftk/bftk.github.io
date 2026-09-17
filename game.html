@@ -89,7 +89,20 @@
     <section class="hub-panels">
         <div class="hub-grid hub-grid-3">
         <a href="game-card-content.html" class="hub-panel" data-reveal>
-            <div class="guide-figure"><img src="assets/guide/cards.webp" alt="カードを掲げて喜ぶ2人のキャラ" width="1000" height="750" loading="lazy"></div>
+            <div class="guide-figure"><img id="guide-cards" src="assets/guide/cards.webp" alt="カードを掲げて喜ぶ2人のキャラ" width="1000" height="750" loading="lazy"></div>
+            <script>
+            /* カード説明の挿絵もランダム（2026-09-17）。作りはバトルと同じ */
+            (function(){
+                var list = [
+                    ['cards.webp',  'カードを掲げて喜ぶ2人のキャラ'],
+                    ['cards2.webp', '教室で先生役のキャラが2人に教える場面']
+                ];
+                var pick = list[Math.floor(Math.random() * list.length)];
+                var img = document.getElementById('guide-cards');
+                img.src = 'assets/guide/' + pick[0];
+                img.alt = pick[1];
+            })();
+            </script>
             <h2 class="hub-panel-title">カード説明</h2>
         </a>
         <a href="game-deck.html" class="hub-panel" data-reveal>
