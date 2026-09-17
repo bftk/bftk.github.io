@@ -90,57 +90,14 @@
         <div class="hub-grid hub-grid-3">
         <a href="game-card-content.html" class="hub-panel" data-reveal>
             <div class="guide-figure"><img id="guide-cards" src="assets/guide/cards.webp" alt="カードを掲げて喜ぶ2人のキャラ" width="1000" height="750" loading="lazy"></div>
-            <script>
-            /* カード説明の挿絵もランダム（2026-09-17）。作りはバトルと同じ */
-            (function(){
-                var list = [
-                    ['cards.webp',  'カードを掲げて喜ぶ2人のキャラ'],
-                    ['cards2.webp', '教室で先生役のキャラが2人に教える場面'],
-                    ['cards3.webp', 'ヘルメット姿で教本を読む3人のキャラ']
-                ];
-                var pick = list[Math.floor(Math.random() * list.length)];
-                var img = document.getElementById('guide-cards');
-                img.src = 'assets/guide/' + pick[0];
-                img.alt = pick[1];
-            })();
-            </script>
             <h2 class="hub-panel-title">カード説明</h2>
         </a>
         <a href="game-deck.html" class="hub-panel" data-reveal>
             <div class="guide-figure"><img id="guide-deck" src="assets/guide/deck.webp" alt="卓を囲んで作戦を語り合う4人のキャラ" width="1000" height="750" loading="lazy"></div>
-            <script>
-            /* デッキ構築の挿絵もランダム（2026-09-17）。作りはバトルと同じ */
-            (function(){
-                var list = [
-                    ['deck.webp',  '卓を囲んで作戦を語り合う4人のキャラ'],
-                    ['deck2.webp', '並んで睨み合う4人のちびキャラ'],
-                    ['deck3.webp', 'ノートPCを覗き込んで作戦を練る2人のキャラ']
-                ];
-                var pick = list[Math.floor(Math.random() * list.length)];
-                var img = document.getElementById('guide-deck');
-                img.src = 'assets/guide/' + pick[0];
-                img.alt = pick[1];
-            })();
-            </script>
             <h2 class="hub-panel-title">デッキ構築</h2>
         </a>
         <a href="game-battle.html" class="hub-panel" data-reveal>
             <div class="guide-figure"><img id="guide-battle" src="assets/guide/battle.webp" alt="夕暮れの戦場で対峙する2人のキャラ" width="1000" height="750" loading="lazy"></div>
-            <script>
-            /* バトルの挿絵は開くたびにランダム（2026-09-17）。JSオフなら上の src がそのまま出る。
-               ⚠ 追加するときは assets/guide/ に 1000×750 の webp を置いて、この配列に足すだけ */
-            (function(){
-                var list = [
-                    ['battle.webp',  '夕暮れの戦場で対峙する2人のキャラ'],
-                    ['battle2.webp', '腕相撲で力比べをする2人のキャラ'],
-                    ['battle3.webp', 'スマホで対戦する2人のちびキャラ']
-                ];
-                var pick = list[Math.floor(Math.random() * list.length)];
-                var img = document.getElementById('guide-battle');
-                img.src = 'assets/guide/' + pick[0];
-                img.alt = pick[1];
-            })();
-            </script>
             <h2 class="hub-panel-title">バトル</h2>
         </a>
         </div>
@@ -151,6 +108,41 @@
         <a href="privacy.html">プライバシーポリシー</a>｜<a href="terms.html">利用規約</a>｜<a href="rates.html">提供割合</a>｜<a href="company.html">運営者情報</a>
         <p style="margin-top: 0.5rem;">&copy; HIAS</p>
     </footer>
+    <script>
+    /* 3パネルの挿絵は日替わり（2026-09-17・user判断「F5連打されたくない」）。
+       日付から番号を決めるので同じ日は同じ絵。JSオフなら各 img の src がそのまま出る。
+       ⚠ 追加するときは assets/guide/ に 1000×750 の webp を置いて配列に足すだけ。
+       ⚠ パネルごとに1つずつずらす＝毎日「①①①」にならないため */
+    (function(){
+        var sets = {
+            'guide-cards': [
+                ['cards.webp',  'カードを掲げて喜ぶ2人のキャラ'],
+                ['cards2.webp', '教室で先生役のキャラが2人に教える場面'],
+                ['cards3.webp', 'ヘルメット姿で教本を読む3人のキャラ']
+            ],
+            'guide-deck': [
+                ['deck.webp',  '卓を囲んで作戦を語り合う4人のキャラ'],
+                ['deck2.webp', '並んで睨み合う4人のちびキャラ'],
+                ['deck3.webp', 'ノートPCを覗き込んで作戦を練る2人のキャラ']
+            ],
+            'guide-battle': [
+                ['battle.webp',  '夕暮れの戦場で対峙する2人のキャラ'],
+                ['battle2.webp', '腕相撲で力比べをする2人のキャラ'],
+                ['battle3.webp', 'スマホで対戦する2人のちびキャラ']
+            ]
+        };
+        var day = Math.floor(Date.now() / 86400000);   /* 1970-01-01 からの日数（閲覧者の時計） */
+        var offset = 0;
+        for (var id in sets) {
+            var list = sets[id], img = document.getElementById(id);
+            if (!img) continue;
+            var pick = list[(day + offset) % list.length];
+            img.src = 'assets/guide/' + pick[0];
+            img.alt = pick[1];
+            offset++;
+        }
+    })();
+    </script>
     <script>
     document.addEventListener('DOMContentLoaded',()=>{const o=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('is-visible');o.unobserve(x.target)}})},{threshold:0.12});document.querySelectorAll('[data-reveal]').forEach(el=>o.observe(el))});
     </script>
