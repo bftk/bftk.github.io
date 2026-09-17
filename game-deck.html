@@ -42,10 +42,11 @@
     /* 節の余白に置くSDキャラ（2026-09-17）。game-card-content.html と同じ作り */
     .sd-figure { float: right; width: 190px; height: auto; margin: -0.5rem 0 0.5rem 1.6rem; }
     .has-sd::after { content: ""; display: block; clear: both; }
-    .has-sd .faction-emblems { clear: both; }   /* エンブレム列は回り込みの下で中央に */
+    .sd-figure--wide { width: 300px; }   /* 2人並び */
     @media (max-width: 600px) {
         .has-sd { display: flex; flex-direction: column; }
         .sd-figure { float: none; order: 99; width: 150px; margin: 1.2rem auto 0; }
+        .sd-figure--wide { width: 240px; }
     }
     </style>
     <meta property="og:title" content="デッキ構築 - BFTK">
@@ -87,9 +88,8 @@
             <p class="section-body">1つのデッキを構築する場合、最大8枚のカードを登録することができる。<br>各カードにはコストがあり、合計コストは8以内でデッキを作成する。</p>
         </div>
 
-        <div class="game-section has-sd" data-reveal>
+        <div class="game-section" data-reveal>
             <h2 class="section-title">FACTIONS</h2>
-            <img class="sd-figure" src="assets/sd/factions_thief.webp" alt="" width="549" height="720" loading="lazy">
             <p class="section-lead">各勢力について</p>
             <p class="section-body">キャラはそれぞれの勢力に属する。<br>勢力ごとに異なる戦い方の特徴を持つ。<br>さらに複数の勢力を併せ持つ混色や、どの勢力にも属さない無所属も存在する。</p>
             <div class="faction-emblems">
@@ -137,7 +137,7 @@
             <p class="section-body" style="margin-top:1.2rem; color:#999; font-size:0.85rem;">金星、水星、土星、冥王星――他にも多くの星の天牙が存在する。</p>
 
             <h3 class="section-lead" style="margin-top:2.5rem;">天牙ボーナスについて</h3>
-            <img class="sd-figure" src="assets/sd/tenga_gem.webp" alt="" width="548" height="720" loading="lazy">
+            <img class="sd-figure sd-figure--wide" src="assets/sd/tenga_chase.webp" alt="" width="1037" height="760" loading="lazy">
             <p class="section-body" style="margin-bottom:0.5rem;">デッキに登録する勢力の種類が少ないほど、試合開始時に天牙ゲージの量が多い。</p>
             <div class="section-body rar-note" style="margin-top:0;">
                 <p>※無所属は種類に含まれない。</p>
