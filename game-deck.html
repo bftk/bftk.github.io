@@ -38,6 +38,14 @@
         .faction-emblem img { width: 64px; height: 64px; }
         .faction-emblem span { font-size: 0.8rem; }
     }
+
+    /* 節の余白に置くSDキャラ（2026-09-17）。game-card-content.html と同じ作り */
+    .sd-figure { float: right; width: 190px; height: auto; margin: -0.5rem 0 0.5rem 1.6rem; }
+    .has-sd::after { content: ""; display: block; clear: both; }
+    @media (max-width: 600px) {
+        .has-sd { display: flex; flex-direction: column; }
+        .sd-figure { float: none; order: 99; width: 150px; margin: 1.2rem auto 0; }
+    }
     </style>
     <meta property="og:title" content="デッキ構築 - BFTK">
     <meta property="og:description" content="8枚のカードが、戦略のすべてを決める。4つの勢力と50種類以上のエース効果。">
@@ -71,8 +79,9 @@
             <p class="page-subtitle">DECK BUILDING</p>
         </div>
 
-        <div class="game-section" data-reveal>
+        <div class="game-section has-sd" data-reveal>
             <h2 class="section-title">DECK BUILDING</h2>
+            <img class="sd-figure" src="assets/sd/deck_FRST-BS-016.webp" alt="" width="558" height="720" loading="lazy">
             <p class="section-lead">デッキ構築について</p>
             <p class="section-body">1つのデッキを構築する場合、最大8枚のカードを登録することができる。<br>各カードにはコストがあり、合計コストは8以内でデッキを作成する。</p>
         </div>
