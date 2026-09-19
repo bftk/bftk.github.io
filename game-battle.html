@@ -23,30 +23,6 @@
     }
     .flow-figure img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; display: block; }
     .ace-card .flow-figure { margin-bottom: 0.9rem; }
-    /* 押すと画面いっぱいに（ライブラリ無し・<dialog>）。起点は <button>、右上に小さな拡大アイコン */
-    .flow-figure.is-zoomable { position: relative; }
-    .zoom-button { display: block; width: 100%; height: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; border-radius: 6px; }
-    .zoom-button:focus-visible { outline: 2px solid #F9A825; outline-offset: 2px; }
-    .zoom-button::after {
-        content: ''; position: absolute; right: 8px; top: 8px; width: 22px; height: 22px; border-radius: 4px;
-        background: rgba(0,0,0,0.5) center / 14px 14px no-repeat;
-        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round'><path d='M3 9V3h6M21 9V3h-6M3 15v6h6M21 15v6h-6'/></svg>");
-        opacity: 0.75; pointer-events: none; transition: opacity .15s;
-    }
-    .zoom-button:hover::after { opacity: 1; }
-    .figure-zoom { border: 0; padding: 0; background: transparent; width: 100vw; height: 100vh; max-width: none; max-height: none; }
-    .figure-zoom::backdrop { background: rgba(0,0,0,0.92); }
-    .figure-zoom[open] { display: flex; align-items: center; justify-content: center; }
-    .figure-zoom img { display: block; max-width: 96vw; max-height: 92vh; width: auto; height: auto; border-radius: 6px; }
-    .figure-zoom .zoom-close {
-        position: fixed; right: 12px; top: 10px; width: 40px; height: 40px; border-radius: 50%;
-        border: 1px solid rgba(255,255,255,0.35); background: rgba(0,0,0,0.55); color: #fff; font-size: 1.4rem; line-height: 1; cursor: pointer;
-    }
-    .figure-zoom .zoom-close:hover, .figure-zoom .zoom-close:focus-visible { background: rgba(255,255,255,0.18); outline: none; }
-    /* 120ms のフェード（open 属性が付いた後に効く） */
-    .figure-zoom[open] { animation: zoomFade .12s ease-out; }
-    @keyframes zoomFade { from { opacity: 0; } to { opacity: 1; } }
-    @media (prefers-reduced-motion: reduce) { .figure-zoom[open] { animation: none; } }
     @media (max-width: 1280px) {
         .flow-section { width: 1020px; margin-left: calc((100% - 1020px) / 2); }
         .flow-step { grid-template-columns: 1fr 600px; }
@@ -101,7 +77,7 @@
                         <h3>準備</h3>
                         <p>オンラインやCOM戦など対戦モードを決める。<br>使用するデッキを決め、マッチングに進む。</p>
                     </div>
-                    <div class="flow-figure is-zoomable"><button type="button" class="zoom-button" data-full="assets/guide/battle-flow1-full.webp" aria-label="画像を拡大"><img src="assets/guide/battle-flow1.webp" alt="対戦モード選択画面。右の一覧からモードを選び、左に選んだモードの絵が出る" width="1000" height="563" loading="lazy"></button></div>
+                    <div class="flow-figure"><img src="assets/guide/battle-flow1.webp" alt="対戦モード選択画面。右の一覧からモードを選び、左に選んだモードの絵が出る" width="1000" height="563" loading="lazy"></div>
                 </div>
                 <div class="flow-step" data-step="2">
                     <div class="flow-body">
@@ -144,20 +120,6 @@
         <p style="margin-top: 0.5rem;">&copy; HIAS</p>
     </footer>
     <script>
-    // 挿絵の拡大：.zoom-button を押すと data-full を <dialog> で画面いっぱいに。閉じる＝×／黒い背景／Esc（画像を押しても閉じない）。閉じたら元のボタンへフォーカスを戻す
-    document.addEventListener('DOMContentLoaded',()=>{
-        const dlg=document.createElement('dialog');dlg.className='figure-zoom';
-        const big=document.createElement('img');big.alt='';dlg.appendChild(big);
-        const close=document.createElement('button');close.type='button';close.className='zoom-close';close.setAttribute('aria-label','閉じる');close.textContent='\u00d7';dlg.appendChild(close);
-        document.body.appendChild(dlg);
-        let opener=null;
-        close.addEventListener('click',()=>dlg.close());
-        dlg.addEventListener('click',e=>{if(e.target===dlg)dlg.close();});
-        dlg.addEventListener('close',()=>{if(opener)opener.focus();});
-        document.querySelectorAll('.zoom-button').forEach(btn=>{
-            btn.addEventListener('click',()=>{const img=btn.querySelector('img');big.src=btn.dataset.full||img.src;big.alt=img.alt;opener=btn;dlg.showModal();});
-        });
-    });
     document.addEventListener('DOMContentLoaded',()=>{const o=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('is-visible');o.unobserve(x.target)}})},{threshold:0.12});document.querySelectorAll('[data-reveal]').forEach(el=>o.observe(el))});
     </script>
 </body>
