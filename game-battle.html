@@ -20,6 +20,16 @@
     }
     .flow-figure img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; display: block; }
     .ace-card .flow-figure { margin-bottom: 0.9rem; }
+    /* 押すと画面いっぱいに（ライブラリ無し・<dialog>） */
+    .flow-figure.is-zoomable { position: relative; cursor: zoom-in; }
+    .flow-figure.is-zoomable::after {
+        content: 'タップで拡大'; position: absolute; right: 6px; bottom: 6px;
+        font-size: 0.65rem; letter-spacing: 0.08em; color: rgba(255,255,255,0.55);
+        background: rgba(0,0,0,0.45); padding: 2px 6px; border-radius: 4px; pointer-events: none;
+    }
+    .figure-zoom { border: 0; padding: 0; background: transparent; max-width: 100vw; max-height: 100vh; }
+    .figure-zoom::backdrop { background: rgba(0,0,0,0.92); }
+    .figure-zoom img { display: block; max-width: 96vw; max-height: 92vh; width: auto; height: auto; margin: 4vh auto; border-radius: 6px; cursor: zoom-out; }
     @media (max-width: 700px) {
         .flow-step { grid-template-columns: 1fr; gap: 1rem; }
         .flow-figure { max-width: 320px; }
@@ -66,7 +76,7 @@
                         <h3>準備</h3>
                         <p>オンラインやCOM戦など対戦モードを決める。<br>使用するデッキを決め、マッチングに進む。</p>
                     </div>
-                    <div class="flow-figure"><img src="assets/guide/battle-flow1.webp" alt="対戦モード選択画面。右の一覧からモードを選び、左に選んだモードの絵が出る" width="1000" height="563" loading="lazy"></div>
+                    <div class="flow-figure is-zoomable"><img src="assets/guide/battle-flow1.webp" data-full="assets/guide/battle-flow1-full.webp" alt="対戦モード選択画面。右の一覧からモードを選び、左に選んだモードの絵が出る" width="1000" height="563" loading="lazy"></div>
                 </div>
                 <div class="flow-step" data-step="2">
                     <div class="flow-body">
@@ -109,6 +119,15 @@
         <p style="margin-top: 0.5rem;">&copy; HIAS</p>
     </footer>
     <script>
+    // 挿絵の拡大：.is-zoomable の img を押すと data-full（無ければ src）を <dialog> で画面いっぱいに
+    document.addEventListener('DOMContentLoaded',()=>{
+        const dlg=document.createElement('dialog');dlg.className='figure-zoom';
+        const big=document.createElement('img');big.alt='';dlg.appendChild(big);document.body.appendChild(dlg);
+        dlg.addEventListener('click',()=>dlg.close());
+        document.querySelectorAll('.flow-figure.is-zoomable img').forEach(img=>{
+            img.addEventListener('click',()=>{big.src=img.dataset.full||img.src;big.alt=img.alt;dlg.showModal();});
+        });
+    });
     document.addEventListener('DOMContentLoaded',()=>{const o=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('is-visible');o.unobserve(x.target)}})},{threshold:0.12});document.querySelectorAll('[data-reveal]').forEach(el=>o.observe(el))});
     </script>
 </body>
