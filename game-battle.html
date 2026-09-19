@@ -9,10 +9,10 @@
     <link rel="stylesheet" href="style.css">
     <style>
     /* バトルの流れ: 各ステップに挿絵（ゲーム画面のスクショ＝16:9）。
-       PC は「左に文・右に画像 600px」を保つため、この節だけ 1020px に広げる（本文は 800px のまま）。
-       窓 1080px 未満は 800px に戻して画像 440px、760px 未満は文の下に画像（字下げを無視して張り出す）。 */
-    .flow-section { width: 1020px; margin-left: calc((100% - 1020px) / 2); }   /* 親(800px)の中央に置く。transform は data-reveal と衝突するので使わない */
-    .flow-step { display: grid; grid-template-columns: 1fr 600px; gap: 1.4rem; align-items: start; }
+       PC は「左に文（286px）・右に画像 800px」を保つため、この節だけ 1220px に広げる（本文は 800px のまま）。
+       窓が足りないときは段階的に落とす：1280px 未満＝1020px・画像 600／1080px 未満＝800px・画像 440／760px 未満＝文の下に画像（字下げを無視して張り出す）。 */
+    .flow-section { width: 1220px; margin-left: calc((100% - 1220px) / 2); }   /* 親(800px)の中央に置く。transform は data-reveal と衝突するので使わない */
+    .flow-step { display: grid; grid-template-columns: 1fr 800px; gap: 1.4rem; align-items: start; }
     .flow-figure {
         aspect-ratio: 16 / 9;
         background: rgba(255,255,255,0.03);
@@ -47,6 +47,10 @@
     .figure-zoom[open] { animation: zoomFade .12s ease-out; }
     @keyframes zoomFade { from { opacity: 0; } to { opacity: 1; } }
     @media (prefers-reduced-motion: reduce) { .figure-zoom[open] { animation: none; } }
+    @media (max-width: 1280px) {
+        .flow-section { width: 1020px; margin-left: calc((100% - 1020px) / 2); }
+        .flow-step { grid-template-columns: 1fr 600px; }
+    }
     @media (max-width: 1080px) {
         .flow-section { width: auto; margin-left: 0; }
         .flow-step { grid-template-columns: 1fr 440px; }
