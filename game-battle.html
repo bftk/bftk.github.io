@@ -8,10 +8,10 @@
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="stylesheet" href="style.css">
     <style>
-    /* バトルの流れ: 各ステップに挿絵の枠を置く（画像は準備中） */
+    /* バトルの流れ: 各ステップに挿絵の枠を置く（画像はゲーム画面のスクショ＝16:9） */
     .flow-step { display: grid; grid-template-columns: 1fr 240px; gap: 1.4rem; align-items: start; }
     .flow-figure {
-        aspect-ratio: 4 / 3;
+        aspect-ratio: 16 / 9;
         background: rgba(255,255,255,0.03);
         border: 1px solid rgba(249,168,37,0.15);
         border-radius: 6px;
@@ -66,7 +66,7 @@
                         <h3>準備</h3>
                         <p>オンラインやCOM戦など対戦モードを決める。<br>使用するデッキを決め、マッチングに進む。</p>
                     </div>
-                    <div class="flow-figure">COMING SOON</div>
+                    <div class="flow-figure"><img src="assets/guide/battle-flow1.webp" alt="対戦モード選択画面。右の一覧からモードを選び、左に選んだモードの絵が出る" width="1000" height="563" loading="lazy"></div>
                 </div>
                 <div class="flow-step" data-step="2">
                     <div class="flow-body">
