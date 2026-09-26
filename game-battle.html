@@ -22,6 +22,8 @@
         color: #555; font-size: 0.7rem; letter-spacing: 0.1em;
     }
     .flow-figure img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; display: block; }
+    /* 1つの段に画像を2枚置くとき。★入れ物で包まないと、2枚目が次の行の左（文の列）へ回り込む */
+    .flow-figures { display: grid; gap: 0.8rem; }
     .ace-card .flow-figure { margin-bottom: 0.9rem; }
     @media (max-width: 1280px) {
         .flow-section { width: 1020px; margin-left: calc((100% - 1020px) / 2); }
@@ -105,7 +107,10 @@
                         <h3>先陣争い・配置</h3>
                         <p>お互いのプレイヤーは、選択したエース同士で先陣争いを行う。<br>タイプの三すくみで勝敗を決め、勝敗に応じて配置画面にてキャラを配置する範囲が変わる。</p>
                     </div>
-                    <div class="flow-figure"><img src="assets/guide/battle-flow4.webp" alt="先陣争いの画面。エースの枠3つが縦に並び、それぞれ上に相手・下に自分のキャラと、間に勝敗が出る" width="1000" height="563" loading="lazy"></div>
+                    <div class="flow-figures">
+                        <div class="flow-figure"><img src="assets/guide/battle-flow4.webp" alt="先陣争いの画面。エースの枠3つが縦に並び、それぞれ上に相手・下に自分のキャラと、間に勝敗が出る" width="1000" height="563" loading="lazy"></div>
+                        <div class="flow-figure"><img src="assets/guide/battle-flow5.webp" alt="配置画面。上に相手の編成キャラが並び、中央に案内、下の明るい範囲へ自分のキャラをドラッグして置く" width="1000" height="563" loading="lazy"></div>
+                    </div>
                 </div>
                 <div class="flow-step" data-step="6">
                     <div class="flow-body">
