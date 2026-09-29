@@ -31,15 +31,25 @@
     .ctrl-list li { padding-left: 1em; text-indent: -1em; }
     .ctrl-list li::before { content: "・"; }
     .section-body strong { color: #f3f3f3; font-weight: 700; }
-    /* 画像（game-battle.html と同じ書式）。2枚は .flow-figures で包む＝PCは横並び・600px以下は縦並び */
+    /* 画像（game-battle.html と同じ書式）。2枚は .flow-figures で包んで横に並べる。
+       本文(800px)のままだと1枚360pxと小さいので、この段だけ 1220px に広げる（game-battle.html の BATTLE FLOW と同じ方式）。
+       1280px 未満＝1020px／1080px 未満＝本文の幅に戻して縦並び。 */
     .flow-figure {
         aspect-ratio: 16 / 9;
         border: 1px solid rgba(249,168,37,0.15);
         border-radius: 6px;
     }
     .flow-figure img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; display: block; }
-    .flow-figures { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.8rem; }
-    @media (max-width: 600px) { .flow-figures { grid-template-columns: 1fr; } }
+    .flow-figures {
+        display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.8rem;
+        width: 1220px; margin-left: calc((100% - 1220px) / 2);   /* 親(800px)の中央に置く。transform は data-reveal と衝突するので使わない */
+    }
+    @media (max-width: 1280px) {
+        .flow-figures { width: 1020px; margin-left: calc((100% - 1020px) / 2); }
+    }
+    @media (max-width: 1080px) {
+        .flow-figures { width: auto; margin-left: 0; grid-template-columns: 1fr; }
+    }
     </style>
 </head>
 <body>
